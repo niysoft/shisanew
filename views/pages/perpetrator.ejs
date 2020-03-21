@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
+<head>
+  <% include ../partials/header_.ejs %>
+</head>
+
+<body class="">
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <div class="wrapper ">
+    <% include ../partials/sidebar.ejs %>
+    <div class="main-panel">
+      <% include ../partials/nav.ejs %>
+      <div class="content">
+        <div class="container-fluid">
+          <% include ../partials/stats.ejs %>
+          
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-info card-header-text">
+                  <div class="card-text">
+                    <h4 class="card-title">Edit Perpetrator</h4>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <form>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                          <label class="bmd-label-floating">Name</label>
+                          <input type="text" class="form-control" value="Benarck Shaw">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                          <label class="bmd-label-floating">Age*</label>
+                          <input type="text" class="form-control" value="32">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                          <label class="bmd-label-floating">Gender*</label>
+                          <input type="text" class="form-control" value="M">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                          <label class="bmd-label-floating">Phone Number</label>
+                          <input type="text" class="form-control" value="55 45 6785 33">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                          <label class="bmd-label-floating">Email</label>
+                          <input type="email" class="form-control" value="shawbenark@gmail.com">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                          <label class="bmd-label-floating">Facebook Profile</label>
+                          <input type="email" class="form-control" value="facebook.com/shawbenark">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                          <label class="bmd-label-floating">LinkedIn Profile</label>
+                          <input type="email" class="form-control" value="linkedin.com/in/shawbenark">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                          <label class="bmd-label-floating">Identity Number (SSN or others)</label>
+                          <input type="email" class="form-control" value="2789899999935">
+                        </div>
+                      </div>
+                      <div class="col-md-12"><br>
+                        <a href=""  class="btn btn-rose" style="float:right;">Update Perpetrator ></a>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <% include ../partials/footer.ejs %>
+    </div>
+  </div>
+  <% <!--include ../partials/theme_bar.ejs--> %>
+  <% include ../partials/footer_script.ejs %>
+  <script>
+    $(document).ready(function () {
+      // Basic
+      $('.dropify').dropify();
+      // Used events
+      var drEvent = $('.dropify-event').dropify();
+      drEvent.on('dropify.beforeClear', function (event, element) {
+        return confirm("Do you really want to delete \"" + element.filename + "\" ?");
+      });
+
+      drEvent.on('dropify.afterClear', function (event, element) {
+        alert('File deleted');
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
+<head>
+  <% include ../partials/header_.ejs %>
+  <style>
+   
+  </style>
+</head>
+
+<body class="">
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <div class="wrapper" style="height:auto">
+    <% include ../partials/sidebar.ejs %>
+    <div class="main-panel">
+      <% include ../partials/nav.ejs %>
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-info card-header-text">
+                  <div class="card-text">
+                    <h4 class="card-title">New Case</h4>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <form method="post" action="api/create_case" enctype="application/x-www-form-urlencoded"
+                    id="creat-case-form">
+                    <div class="row">
+                      <div class="card" style="box-shadow:none">
+                        <div class="card-header card-header-info card-header-icon">
+                          <div class="card-icon">
+                            <i class="material-icons">art_track</i>
+                          </div>
+                          <h4 class="card-title">Case Type -
+                            <small class="category">Type of Case</small>
+                          </h4>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-2">
+                              <div class="form-check bmd-form-group">
+                                <label class="form-check-label">
+                                  <input class="form-check-input" type="hidden" name="userId"
+                                    value='<%= userData.data._id %>'>
+                                  <input class="form-check-input" type="hidden" name="accessToken"
+                                    value='<%= userData.data.accessToken %>'>
+                                  <input class="form-check-input" type="radio" name="caseType" value="sexual_violence"
+                                    checked=""> Sexual Violence
+                                  <span class="circle">
+                                    <span class="check"></span>
+                                  </span>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                              <div class="form-check bmd-form-group">
+                                <label class="form-check-label">
+                                  <input class="form-check-input" type="radio" name="caseType"
+                                    value="personal_harrassment"> Personal Harrassment
+                                  <span class="circle">
+                                    <span class="check"></span>
+                                  </span>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                              <div class="form-check bmd-form-group">
+                                <label class="form-check-label">
+                                  <input class="form-check-input" type="radio" name="caseType"
+                                    value="profesional_abuse"> Professional Abuse
+                                  <span class="circle">
+                                    <span class="check"></span>
+                                  </span>
+                                </label>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card" style="box-shadow:none">
+                        <div class="card-header card-header-icon card-header-rose">
+                          <div class="card-icon">
+                            <i class="material-icons">assignment_ind</i>
+                          </div>
+                          <h4 class="card-title">Perpetrator -
+                            <small class="category">Provide Perpretrator Details</small>
+                          </h4>
+                        </div>
+
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">First Name*</label>
+                                <input type="text" name="fname" id="fname" class="form-control" />
+                                <div class="error-message">Invalid firtst name provided</div>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Last Name*</label>
+                                <input type="text" name="lname" id="lname" class="form-control" />
+                                <div class="error-message">Invalid last name provided</div>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Age*</label>
+                                <input type="text" name="age" id="name=" age" class="form-control" />
+                                <div class="error-message">Invalid age provided</div>
+                              </div>
+                            </div>
+                            <div class="col-md-6" style="padding-top: 5px;">
+                              <label class="col-sm-2 col-form-label label-checkbox"
+                                style=text-align:left;color:#aaa>Gender</label>
+                              <div style="float: right;">
+                                <div class="form-check form-check-inline">
+                                  <div class="form-check">
+                                    <label class="form-check-label">
+                                      <input class="form-check-input" type="radio" class="gender" name="gender" checked
+                                        value="male"> Male
+                                      <span class="circle">
+                                        <span class="check"></span>
+                                      </span>
+                                    </label>
+                                  </div>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" class="gender" name="gender"
+                                      value="female"> Female
+                                    <span class="circle">
+                                      <span class="check"></span>
+                                    </span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div style="width:100%;border-bottom: 1px #ccc solid;height: 5px;"></div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Phone Number*</label>
+                                <input type="text" name="phone" id="phone" class="form-control">
+                                <div class="error-message">Invalid phone provided</div>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Email*</label>
+                                <input type="text" name="perpEmail" id="perpEmail" class="form-control">
+                                <div class="error-message">Invalid email url</div>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Identity Number (SSN or others)*</label>
+                                <input type="text" name="ssn" id="ssn" class="form-control">
+                                <div class="error-message">Invalid Identity Number</div>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Facebook Profile*</label>
+                                <input type="text" name="fb" id="fb" class="form-control">
+                                <div class="error-message">Invalid Facebook url</div>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">LinkedIn Profile</label>
+                                <input type="text" name="linkedin" id="linkedin" class="form-control">
+                                <div class="error-message">Invalid LinkedIn url</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card" style="box-shadow:none;display:none;" id="company_cont">
+                        <div class="card-header card-header-success card-header-icon">
+                          <div class="card-icon">
+                            <i class="material-icons">location_city</i>
+                          </div>
+                          <h4 class="card-title">Company -
+                            <small class="category">Provide Company name if applicable</small>
+                          </h4*+->
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Company Name</label>
+                                <input type="text" value="" class="form-control validate[required,custom[email]]"
+                                  name="company_name" id="companyName">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Company Size</label>
+                                <input type="text" name="companySize" class="form-control">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Company Address</label>
+                                <input type="text" name="companyAddress" class="form-control">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Web Page(Wesite)</label>
+                                <input type="text" name="companyWebpage" class="form-control">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Facebook</label>
+                                <input type="text" name="companyFacebook" class="form-control">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">LinkedIn</label>
+                           +*+     <input type="text" name="companyLinked" class="form-control">
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+
+                        <a class="btn btn-rose" style="float:right;color:white"
+                          onclick="{submitForm(); return false}">Create Case & Proceed ></a>
+                      </div>
+
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+  <% include ../partials/footer.ejs %>
+  </div>
+  </div>
+  <% <!--include ../partials/theme_bar.ejs--> %>
+  <% include ../partials/footer_script.ejs %>
+  <script>
+    function isValidEmail(email) {
+      var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    }
+    let formId = "#creat-case-form";
+    function submitForm() {
+      let isAccurate = valideForm(formId);
+      if (!isAccurate) {
+        showInvalidDetailsError("Error! Invalid data detected. Please retry action")
+        return false;
+      } else {
+        $.blockUI({
+          message: '<div class="lds-hourglass"></div><br>Processing...'
+        });
+        $("#creat-case-form").submit();
+        // showInvalidDetailsSuc("Form filled correctly. Please continue")
+        // return false;
+      }
+    }
+
+    let formOptions = {
+      dataType: 'json',
+      // data:$('.generalUpload').serialize(),
+      beforeSubmit: function () {
+        $.blockUI({
+          message: '<div class="lds-hourglass"></div>'
+        });
+      },
+      success: function (responseText, statusText, xhr, $form) {
+        //addincindent/de4cea81986375ba48d5acebd53248b0
+        location.href = "addincindent/" + responseText.data._id
+        $.unblockUI();
+        showInvalidDetailsSuc(responseText.response_string)
+        setTimeout(function () {
+          location.href = baseUrl + "dashboard";
+        }, 1000)
+      },
+      error: function (responseText, statusText, xhr, $form) {
+        let error_string = responseText.responseJSON.error_string
+        showInvalidDetailsError(error_string)
+        $.unblockUI()
+      }
+    };
+    $("#creat-case-form").ajaxForm(formOptions);
+
+    $(document).ready(function () {
+      $('input:radio').change(function () {
+        let selectType = $(this).val()
+        if (selectType == "profesional_abuse") {
+          $("#company_cont").slideDown(100)
+        } else {
+          $("#company_cont").slideUp(100)
+        }
+        //company_cont
+        //console.log($(this).val())
+      });
+
+      $('.dropify').dropify();
+      // Used events
+      var drEvent = $('.dropify-event').dropify();
+      drEvent.on('dropify.beforeClear', function (event, element) {
+        return confirm("Do you really want to delete \"" + element.filename + "\" ?");
+      });
+
+      drEvent.on('dropify.afterClear', function (event, element) {
+        alert('File deleted');
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+# Node build artifacts
+node_modules
+npm-debug.log
+
+# Local development
+*.env
+*.dev
+.DS_Store
+
+# Docker
+Dockerfile
+docker-compose.yml
+/views/material-dashboard-pro/
+/data/
+data/
+.vscode/settings.json
+.idea/workspace.xml
+controllers/addFundsFromCreditPending.js
+/views/pages/dump/
+/views/pages/forms/
+/views/pages/maps/
+/views/pages/tables/
+/uploads/
