@@ -19,7 +19,7 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6">
-              <a href="perpetrator/acdfgstferetebennennen">
+              <a href="" id="perpetrator_link">
                 <div class="card card-stats">
                   <div class="card-header card-header-rose card-header-icon">
                     <div class="card-icon">
@@ -35,7 +35,7 @@
 
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
-              <a href="company/acdfgstferetebennennen">
+              <a href="" id="company_link">
                 <div class="card card-stats">
                   <div class="card-header card-header-success card-header-icon">
                     <div class="card-icon">
@@ -83,13 +83,13 @@
                               <span class="check"></span>
                             </span>
                           </label>
-                          <a href="viewincident/{{_id}}" style="font-weight: bold;color:black">
+                          <a href="viewincident/{{caseId}}/{{_id}}" style="font-weight: bold;color:black">
                             <label class="form-check-label form-check-label_">
                               {{title}}
                             </label>
                           </a>
                         </div>
-                        <a href="viewincident/{{_id}}">
+                        <a href="viewincident/{{caseId}}/{{_id}}">
                           <p class="black_text no_margin_bottom incident_list_text">
                             <i class="material-icons float-right">image</i>
                            {{capitalize narration}}
@@ -127,16 +127,6 @@
     // let ApiBaseUrl = "http://localhost:3002/api/"
     //alert(ApiBaseUrl)
 
-    function showPending() {
-      Swal.fire({
-        title: 'Feature Pending',
-        type: 'info',
-        html: "This feature will be added later, Lorem Ipsum...",
-        showCloseButton: true,
-        backdrop: ` rgba(0,0,123,0.4)`,
-        cancelButtonAriaLabel: 'Thumbs down'
-      })
-    }
 
     function autoSelect() {
       let index1 = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
@@ -149,7 +139,7 @@
     Handlebars.registerHelper('capitalize', function (str) {
       // str is the argument passed to the helper when called
       str = str || '';
-      return str.substring(1, 250) + "...";
+      return str.substring(0, 250) + "...";
     });
 
     Handlebars.registerHelper('formatdate', function (str) {
@@ -157,26 +147,23 @@
       let date = moment(str);
       let dateComponent = date.utc().format('YYYY-MM-DD');
       let timeComponent = date.utc().format('HH:mm:ss');
-      console.log(dateComponent);
-      console.log(timeComponent);
-      return humanizeDate(dateComponent) + "/" + timeComponent;
+      //console.log(dateComponent);
+      //console.log(timeComponent);
+      return humanizeDate(dateComponent) + " | " + timeComponent;
     });
 
-    function humanizeDate(date_str) {
-      month = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-        'November', 'December'
-      ];
-      date_arr = date_str.split('-');
+    function initializeCaseDetails(){
 
-      return month[Number(date_arr[1]) - 1] + " " + Number(date_arr[2]) + ", " + date_arr[0]
     }
+
+   
 
 
     function loadIncidents() {
       let initial_url = location.href;
       let url = initial_url.split('/');
       let caseId = url[4]
-      console.log(caseId)
+      //console.log(caseId)
       if (typeof caseId !== "undefined" && caseId.length > 0) {
         $.blockUI({
           message: '<div class="lds-hourglass"></div><br>Processing...'
@@ -198,7 +185,12 @@
           let companyName = responseText.case_details.companyName.trim() == "" ? "Not Set" : responseText.case_details.companyName;
           $("#perpetrator_initials").html(perpetratorShortName)//
           $("#company_name").html(companyName)//perpetrator_initials 5e7615e9d30cbe41588b1bdf
-          $("#new_incident_link").attr("href", "addincindent/"+responseText.case_details._id).show();
+          $("#new_incident_link").attr("href", "addincindent/"+responseText.case_details._id).show();//perpetrator_link
+          $("#perpetrator_link").attr("href", "perpetrator/"+responseText.case_details._id).show();//
+          $("#company_link").attr("href", "company/"+responseText.case_details._id).show();//
+          if(responseText.case_details.caseType !== "sexual_violence"){
+
+          }
           let theTemplateScript = $("#incident-template").html();
           let theTemplate = Handlebars.compile(theTemplateScript);
           let theCompiledHtml = "";

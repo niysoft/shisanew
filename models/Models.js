@@ -200,7 +200,7 @@ const IncidentSchema = new Schema({
     userId: { type: String, default: "" },
     title: { type: String, default: "" },
     date: { type: Date },
-    date: { type: String },
+    time: { type: String },
     location: { type: String, default: "" },
     narration: { type: String, default: "" },
     images: { type: Array, "default": [] },

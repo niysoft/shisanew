@@ -48,7 +48,8 @@ module.exports.create_case = function (req, res) {//add_incident
             .then(user => {
                 if (user.length > 0) {
                     let case_ = new Case()
-                    //caseType, fname, lname, age, gender, phone, email, identityNumber, facebook, linkedin, 
+                  //  userId, caseType, fname, lname, age, gender, phone, email, identityNumber, facebook, linkedin,
+                   // companyName, companySize, companyAddress, companyWebpage, companyFacebook, companyLinkedIn
                     //companyName, companySize, companyAddress, companyWebpage, companyFacebook, companyLinkedIn
                     case_.createCase(
                         req.body.userId,
@@ -61,13 +62,13 @@ module.exports.create_case = function (req, res) {//add_incident
                         req.body.perpEmail,
                         req.body.ssn,
                         req.body.fb,
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        ""
+                        req.body.linkedin,
+                        req.body.companyName,
+                        req.body.companySize,
+                        req.body.companyAddress,
+                        req.body.companyWebpage,
+                        req.body.companyFacebook,
+                        req.body.companyLinkedIn,
                     )
                     //console.log(perpetrator)
                     case_.save().then(function (case___) {
@@ -135,7 +136,7 @@ module.exports.load_cases = function (req, res) { //load_incidents
     }
 }
 
-module.exports.load_incidents = function (req, res) { //load_incidents
+module.exports.load_incidents = function (req, res) { //load_incident_content
     let missingRequestFlag = false
     let userTypes = [req.body.userId, req.body.accessToken, req.body.caseId]
     for (let i = 0; i < userTypes.length; i++) {
@@ -154,7 +155,6 @@ module.exports.load_incidents = function (req, res) { //load_incidents
             }]
         })
             .then(user => {
-                //console.log(user)
                 Case.find({ _id: req.body.caseId }) //{accessToken: req.body.accessToken}, {_id: req.body.playerId},
                     .then(cases => {
 
@@ -234,6 +234,53 @@ module.exports.add_incident = function (req, res) {//caseId, userId, title, date
             });
         //continue insertion
 
+    }
+}
+
+module.exports.load_incident_content = function (req, res) { //
+    let missingRequestFlag = false
+    let userTypes = [req.body.userId, req.body.accessToken, req.body.caseId, req.body.incidentId]
+    for (let i = 0; i < userTypes.length; i++) {
+        if (!isSet(userTypes[i]) || userTypes[i].trim() == "") {
+            missingRequestFlag = true
+            break
+        }
+    }
+    if (missingRequestFlag) {//one mandatory fields ommited
+        handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
+    } else {
+        User.find({
+            $and: [{
+                accessToken: req.body.accessToken,
+                _id: req.body.userId
+            }]
+        })
+            .then(user => {
+                if (user.length > 0) {
+                    Case.find({ _id: req.body.caseId }) //{accessToken: req.body.accessToken}, {_id: req.body.playerId},
+                        .then(cases => {
+                            Incident.find({ _id: req.body.incidentId}) //{accessToken: req.body.accessToken}, {_id: req.body.playerId},
+                                .then(incid => {
+                                    let SuccessResponse = {}
+                                    // SuccessResponse.case_details = cases
+                                    SuccessResponse.status = true
+                                    SuccessResponse.response_string = "Success! Incidents loaded successfully"
+                                    SuccessResponse.case_details = cases[0]
+                                    SuccessResponse.incidents = incid
+                                    // handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
+                                    res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)//SUCCESS_RESPONSE_CODE
+                                }).catch(function (err) {
+                                    handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
+                                });
+                        }).catch(function (err) {
+                            handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
+                        });
+                } else {
+                    handleErrorServer(null, res, "Error! Invalid login credentials")
+                }
+            }).catch(function (err) {
+                handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
+            });
     }
 }
 

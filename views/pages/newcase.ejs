@@ -5,7 +5,7 @@
 <head>
   <% include ../partials/header_.ejs %>
   <style>
-   
+
   </style>
 </head>
 
@@ -189,27 +189,30 @@
                           </div>
                           <h4 class="card-title">Company -
                             <small class="category">Provide Company name if applicable</small>
-                          </h4*+->
+                            </h4*+->
                         </div>
                         <div class="card-body">
                           <div class="row">
                             <div class="col-md-6">
                               <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Company Name</label>
-                                <input type="text" value="" class="form-control validate[required,custom[email]]"
-                                  name="company_name" id="companyName">
+                                <label class="bmd-label-floating">Company Name*</label>
+                                <input type="text" value="" id="companyName"
+                                  class="form-control validate[required,custom[email]]" name="companyName">
+                                <div class="error-message">Invalid Company Name</div>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Company Size</label>
-                                <input type="text" name="companySize" class="form-control">
+                                <label class="bmd-label-floating">Company Size*</label>
+                                <input type="text" name="companySize" id="companySize" class="form-control">
+                                <div class="error-message">Invalid Company Size</div>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Company Address</label>
-                                <input type="text" name="companyAddress" class="form-control">
+                                <label class="bmd-label-floating">Company Address*</label>
+                                <input type="text" id="companyAddress" name="companyAddress" class="form-control">
+                                <div class="error-message">Invalid Company Address</div>
                               </div>
                             </div>
                             <div class="col-md-6">
@@ -227,7 +230,7 @@
                             <div class="col-md-6">
                               <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">LinkedIn</label>
-                           +*+     <input type="text" name="companyLinked" class="form-control">
+                                <input type="text" name="companyLinkedIn" class="form-control">
                               </div>
                             </div>
 
@@ -264,18 +267,54 @@
       var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
     }
     let formId = "#creat-case-form";
-    function submitForm() {
+
+
+    function validateCompanyForm() {
+      let pattern = true;
+      let isAccurate = true;
+      let arrGeneralTextInput = ["companyName", "companySize", "companyAddress"]
+      for (let x = 0; x < arrGeneralTextInput.length; x++) {
+        let vals = $('#' + arrGeneralTextInput[x]).val();
+        if (vals.trim().length === 0) {
+          $('#' + arrGeneralTextInput[x]).siblings(".error-message").show()
+          pattern = false
+        }
+        isAccurate = isAccurate && pattern
+      }
+      if (!(/^\+?(0|[1-9]\d*)$/.test($('#companySize').val()))) {
+        $('#companySize').siblings(".error-message").show()
+        isAccurate = false;
+      }
+      // console.log(pattern)
+      return isAccurate
+    }
+
+    function submitForm() { //  let abuseType = $('input:radio[name=caseType]').filter(":checked").val()
       let isAccurate = valideForm(formId);
       if (!isAccurate) {
         showInvalidDetailsError("Error! Invalid data detected. Please retry action")
         return false;
       } else {
-        $.blockUI({
-          message: '<div class="lds-hourglass"></div><br>Processing...'
-        });
-        $("#creat-case-form").submit();
-        // showInvalidDetailsSuc("Form filled correctly. Please continue")
-        // return false;
+        let abuseType = $('input:radio[name=caseType]').filter(":checked").val()
+        if (abuseType === "profesional_abuse") {
+          let isAccurate_ = validateCompanyForm();
+          console.log(isAccurate_)
+          if (isAccurate_) {
+            $.blockUI({
+              message: '<div class="lds-hourglass"></div><br>Processing...'
+            });
+            $("#creat-case-form").submit();
+          } else {
+            showInvalidDetailsError("Error! Invalid data detected. Please retry action")
+            return false;
+          }
+
+        } else {
+          $.blockUI({
+            message: '<div class="lds-hourglass"></div><br>Processing...'
+          });
+          $("#creat-case-form").submit();
+        }
       }
     }
 
@@ -293,7 +332,7 @@
         $.unblockUI();
         showInvalidDetailsSuc(responseText.response_string)
         setTimeout(function () {
-          location.href = baseUrl + "dashboard";
+          //location.href = baseUrl + "dashboard";
         }, 1000)
       },
       error: function (responseText, statusText, xhr, $form) {
@@ -305,7 +344,7 @@
     $("#creat-case-form").ajaxForm(formOptions);
 
     $(document).ready(function () {
-      $('input:radio').change(function () {
+      $('input:radio[name=caseType]').change(function () { //$('input:radio[name=theme]')
         let selectType = $(this).val()
         if (selectType == "profesional_abuse") {
           $("#company_cont").slideDown(100)

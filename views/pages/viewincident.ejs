@@ -82,7 +82,7 @@
                                             <i class="material-icons">assignment_ind</i>
                                         </div>
                                         <p class="card-category">Perpetrator</p>
-                                        <h3 class="card-title">B. F.</h3>
+                                        <h3 class="card-title" id="perpetrator_initials">Not Set</h3>
                                     </div>
                                     <div class="card-footer">
                                     </div>
@@ -98,7 +98,7 @@
                                             <i class="material-icons">location_city</i>
                                         </div>
                                         <p class="card-category">Company</p>
-                                        <h3 class="card-title">Mark & Berkley</h3>
+                                        <h3 class="card-title" id="company_name">Not Set</h3>
                                     </div>
                                     <div class="card-footer">
                                     </div>
@@ -124,13 +124,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group bmd-form-group">
                                                 <label class="bmd-label-floating">Incident Title</label>
-                                                <input type="text" class="form-control" value="Lorem ipsum" disabled>
+                                                <input type="text" class="form-control" value="&nbsp;" id="incident_title" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group bmd-form-group">
                                                 <label class="bmd-label-floating">Date and Time of the incident</label>
-                                                <input type="text" class="form-control" value="20th, Jan-2020 | 4:20PM"
+                                                <input type="text" class="form-control"  value="&nbsp;" id="incident_date_time"
                                                     disabled>
                                             </div>
                                         </div>
@@ -138,7 +138,7 @@
                                             <div class="form-group bmd-form-group">
                                                 <label class="bmd-label-floating">Incident Location</label>
                                                 <input type="email" class="form-control"
-                                                    value="Mountain View, California, United States" disabled>
+                                                value="&nbsp;" id="incident_location" disabled>
                                             </div>
                                         </div>
 
@@ -149,8 +149,8 @@
                                                     <label class="bmd-label-floating">How the incident happened, what
                                                         transpired and possible
                                                         people as witnesses</label>
-                                                    <textarea class="form-control" disabled rows="10">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-                                        </textarea>
+                                                    <textarea class="form-control" disabled rows="10" id="incident_narration">
+                                                    </textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -171,8 +171,8 @@
                                                                 <div class="form-check bmd-form-group">
                                                                     <label class="form-check-label">
                                                                         <input class="form-check-input" type="radio"
-                                                                            name="abusetype" value="sexual_violence"
-                                                                            checked="" disabled>
+                                                                            name="abusetype" value="good"
+                                                                            checked="" disabled id="incident_howfeel_good">
                                                                         <p>
                                                                             Good <spa>(lorem ipsum is a placehold)</spa>
                                                                         </p>
@@ -187,7 +187,7 @@
                                                                     <label class="form-check-label">
                                                                         <input class="form-check-input" type="radio"
                                                                             name="abusetype"
-                                                                            value="personal_harrassment" disabled>
+                                                                            value="bad" disabled id="incident_howfeel_bad">
                                                                         <p>Bad <spa>(lorem ipsum is a placehold)
                                                                             </spa>
                                                                         </p>
@@ -201,8 +201,8 @@
                                                                 <div class="form-check bmd-form-group">
                                                                     <label class="form-check-label">
                                                                         <input class="form-check-input" type="radio"
-                                                                            name="abusetype" value="profesional_abuse"
-                                                                            disabled>
+                                                                            name="abusetype" value="terrible"
+                                                                            disabled id="incident_howfeel_terrible"> 
                                                                         <p>Terrible <spa>(lorem ipsum is a
                                                                                 placehold)</spa>
                                                                         </p>
@@ -213,13 +213,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-12">
-                                                            <a href="editincident/5e756c8d0468b5538ca3ad45"
-                                                                class="btn btn-rose"
+                                                        <div class="col-md-12" id="view_edit_btns" style="display: none;">
+                                                            <a href="#" onclick="{showPending(); return false;}" class="btn btn-rose"
                                                                 style="float:right;margin-right: 10px;margin-left: 10px;">Edit
                                                                 Incident</a>
-                                                            <a href="" class="btn btn-behance" style="float:right;">View
-                                                                Incident</a>
+                                                            <a href="#" onclick="{showPending(); return false;}" class="btn btn-behance" style="float:right;">View
+                                                                Readable</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -249,12 +248,13 @@
             }
 
 
-            function loadIncidents() {
+            function loadIncidentsContent() {
                 let initial_url = location.href;
                 let url = initial_url.split('/');
-                let caseId = url[4]
-                console.log(caseId)
-                if (typeof caseId !== "undefined" && caseId.length > 0) {
+                let caseId  = url[4]
+                let incidentId  = url[5]
+                //console.log(caseId)
+                if (typeof incidentId  !== "undefined" && incidentId .length > 0) {
                     $.blockUI({
                         message: '<div class="lds-hourglass"></div><br>Processing...'
                     });
@@ -263,11 +263,12 @@
                         crossOrigin: true,
                         crossDomain: true,
                         method: "POST",
-                        url: ApiBaseUrl + "load_incidents",
+                        url: ApiBaseUrl + "load_incident_content",
                         data: {
                             userId: getCookie("userId"),
                             accessToken: getCookie("accessToken"),
-                            caseId: caseId
+                            incidentId: incidentId,
+                            caseId:caseId
                         },
                         beforeSend: function (xhr) {}
                     }).done(function (responseText) {
@@ -276,24 +277,20 @@
                             responseText.case_details.lname.slice(0, 1);
                         let companyName = responseText.case_details.companyName.trim() == "" ? "Not Set" :
                             responseText.case_details.companyName;
+                            let incident = responseText.incidents[0]
                         $("#perpetrator_initials").html(perpetratorShortName) //
-                        $("#company_name").html(companyName) //perpetrator_initials 5e7615e9d30cbe41588b1bdf
-                        $("#new_incident_link").attr("href", "addincindent/" + responseText.case_details._id)
-                            .show();
-                        let theTemplateScript = $("#incident-template").html();
-                        let theTemplate = Handlebars.compile(theTemplateScript);
-                        let theCompiledHtml = "";
+                        $("#company_name").html(companyName)
+                        $("#incident_title").val(incident.title)
+                        $("#incident_date_time").val(formatdate_(incident.date) + ((typeof incident.time !== "undefined") ?  " | "+incident.time : ""))
+                        $("#incident_location").val(incident.location)
+                        $("#incident_narration").html(incident.narration)
+                        $("input[name=abusetype][value=" + incident.howyoufeel + "]").prop('checked', true);
+                        $("#view_edit_btns").show()
 
                             showInvalidDetailsSuc(responseText.response_string)
-                            $.each(responseText.incidents, function (i, item) {
-                                theCompiledHtml = theTemplate(item);
-                                $('#incidents_cont').prepend(theCompiledHtml);
-                            });
                         } else {
                             $('#incidents_cont').html("Hush...you do not have any incident under this case")
-                            $.unblockUI();
                         }
-
                         $.unblockUI();
                     }).fail(function (jqXHR, exception) {
                         let error_string = jqXHR.responseJSON.error_string
@@ -305,7 +302,7 @@
             }
 
             $(document).ready(function () {
-                loadIncidents();
+                loadIncidentsContent();
             })
             //$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
         </script>

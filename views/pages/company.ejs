@@ -28,51 +28,51 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <form>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">Company Name</label>
-                          <input type="text" class="form-control" value="Marckly Inc">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">Company Size</label>
-                          <input type="text" class="form-control"  value="2000 - 3000">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">Company Address</label>
-                          <input type="text" class="form-control" value="23 Baseck Ave, CA">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">Web Page(Wesite)</label>
-                          <input type="text" class="form-control" value="marcklyinc.com">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">Facebook</label>
-                          <input type="text" class="form-control"  value="fb.com/marcklyinc.com">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">LinkedIn</label>
-                          <input type="text" class="form-control" value="linkedin.com/marcklyinc.com">
-                        </div>
-                      </div>
-                      <div class="col-md-12"><br>
-                        <a href=""  class="btn btn-rose" style="float:right;">Update Company ></a>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Company Name*</label>
+                        <input type="text" id="companyName" value="&nbsp;"
+                          class="form-control validate[required,custom[email]]" name="companyName">
+                        <div class="error-message">Invalid Company Name</div>
                       </div>
                     </div>
+                    <div class="col-md-6">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Company Size*</label>
+                        <input type="text" name="companySize" id="companySize" value="&nbsp;" class="form-control">
+                        <div class="error-message">Invalid Company Size</div>
+                      </div>
                     </div>
-                    <div class="clearfix"></div>
-                  </form>
+                    <div class="col-md-6">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Company Address*</label>
+                        <input type="text" id="companyAddress" name="companyAddress" value="&nbsp;" class="form-control">
+                        <div class="error-message">Invalid Company Address</div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Web Page(Wesite)</label>
+                        <input type="text" name="companyWebpage" id="companyWebpage" class="form-control" value="&nbsp;">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Facebook</label>
+                        <input type="text" id="companyFacebook" name="companyFacebook" class="form-control" value="&nbsp;">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">LinkedIn</label>
+                        <input type="text"  id="companyLinkedIn" name="companyLinkedIn" class="form-control" value="&nbsp;">
+                      </div>
+                    </div>
+                    <div class="col-md-12"><br>
+                      <a href=""  class="btn btn-rose" style="float:right;">Update Company</a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -86,18 +86,59 @@
   <% <!--include ../partials/theme_bar.ejs--> %>
   <% include ../partials/footer_script.ejs %>
   <script>
-    $(document).ready(function () {
-      // Basic
-      $('.dropify').dropify();
-      // Used events
-      var drEvent = $('.dropify-event').dropify();
-      drEvent.on('dropify.beforeClear', function (event, element) {
-        return confirm("Do you really want to delete \"" + element.filename + "\" ?");
-      });
 
-      drEvent.on('dropify.afterClear', function (event, element) {
-        alert('File deleted');
-      });
+function loadIncidents() {
+      let initial_url = location.href;
+      let url = initial_url.split('/');
+      let caseId = url[4]
+      //console.log(caseId)
+      if (typeof caseId !== "undefined" && caseId.length > 0) {
+        $.blockUI({
+          message: '<div class="lds-hourglass"></div><br>Processing...'
+        });
+        //return;
+        $.ajax({
+          crossOrigin: true,
+          crossDomain: true,
+          method: "POST",
+          url: ApiBaseUrl + "load_incidents",
+          data: {
+            userId: getCookie("userId"),
+            accessToken: getCookie("accessToken"),
+            caseId: caseId
+          },
+          beforeSend: function (xhr) {}
+        }).done(function (responseText) {
+          //console.log(responseText)
+          let perpetratorShortName = responseText.case_details.fname.slice(0, 1) + ". "+responseText.case_details.lname.slice(0, 1);
+          let companyName = responseText.case_details.companyName.trim() == "" ? "Not Set" : responseText.case_details.companyName;
+          let companySize = responseText.case_details.companySize.trim() == "" ? "Not Set" : responseText.case_details.companySize;
+          let companyAddress = responseText.case_details.companyAddress.trim() == "" ? "Not Set" : responseText.case_details.companyAddress;
+          console.log(companyName)
+         // $("#perpetrator_initials").html(perpetratorShortName)//
+          $("#companyName").val(companyName)//companySize 5e7615e9d30cbe41588b1bdf
+          $("#companySize").val(companySize)// companyAddress
+          $("#companyAddress").val(companyAddress)// 
+          $("#companyWebpage").val(responseText.case_details.companyWebpage.trim() == "" ? "Not Set" : responseText.case_details.companyWebpage)
+          $("#companyFacebook").val(responseText.case_details.companyFacebook.trim() == "" ? "Not Set" : responseText.case_details.companyFacebook)
+          $("#companyLinkedIn").val(responseText.case_details.companyLinkedIn.trim() == "" ? "Not Set" : responseText.case_details.companyLinkedIn)
+         // $("#new_incident_link").attr("href", "addincindent/"+responseText.case_details._id).show();//perpetrator_link
+         
+         
+        //$("#perpetrator_link").attr("href", "perpetrator/"+responseText.case_details._id).show();//
+
+          $.unblockUI();
+        }).fail(function (jqXHR, exception) {
+          let error_string = jqXHR.responseJSON.error_string
+          $('#perpetrator_list').html(error_string)
+          $.unblockUI();
+          showInvalidDetailsError(error_string)
+        });
+      }
+    }
+
+    $(document).ready(function () {
+      loadIncidents();
     });
   </script>
 </body>

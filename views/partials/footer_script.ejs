@@ -59,6 +59,37 @@
 <!-- <script src="http://malsup.github.com/jquery.form.js"></script> -->
 <!-- <script src="assets/js/handlebars.js"></script> -->
 <script>
+    function humanizeDate(date_str) {
+        month = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+            'November', 'December'
+        ];
+        date_arr = date_str.split('-');
+
+        return month[Number(date_arr[1]) - 1] + " " + Number(date_arr[2]) + ", " + date_arr[0]
+    }
+
+    formatdate_ = function (str) {
+        //let str = '2011-04-11T10:20:30Z';
+        let date = moment(str);
+        let dateComponent = date.utc().format('YYYY-MM-DD');
+        let timeComponent = date.utc().format('HH:mm:ss');
+        //console.log(dateComponent);
+        //console.log(timeComponent);
+        return humanizeDate(dateComponent);
+    }
+
+    function showPending() {
+        Swal.fire({
+            title: 'Feature Pending',
+            type: 'info',
+            html: "This feature will be added later, Lorem Ipsum...",
+            showCloseButton: true,
+            backdrop: ` rgba(0,0,123,0.4)`,
+            cancelButtonAriaLabel: 'Thumbs down'
+        })
+        return false;
+    }
+
     function showSuccess(html) {
         Swal.fire({
             title: '<strong>Your Submitted Numbers</strong>',
@@ -70,10 +101,12 @@
         })
     }
 
+
     function valideForm(formId) {
         let pattern = false;
         let isAccurate = true;
-        let arrGeneralTextInput = ["caseId", "accessToken", "userId", "title", "date", "time", "location","howyoufeel" ]// "narration",
+        let arrGeneralTextInput = ["caseId", "accessToken", "userId", "title", "date", "time", "location",
+            "howyoufeel"] // "narration",
         //let arrGeneralTextAreat = ["howyoufeel" ]// "narration",
         $(formId + ' input').each(
             function (index) {
@@ -83,9 +116,10 @@
                 let text = input.val().trim();
                 let text_ = input.text().trim();
                 if (arrGeneralTextInput.includes(name)) {
-                     if(typeof text == "undefined" || text.length == 0){
+                    if (typeof text == "undefined" || text.length == 0) {
                         input.siblings(".error-message").show(300);
-                     }   
+                        isAccurate = false;
+                    }
                 } else {
                     switch (type) {
                         case "text":
@@ -130,7 +164,7 @@
 
                                 case "fb": //linkedin
                                     if (!text.toLowerCase().includes(
-                                        "facebook.com")) //&& !text.toLowerCase().includes("fb.com"))
+                                            "facebook.com")) //&& !text.toLowerCase().includes("fb.com"))
                                         pattern = false;
                                     isAccurate = isAccurate && pattern;
                                     if (!pattern) input.siblings(".error-message").show(300);

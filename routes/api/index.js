@@ -40,7 +40,8 @@ routes.post('/start_signup', userController.start_signup);
 routes.post('/create_case', userController.create_case);//perpetrators
 routes.post('/load_cases', userController.load_cases);//perpetrators
 routes.post('/add_incident', userController.add_incident);//perpetrators
-routes.post('/load_incidents', userController.load_incidents);//perpetrators
+routes.post('/load_incidents', userController.load_incidents);//load_incident_content
+routes.post('/load_incident_content', userController.load_incident_content);//
 
 
 routes.post('/simple_signup', userController.simple_signup);
