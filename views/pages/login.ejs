@@ -96,9 +96,10 @@
     let formOptions = {
         dataType: 'json',
        // data:$('.generalUpload').serialize(),
-        beforeSubmit: function () {
-            $.blockUI({message: '<div class="lds-hourglass"></div>'});
-        },
+       $.blockUI({
+        // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+        message: '<div class="loading">Loading&#8230;</div>'
+      });
         success: function (responseText, statusText, xhr, $form) {
             showInvalidDetailsSuc(responseText.response_string)
             setCookie("userId", responseText.data._id, 24)//accessToken
