@@ -17,6 +17,7 @@
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
       style="display:none;visibility:hidden"></iframe>
   </noscript>
+  <div class="loading" id="firstloader"">Loading&#8230;</div>
   <div class="wrapper" style="display:none;">
     <% include ../partials/sidebar.ejs %>
     <div class="main-panel">
@@ -191,9 +192,9 @@
       let caseId = url[4]
       //console.log(caseId)
       if (typeof caseId !== "undefined" && caseId.length > 0) {
-        $.blockUI({
-                 message: '<div class="loading">Loading&#8230;</div>' 
-            });
+        // $.blockUI({
+        //          message: '<div class="loading">Loading&#8230;</div>' 
+        //     });
         //return;
         $.ajax({
           crossOrigin: true,
@@ -212,12 +213,12 @@
           $("#perpetrator_initials").html(perpetratorShortName)//
           $("#company_name").html(companyName)//perpetrator_initials 5e7615e9d30cbe41588b1bdf
           $("#new_incident_link").attr("href", "addincindent/"+responseText.case_details._id).show();
-          $.unblockUI();
+          $("#firstloader").hide();//$.unblockUI();
           $('.wrapper').show()
         }).fail(function (jqXHR, exception) {
           let error_string = jqXHR.responseJSON.error_string
           $('#perpetrator_list').html(error_string)
-          $.unblockUI();
+          $("#firstloader").hide()//$.unblockUI();
           showInvalidDetailsError(error_string)
         });
       }

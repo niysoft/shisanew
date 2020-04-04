@@ -144,14 +144,14 @@
                             </div>
                             <div class="col-md-6">
                               <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Phone Number*</label>
+                                <label class="bmd-label-floating">Phone Number</label>
                                 <input type="text" name="phone" id="phone" class="form-control">
                                 <div class="error-message">Invalid phone provided</div>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Email*</label>
+                                <label class="bmd-label-floating">Email</label>
                                 <input type="text" name="perpEmail" id="perpEmail" class="form-control">
                                 <div class="error-message">Invalid email url</div>
                               </div>
@@ -208,7 +208,7 @@
                             </div>
                             <div class="col-md-6">
                               <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Company Address*</label>
+                                <label class="bmd-label-floating">Company Address</label>
                                 <input type="text" id="companyAddress" name="companyAddress" class="form-control">
                                 <div class="error-message">Invalid Company Address</div>
                               </div>
@@ -266,7 +266,7 @@
     function validateCompanyForm() {
       let pattern = true;
       let isAccurate = true;
-      let arrGeneralTextInput = ["companyName", "companySize", "companyAddress"]
+      let arrGeneralTextInput = ["companyName", "companySize"]//
       for (let x = 0; x < arrGeneralTextInput.length; x++) {
         let vals = $('#' + arrGeneralTextInput[x]).val();
         if (vals.trim().length === 0) {

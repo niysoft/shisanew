@@ -11,7 +11,7 @@
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
       style="display:none;visibility:hidden"></iframe>
   </noscript>
-  <div class="loading" id="firstloader" style="display:none;">Loading&#8230;</div>
+  <div class="loading" id="firstloader">Loading&#8230;</div>
   <div class="wrapper" style="display:none;">
     <% include ../partials/sidebar.ejs %>
     <div class="main-panel">
@@ -162,14 +162,14 @@
       // data:$('.generalUpload').serialize(),
       data: { caseId: caseId },
       beforeSubmit: function () {
-        $.blockUI({
-          // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
-          message: '<div class="loading">Loading&#8230;</div>'
-        });
+        // $.blockUI({
+        //   // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+        //   message: '<div class="loading">Loading&#8230;</div>'
+        // });
       },
       success: function (responseText, statusText, xhr, $form) {
         //addincindent/de4cea81986375ba48d5acebd53248b0
-        //location.href = "addincindent/" + responseText.data._id
+        location.href = "case/" + caseId
         $.unblockUI();
         showInvalidDetailsSuc(responseText.response_string)
         // setTimeout(function () {
@@ -185,10 +185,10 @@
     $("#editperpetrator").ajaxForm(formOptions);
 
     function loadIncidents() {
-      $.blockUI({
-        // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
-        message: '<div class="loading">Loading&#8230;</div>'
-      });
+      // $.blockUI({
+      //   // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+      //   message: '<div class="loading">Loading&#8230;</div>'
+      // });
       let initial_url = location.href;
       let url = initial_url.split('/');
       let caseId = url[4]
@@ -221,11 +221,11 @@
             $("#gender_female").attr("checked", true)
           }
           $(".wrapper").show()
-          $.unblockUI();
+          $("#firstloader").hide()// $.unblockUI();
         }).fail(function (jqXHR, exception) {
           let error_string = jqXHR.responseJSON.error_string
           $('#perpetrator_list').html(error_string)
-          $.unblockUI();
+          $("#firstloader").hide()// $.unblockUI();
           showInvalidDetailsError(error_string)
         });
       }

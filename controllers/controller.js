@@ -28,9 +28,8 @@ momentTimeZone().tz("Africa/Lagos").format();
 module.exports.create_case = function (req, res) {//add_incident
     let missingRequestFlag = false
     let userTypes = [req.body.userId, req.body.accessToken, req.body.caseType, req.body.fname, req.body.lname, req.body.age,
-    req.body.gender, req.body.phone, req.body.perpEmail, req.body.ssn, req.body.fb]
+    req.body.gender]// req.body.phone, req.body.perpEmail, req.body.ssn, , req.body.fb
     for (let i = 0; i < userTypes.length; i++) {
-
         if (!isSet(userTypes[i]) || userTypes[i].trim() == "") {
             missingRequestFlag = true
             break
@@ -48,9 +47,6 @@ module.exports.create_case = function (req, res) {//add_incident
             .then(user => {
                 if (user.length > 0) {
                     let case_ = new Case()
-                    //  userId, caseType, fname, lname, age, gender, phone, email, identityNumber, facebook, linkedin,
-                    // companyName, companySize, companyAddress, companyWebpage, companyFacebook, companyLinkedIn
-                    //companyName, companySize, companyAddress, companyWebpage, companyFacebook, companyLinkedIn
                     case_.createCase(
                         req.body.userId,
                         req.body.caseType,
@@ -75,8 +71,6 @@ module.exports.create_case = function (req, res) {//add_incident
                         //user.password = null
                         SuccessResponse.response_string = 'Registration started successfully. Please proceed to the next stage'
                         SuccessResponse.data = case___
-                        //let phoneVerificationCode = generateVerificationCode()
-                        //let message = "Hey buddy, welcome to Bingo9ja. Your verification code is: " + phoneVerificationCode
                         SuccessResponse.response_string = "Success! Case created successfully"
                         res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
                     }).catch(function (err) {
@@ -84,7 +78,6 @@ module.exports.create_case = function (req, res) {//add_incident
                         //     ServerErrorResponse.error_string = "Duplicate record exist. Try password reset should you forget your password"
                         // else
                         ServerErrorResponse.error_string = err.message
-                        //handleErrorServer(null, res, ServerErrorResponse.error_string)
                         handleErrorServer(null, res, ServerErrorResponse.error_string)
                     })
                 } else {
@@ -95,8 +88,6 @@ module.exports.create_case = function (req, res) {//add_incident
             .catch(function (err) {
                 handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
             });
-        //continue insertion
-
     }
     return;
 }
@@ -355,8 +346,8 @@ module.exports.edit_perpetrator = function (req, res) { //edit_company
 
 module.exports.edit_company = function (req, res) { //edit_company
     let missingRequestFlag = false
-    let userTypes = [req.body.userId, req.body.accessToken, req.body.caseId, req.body.companyName, req.body.companySize, req.body.companyAddress]
-    let userTypes_ = [req.body.companyWebpage, req.body.companyFacebook, req.body.companyLinkedIn]
+    let userTypes = [req.body.userId, req.body.accessToken, req.body.caseId, req.body.companyName, req.body.companySize]
+    let userTypes_ = [req.body.companyWebpage, req.body.companyFacebook, req.body.companyLinkedIn, req.body.companyAddress]
     for (let i = 0; i < userTypes.length; i++) {
         if (!isSet(userTypes[i]) || userTypes[i].trim() == "") {
             missingRequestFlag = true
@@ -370,7 +361,7 @@ module.exports.edit_company = function (req, res) { //edit_company
         }
     }
     if (missingRequestFlag) {//one mandatory fields ommited
-        console.log(req.body); return;
+       // console.log(req.body); return;
         handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
     } else {
         User.find({

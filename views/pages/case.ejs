@@ -11,7 +11,8 @@
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
       style="display:none;visibility:hidden"></iframe>
   </noscript>
-  <div class="wrapper "  style="display:none;">
+  <div class="loading" id="firstloader"">Loading&#8230;</div>
+  <div class="wrapper"  style="display:none;">
     <% include ../partials/sidebar.ejs %>
     <div class="main-panel">
       <% include ../partials/nav.ejs %>
@@ -160,10 +161,10 @@
 
 
     function loadIncidents() {
-      $.blockUI({
-               // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
-                 message: '<div class="loading">Loading&#8230;</div>' 
-            });
+      // $.blockUI({
+      //          // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+      //            message: '<div class="loading">Loading&#8230;</div>' 
+      //       });
       let initial_url = location.href;
       let url = initial_url.split('/');
       let caseId = url[4]
@@ -206,14 +207,16 @@
             });
           } else {
             $('#incidents_cont').html("Hush...you do not have any incident under this case")
-            $.unblockUI();
+            //$.unblockUI();
           }
+          $("#firstloader").hide()
           $(".wrapper").show()
-          $.unblockUI();
+         // $.unblockUI();
         }).fail(function (jqXHR, exception) {
           let error_string = jqXHR.responseJSON.error_string
           $('#perpetrator_list').html(error_string)
-          $.unblockUI();
+          $("#firstloader").hide()
+         // $.unblockUI();
           showInvalidDetailsError(error_string)
         });
       }

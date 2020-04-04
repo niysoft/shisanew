@@ -11,6 +11,7 @@
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
       style="display:none;visibility:hidden"></iframe>
   </noscript>
+  <div class="loading" id="firstloader">Loading&#8230;</div>
   <div class="wrapper" style="display:none;">
     <% include ../partials/sidebar.ejs %>
     <div class="main-panel">
@@ -50,7 +51,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group bmd-form-group">
-                        <label class="bmd-label-floating">Company Address*</label>
+                        <label class="bmd-label-floating">Company Address</label>
                         <input type="text" id="companyAddress" name="companyAddress" value="&nbsp;"
                           class="form-control">
                         <div class="error-message">Invalid Company Address</div>
@@ -115,10 +116,10 @@
       let caseId = url[4]
       //console.log(caseId)
       if (typeof caseId !== "undefined" && caseId.length > 0) {
-        $.blockUI({
-          // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
-          message: '<div class="loading">Loading&#8230;</div>'
-        });
+        // $.blockUI({
+        //   // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+        //   message: '<div class="loading">Loading&#8230;</div>'
+        // });
         //return;
         $.ajax({
           crossOrigin: true,
@@ -145,12 +146,13 @@
           $("#companyWebpage").val(responseText  .case_details.companyWebpage)
           $("#companyFacebook").val(responseText.case_details.companyFacebook)
           $("#companyLinkedIn").val(responseText.case_details.companyLinkedIn)
+          $("#firstloader").hide()// $.unblockUI();
           $('.wrapper').show()
           $.unblockUI();
         }).fail(function (jqXHR, exception) {
           let error_string = jqXHR.responseJSON.error_string
           $('#perpetrator_list').html(error_string)
-          $.unblockUI();
+          $("#firstloader").hide()// $.unblockUI(); $.unblockUI();
           showInvalidDetailsError(error_string)
         });
       }
@@ -171,6 +173,7 @@
       },
       success: function (responseText, statusText, xhr, $form) {
         $.unblockUI();
+        location.href = "case/" + caseId
         showInvalidDetailsSuc(responseText.response_string)
       },
       error: function (responseText, statusText, xhr, $form) {
