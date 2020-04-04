@@ -16,7 +16,7 @@
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
             style="display:none;visibility:hidden"></iframe>
     </noscript>
-    <div class="loading" id="firstloader" style="display: none;">Loading&#8230;</div>
+    <div class="loading" id="firstloader">Loading&#8230;</div>
     <div class="wrapper" style="display:none;">
         <% include ../partials/sidebar.ejs %>
         <div class="main-panel">
@@ -92,10 +92,10 @@
 
         function loadCases() {
             //$("#firstloader").hide();
-            $.blockUI({
-               // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
-                 message: '<div class="loading">Loading&#8230;</div>' 
-            });
+            // $.blockUI({
+            //    // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+            //      message: '<div class="loading">Loading&#8230;</div>' 
+            // });
             $.ajax({
                 crossOrigin: true,
                 crossDomain: true,
@@ -121,8 +121,9 @@
                     $('#perpetrator_list').html("Hush...you do have any case yet")
                     $.unblockUI();
                 }
+                $("#firstloader").hide();
                $(".wrapper").show()
-               $.unblockUI();
+              // $.unblockUI();
             }).fail(function (jqXHR, exception) {
                 let error_string = jqXHR.responseJSON.error_string
                 $('#perpetrator_list').html(error_string)
