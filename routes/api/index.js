@@ -42,6 +42,9 @@ routes.post('/load_cases', userController.load_cases);//perpetrators
 routes.post('/add_incident', userController.add_incident);//perpetrators
 routes.post('/load_incidents', userController.load_incidents);//load_incident_content
 routes.post('/load_incident_content', userController.load_incident_content);//
+routes.post('/edit_perpetrator', userController.edit_perpetrator);//edit_company
+routes.post('/edit_company', userController.edit_company);//load_profile
+routes.post('/load_profile', userController.load_profile);//load_profile
 
 
 routes.post('/simple_signup', userController.simple_signup);

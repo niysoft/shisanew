@@ -11,14 +11,13 @@
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
       style="display:none;visibility:hidden"></iframe>
   </noscript>
-  <div class="wrapper ">
+  <div class="wrapper" style="display:none;">
     <% include ../partials/sidebar.ejs %>
     <div class="main-panel">
       <% include ../partials/nav.ejs %>
       <div class="content">
         <div class="container-fluid">
-          <% include ../partials/stats.ejs %>
-          
+       
           <div class="row">
             <div class="col-md-12">
               <div class="card">
@@ -28,8 +27,13 @@
                   </div>
                 </div>
                 <div class="card-body">
+                  <form id="editperpetrator" method="post" action="api/edit_company"
+                  enctype="application/x-www-form-urlencoded">
                   <div class="row">
                     <div class="col-md-6">
+                      <input class="form-check-input" type="hidden" name="userId" value='<%= userData.data._id %>'>
+                      <input class="form-check-input" type="hidden" name="accessToken"
+                        value='<%= userData.data.accessToken %>'>
                       <div class="form-group bmd-form-group">
                         <label class="bmd-label-floating">Company Name*</label>
                         <input type="text" id="companyName" value="&nbsp;"
@@ -47,30 +51,35 @@
                     <div class="col-md-6">
                       <div class="form-group bmd-form-group">
                         <label class="bmd-label-floating">Company Address*</label>
-                        <input type="text" id="companyAddress" name="companyAddress" value="&nbsp;" class="form-control">
+                        <input type="text" id="companyAddress" name="companyAddress" value="&nbsp;"
+                          class="form-control">
                         <div class="error-message">Invalid Company Address</div>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group bmd-form-group">
                         <label class="bmd-label-floating">Web Page(Wesite)</label>
-                        <input type="text" name="companyWebpage" id="companyWebpage" class="form-control" value="&nbsp;">
+                        <input type="text" name="companyWebpage" id="companyWebpage" class="form-control"
+                          value="&nbsp;">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group bmd-form-group">
                         <label class="bmd-label-floating">Facebook</label>
-                        <input type="text" id="companyFacebook" name="companyFacebook" class="form-control" value="&nbsp;">
+                        <input type="text" id="companyFacebook" name="companyFacebook" class="form-control"
+                          value="&nbsp;">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group bmd-form-group">
                         <label class="bmd-label-floating">LinkedIn</label>
-                        <input type="text"  id="companyLinkedIn" name="companyLinkedIn" class="form-control" value="&nbsp;">
+                        <input type="text" id="companyLinkedIn" name="companyLinkedIn" class="form-control"
+                          value="&nbsp;">
                       </div>
                     </div>
                     <div class="col-md-12"><br>
-                      <a href=""  class="btn btn-rose" style="float:right;">Update Company</a>
+                      <a class="btn btn-rose" onclick="{submitForm(); return false}"
+                          style="float:right;color:white">Update Company<div class="ripple-container"></div></a>
                     </div>
                   </div>
                 </div>
@@ -86,15 +95,29 @@
   <% <!--include ../partials/theme_bar.ejs--> %>
   <% include ../partials/footer_script.ejs %>
   <script>
+    function submitForm() { //  let abuseType = $('input:radio[name=caseType]').filter(":checked").val()
+      let isAccurate = valideForm("#editperpetrator");
+      if (!isAccurate) {
+        showInvalidDetailsError("Error! Invalid data detected. Please retry action")
+        return false;
+      } else {
+        $.blockUI({
+          // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+          message: '<div class="loading">Loading&#8230;</div>'
+        });
+        $("#editperpetrator").submit();
+      }
+    }
 
-function loadIncidents() {
+    function loadIncidents() {
       let initial_url = location.href;
       let url = initial_url.split('/');
       let caseId = url[4]
       //console.log(caseId)
       if (typeof caseId !== "undefined" && caseId.length > 0) {
         $.blockUI({
-          message: '<div class="lds-hourglass"></div><br>Processing...'
+          // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+          message: '<div class="loading">Loading&#8230;</div>'
         });
         //return;
         $.ajax({
@@ -110,23 +133,19 @@ function loadIncidents() {
           beforeSend: function (xhr) {}
         }).done(function (responseText) {
           //console.log(responseText)
-          let perpetratorShortName = responseText.case_details.fname.slice(0, 1) + ". "+responseText.case_details.lname.slice(0, 1);
-          let companyName = responseText.case_details.companyName.trim() == "" ? "Not Set" : responseText.case_details.companyName;
-          let companySize = responseText.case_details.companySize.trim() == "" ? "Not Set" : responseText.case_details.companySize;
-          let companyAddress = responseText.case_details.companyAddress.trim() == "" ? "Not Set" : responseText.case_details.companyAddress;
-          console.log(companyName)
-         // $("#perpetrator_initials").html(perpetratorShortName)//
-          $("#companyName").val(companyName)//companySize 5e7615e9d30cbe41588b1bdf
-          $("#companySize").val(companySize)// companyAddress
-          $("#companyAddress").val(companyAddress)// 
-          $("#companyWebpage").val(responseText.case_details.companyWebpage.trim() == "" ? "Not Set" : responseText.case_details.companyWebpage)
-          $("#companyFacebook").val(responseText.case_details.companyFacebook.trim() == "" ? "Not Set" : responseText.case_details.companyFacebook)
-          $("#companyLinkedIn").val(responseText.case_details.companyLinkedIn.trim() == "" ? "Not Set" : responseText.case_details.companyLinkedIn)
-         // $("#new_incident_link").attr("href", "addincindent/"+responseText.case_details._id).show();//perpetrator_link
-         
-         
-        //$("#perpetrator_link").attr("href", "perpetrator/"+responseText.case_details._id).show();//
-
+          let perpetratorShortName = responseText.case_details.fname.slice(0, 1) + ". " + responseText.case_details
+            .lname.slice(0, 1);
+          let companyName = responseText.case_details.companyName;
+          let companySize = responseText .case_details.companySize;
+          let companyAddress = responseText.case_details.companyAddress;
+       
+          $("#companyName").val(companyName) //companySize 5e7615e9d30cbe41588b1bdf
+          $("#companySize").val(companySize) // companyAddress
+          $("#companyAddress").val(companyAddress) // 
+          $("#companyWebpage").val(responseText  .case_details.companyWebpage)
+          $("#companyFacebook").val(responseText.case_details.companyFacebook)
+          $("#companyLinkedIn").val(responseText.case_details.companyLinkedIn)
+          $('.wrapper').show()
           $.unblockUI();
         }).fail(function (jqXHR, exception) {
           let error_string = jqXHR.responseJSON.error_string
@@ -136,6 +155,31 @@ function loadIncidents() {
         });
       }
     }
+
+    let initial_url = location.href;
+    let url = initial_url.split('/');
+    let caseId = url[4]
+
+    let formOptions = {
+      dataType: 'json',
+      // data:$('.generalUpload').serialize(),
+      data: { caseId: caseId },
+      beforeSubmit: function () {
+        $.blockUI({
+          message: '<div class="loading">Loading&#8230;</div>'
+        });
+      },
+      success: function (responseText, statusText, xhr, $form) {
+        $.unblockUI();
+        showInvalidDetailsSuc(responseText.response_string)
+      },
+      error: function (responseText, statusText, xhr, $form) {
+        let error_string = responseText.responseJSON.error_string
+        showInvalidDetailsError(error_string)
+        $.unblockUI()
+      }
+    };
+    $("#editperpetrator").ajaxForm(formOptions);
 
     $(document).ready(function () {
       loadIncidents();

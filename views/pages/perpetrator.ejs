@@ -11,14 +11,15 @@
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
       style="display:none;visibility:hidden"></iframe>
   </noscript>
-  <div class="wrapper ">
+  <div class="loading" id="firstloader" style="display:none;">Loading&#8230;</div>
+  <div class="wrapper" style="display:none;">
     <% include ../partials/sidebar.ejs %>
     <div class="main-panel">
       <% include ../partials/nav.ejs %>
       <div class="content">
         <div class="container-fluid">
-          <% include ../partials/stats.ejs %>
-          
+
+
           <div class="row">
             <div class="col-md-12">
               <div class="card">
@@ -28,77 +29,212 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <form>
+                  <form id="editperpetrator" method="post" action="api/edit_perpetrator"
+                    enctype="application/x-www-form-urlencoded">
                     <div class="row">
                       <div class="col-md-6">
+                        <input class="form-check-input" type="hidden" name="userId" value='<%= userData.data._id %>'>
+                        <input class="form-check-input" type="hidden" name="accessToken"
+                          value='<%= userData.data.accessToken %>'>
                         <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">Name</label>
-                          <input type="text" class="form-control" value="Benarck Shaw">
+                          <label class="bmd-label-floating">First Name*</label>
+                          <input type="text" name="fname" id="fname" class="form-control" value="&nbsp;">
+                          <div class="error-message">Invalid firtst name provided</div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                          <label class="bmd-label-floating">Last Name*</label>
+                          <input type="text" name="lname" id="lname" class="form-control" value="&nbsp;">
+                          <div class="error-message">Invalid last name provided</div>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group bmd-form-group">
                           <label class="bmd-label-floating">Age*</label>
-                          <input type="text" class="form-control" value="32">
+                          <input type="text" name="age" id="age" class="form-control" value="&nbsp;">
+                          <div class="error-message">Invalid age provided</div>
+                        </div>
+                      </div>
+                      <div class="col-md-6" style="padding-top: 5px;">
+                        <label class="col-sm-2 col-form-label label-checkbox"
+                          style="text-align:left;color:#aaa">Gender</label>
+                        <div style="float: right;">
+                          <div class="form-check form-check-inline">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="gender" id="gender_male"
+                                  value="male"> Male
+                                <span class="circle">
+                                  <span class="check"></span>
+                                </span>
+                              </label>
+                            </div>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="radio" name="gender" id="gender_female"
+                                value="female"> Female
+                              <span class="circle">
+                                <span class="check"></span>
+                              </span>
+                            </label>
+                          </div>
+                        </div>
+                        <div style="width:100%;border-bottom: 1px #ccc solid;height: 5px;"></div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                          <label class="bmd-label-floating">Phone Number*</label>
+                          <input type="text" name="phone" id="phone" class="form-control" value="&nbsp;">
+                          <div class="error-message">Invalid phone provided</div>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">Gender*</label>
-                          <input type="text" class="form-control" value="M">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">Phone Number</label>
-                          <input type="text" class="form-control" value="55 45 6785 33">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">Email</label>
-                          <input type="email" class="form-control" value="shawbenark@gmail.com">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">Facebook Profile</label>
-                          <input type="email" class="form-control" value="facebook.com/shawbenark">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group bmd-form-group">
-                          <label class="bmd-label-floating">LinkedIn Profile</label>
-                          <input type="email" class="form-control" value="linkedin.com/in/shawbenark">
+                          <label class="bmd-label-floating">Email*</label>
+                          <input type="text" name="perpEmail" id="perpEmail" class="form-control" value="&nbsp;">
+                          <div class="error-message">Invalid email url</div>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group bmd-form-group">
                           <label class="bmd-label-floating">Identity Number (SSN or others)</label>
-                          <input type="email" class="form-control" value="2789899999935">
+                          <input type="text" name="ssn" id="ssn" class="form-control" value="&nbsp;">
+                          <div class="error-message">Invalid Identity Number</div>
                         </div>
                       </div>
-                      <div class="col-md-12"><br>
-                        <a href=""  class="btn btn-rose" style="float:right;">Update Perpetrator ></a>
+                      <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                          <label class="bmd-label-floating">Facebook Profile*</label>
+                          <input type="text" name="fb" id="fb" class="form-control" value="&nbsp;">
+                          <div class="error-message">Invalid Facebook url</div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                          <label class="bmd-label-floating">LinkedIn Profile</label>
+                          <input type="text" name="linkedin" id="linkedin" class="form-control" value="&nbsp;">
+                          <div class="error-message">Invalid LinkedIn url</div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+
+                        <a class="btn btn-rose" onclick="{submitForm(); return false}"
+                          style="float:right;color:white">Update Perpetrator<div class="ripple-container"></div></a>
                       </div>
                     </div>
-                    </div>
-                    <div class="clearfix"></div>
-                  </form>
                 </div>
+                <div class="clearfix"></div>
+                </form>
               </div>
             </div>
           </div>
-
         </div>
+
       </div>
-      <% include ../partials/footer.ejs %>
     </div>
+    <% include ../partials/footer.ejs %>
+  </div>
   </div>
   <% <!--include ../partials/theme_bar.ejs--> %>
   <% include ../partials/footer_script.ejs %>
   <script>
+    function submitForm() { //  let abuseType = $('input:radio[name=caseType]').filter(":checked").val()
+      let isAccurate = valideForm("#editperpetrator");
+      if (!isAccurate) {
+        showInvalidDetailsError("Error! Invalid data detected. Please retry action")
+        return false;
+      } else {
+        $.blockUI({
+          // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+          message: '<div class="loading">Loading&#8230;</div>'
+        });
+        $("#editperpetrator").submit();
+      }
+    }
+    let initial_url = location.href;
+    let url = initial_url.split('/');
+    let caseId = url[4]
+
+    let formOptions = {
+      dataType: 'json',
+      // data:$('.generalUpload').serialize(),
+      data: { caseId: caseId },
+      beforeSubmit: function () {
+        $.blockUI({
+          // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+          message: '<div class="loading">Loading&#8230;</div>'
+        });
+      },
+      success: function (responseText, statusText, xhr, $form) {
+        //addincindent/de4cea81986375ba48d5acebd53248b0
+        //location.href = "addincindent/" + responseText.data._id
+        $.unblockUI();
+        showInvalidDetailsSuc(responseText.response_string)
+        // setTimeout(function () {
+        //   //location.href = baseUrl + "dashboard";
+        // }, 1000)
+      },
+      error: function (responseText, statusText, xhr, $form) {
+        let error_string = responseText.responseJSON.error_string
+        showInvalidDetailsError(error_string)
+        $.unblockUI()
+      }
+    };
+    $("#editperpetrator").ajaxForm(formOptions);
+
+    function loadIncidents() {
+      $.blockUI({
+        // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+        message: '<div class="loading">Loading&#8230;</div>'
+      });
+      let initial_url = location.href;
+      let url = initial_url.split('/');
+      let caseId = url[4]
+      if (typeof caseId !== "undefined" && caseId.length > 0) {
+        $.ajax({
+          crossOrigin: true,
+          crossDomain: true,
+          method: "POST",
+          url: ApiBaseUrl + "load_incidents",
+          data: {
+            userId: getCookie("userId"),
+            accessToken: getCookie("accessToken"),
+            caseId: caseId
+          },
+          beforeSend: function (xhr) {}
+        }).done(function (responseText) {
+          var case_ = responseText.case_details;
+          let arrGeneralTextInput = ["fname", "lname"] // "narration", fname
+          $("#fname").val(case_.fname)
+          $("#lname").val(case_.lname)
+          $("#age").val(case_.age)
+          $("#phone").val(case_.phone)
+          $("#ssn").val(case_.identityNumber)
+          $("#perpEmail").val(case_.email)
+          $("#fb").val(case_.facebook) //linkedin
+          $("#linkedin").val(case_.linkedin) //linkedin
+          if (case_.gender === "male") {
+            $("#gender_male").attr("checked", true)
+          } else {
+            $("#gender_female").attr("checked", true)
+          }
+          $(".wrapper").show()
+          $.unblockUI();
+        }).fail(function (jqXHR, exception) {
+          let error_string = jqXHR.responseJSON.error_string
+          $('#perpetrator_list').html(error_string)
+          $.unblockUI();
+          showInvalidDetailsError(error_string)
+        });
+      }
+    }
+
     $(document).ready(function () {
+      loadIncidents()
+      // $("#firstloader").hide()
+      //$('.wrapper').show()
       // Basic
       $('.dropify').dropify();
       // Used events

@@ -11,7 +11,7 @@
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
       style="display:none;visibility:hidden"></iframe>
   </noscript>
-  <div class="wrapper ">
+  <div class="wrapper "  style="display:none;">
     <% include ../partials/sidebar.ejs %>
     <div class="main-panel">
       <% include ../partials/nav.ejs %>
@@ -26,7 +26,7 @@
                       <i class="material-icons">assignment_ind</i>
                     </div>
                     <p class="card-category">Perpetrator</p>
-                    <h3 class="card-title" id="perpetrator_initials">Not Set</h3>
+                    <h3 class="card-title" id="perpetrator_initials">- - - </h3>
                   </div>
                   <div class="card-footer">
                   </div>
@@ -42,7 +42,7 @@
                       <i class="material-icons">location_city</i>
                     </div>
                     <p class="card-category">Company</p>
-                    <h3 class="card-title" id="company_name">Not Set</h3>
+                    <h3 class="card-title" id="company_name">- - -</h3>
                   </div>
                   <div class="card-footer">
                   </div>
@@ -160,15 +160,14 @@
 
 
     function loadIncidents() {
+      $.blockUI({
+               // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+                 message: '<div class="loading">Loading&#8230;</div>' 
+            });
       let initial_url = location.href;
       let url = initial_url.split('/');
       let caseId = url[4]
-      //console.log(caseId)
       if (typeof caseId !== "undefined" && caseId.length > 0) {
-        $.blockUI({
-          message: '<div class="lds-hourglass"></div><br>Processing...'
-        });
-        //return;
         $.ajax({
           crossOrigin: true,
           crossDomain: true,
@@ -182,12 +181,17 @@
           beforeSend: function (xhr) {}
         }).done(function (responseText) {
           let perpetratorShortName = responseText.case_details.fname.slice(0, 1) + ". "+responseText.case_details.lname.slice(0, 1);
-          let companyName = responseText.case_details.companyName.trim() == "" ? "Not Set" : responseText.case_details.companyName;
+          let companyName = responseText.case_details.companyName.trim() == "" ? " - - - " : responseText.case_details.companyName;
           $("#perpetrator_initials").html(perpetratorShortName)//
           $("#company_name").html(companyName)//perpetrator_initials 5e7615e9d30cbe41588b1bdf
           $("#new_incident_link").attr("href", "addincindent/"+responseText.case_details._id).show();//perpetrator_link
           $("#perpetrator_link").attr("href", "perpetrator/"+responseText.case_details._id).show();//
-          $("#company_link").attr("href", "company/"+responseText.case_details._id).show();//
+          if(responseText.case_details.caseType === "profesional_abuse"){
+            $("#company_link").attr("href", "company/"+responseText.case_details._id)
+          } else{
+            $("#company_link").removeAttr("href")
+          }
+         
           if(responseText.case_details.caseType !== "sexual_violence"){
 
           }
@@ -195,7 +199,7 @@
           let theTemplate = Handlebars.compile(theTemplateScript);
           let theCompiledHtml = "";
           if (responseText.incidents.length > 0) {
-            showInvalidDetailsSuc(responseText.response_string)
+          //  showInvalidDetailsSuc(responseText.response_string)
             $.each(responseText.incidents, function (i, item) {
               theCompiledHtml = theTemplate(item);
               $('#incidents_cont').prepend(theCompiledHtml);
@@ -204,7 +208,7 @@
             $('#incidents_cont').html("Hush...you do not have any incident under this case")
             $.unblockUI();
           }
-
+          $(".wrapper").show()
           $.unblockUI();
         }).fail(function (jqXHR, exception) {
           let error_string = jqXHR.responseJSON.error_string

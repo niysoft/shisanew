@@ -106,7 +106,8 @@
         let pattern = false;
         let isAccurate = true;
         let arrGeneralTextInput = ["caseId", "accessToken", "userId", "title", "date", "time", "location",
-            "howyoufeel"] // "narration",
+            "howyoufeel"
+        ] // "narration",
         //let arrGeneralTextAreat = ["howyoufeel" ]// "narration",
         $(formId + ' input').each(
             function (index) {
@@ -128,38 +129,48 @@
                                     pattern = /^[a-zA-Z]+$/.test(text)
                                     isAccurate = isAccurate && pattern;
                                     if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
                                     break;
 
                                 case "lname":
                                     pattern = /^[a-zA-Z]+$/.test(text)
                                     isAccurate = isAccurate && pattern;
                                     if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
                                     break;
 
                                 case "age": //ssm
                                     pattern = /^\+?(0|[1-9]\d*)$/.test(text);
                                     isAccurate = isAccurate && pattern;
                                     if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
                                     break;
 
                                 case "phone":
                                     pattern = /^\+?(0|[1-9]\d*)$/.test(text);
                                     isAccurate = isAccurate && pattern;
                                     if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
                                     break;
 
-                                case "perp_email":
+                                case "perpEmail":
                                     pattern =
                                         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                                         .test(text);
                                     isAccurate = isAccurate && pattern;
                                     if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
                                     break;
 
                                 case "ssn": //ssn
-                                    pattern = /^\+?(0|[1-9]\d*)$/.test(text);
-                                    isAccurate = isAccurate && pattern;
+                                    if (text.trim() == "") pattern = true;
+                                    else {
+                                        pattern = /^\+?(0|[1-9]\d*)$/.test(text);
+                                        isAccurate = isAccurate && pattern;
+                                    }
+
                                     if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
                                     break;
 
                                 case "fb": //linkedin
@@ -168,6 +179,7 @@
                                         pattern = false;
                                     isAccurate = isAccurate && pattern;
                                     if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
                                     break;
 
                                     // case "linkedin": //perp_email

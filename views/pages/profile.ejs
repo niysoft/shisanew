@@ -9,7 +9,7 @@
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0" style="display:none;visibility:hidden"></iframe>
   </noscript>
   <!-- End Google Tag Manager (noscript) -->
-  <div class="wrapper ">
+  <div class="wrapper" style="display:none;">
     <% include ../partials/sidebar.ejs %>
     <div class="main-panel">
       <% include ../partials/nav.ejs %>
@@ -20,13 +20,13 @@
             <div class="col-md-4">
               <div class="card card-profile">
                 <div class="card-avatar">
-                  <a href="#pablo">
+                  <a href="">
                     <img class="img" src="../../assets/img/default-avatar.png" />
                   </a>
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title">Alec Thompson</h4>
-                  <a href="#pablo" class="btn btn-rose btn-round">Update Image</a>
+                  <h4 class="card-title" id="user_fullname"> - - - </h4>
+                  <a href="" class="btn btn-rose btn-round">Update Image</a>
                 </div>
               </div>
             </div>
@@ -42,24 +42,24 @@
                 <div class="card-body">
                   <form>
                     <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">Email address</label>
-                          <input type="email" class="form-control">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Fist Name</label>
-                          <input type="text" class="form-control">
+                          <input type="text" class="form-control" id="fname" name="fname" value="&nbsp;">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="bmd-label-floating">Last Name</label>
-                          <input type="text" class="form-control">
+                          <input type="text" class="form-control" id="lname" name="lname"  value="&nbsp;">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Email address</label>
+                          <input type="email" class="form-control"  id="email" name="email"  value="&nbsp;">
                         </div>
                       </div>
                     </div>
@@ -67,7 +67,7 @@
                       <div class="col-md-12">
                         <div class="form-group">
                           <label class="bmd-label-floating">Address</label>
-                          <input type="text" class="form-control">
+                          <input type="text" class="form-control"   id="address" name="address"  value="&nbsp;">
                         </div>
                       </div>
                     </div>
@@ -81,43 +81,94 @@
           </div>
         </div>
       </div>
-      <footer class="footer">
-        <div class="container-fluid">
-          <nav class="float-left">
-            <ul>
-              <li>
-                <a href="https://www.creative-tim.com/">
-                  Creative Tim
-                </a>
-              </li>
-              <li>
-                <a href="https://creative-tim.com/presentation">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="http://blog.creative-tim.com/">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="https://www.creative-tim.com/license">
-                  Licenses
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com/" target="_blank">Creative Tim</a> for a better web.
-          </div>
-        </div>
-      </footer>
+      <% include ../partials/footer.ejs %>
     </div>
   </div>
   <% include ../partials/footer_script.ejs %>
+  <script>
+    function submitForm() { //  let abuseType = $('input:radio[name=caseType]').filter(":checked").val()
+      let isAccurate = valideForm("#editperpetrator");
+      if (!isAccurate) {
+        showInvalidDetailsError("Error! Invalid data detected. Please retry action")
+        return false;
+      } else {
+        $.blockUI({
+          // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+          message: '<div class="loading">Loading&#8230;</div>'
+        });
+        $("#editperpetrator").submit();
+      }
+    }
+    let initial_url = location.href;
+    let url = initial_url.split('/');
+    let caseId = url[4]
+
+    let formOptions = {
+      dataType: 'json',
+      // data:$('.generalUpload').serialize(),
+      data: { caseId: caseId },
+      beforeSubmit: function () {
+        $.blockUI({
+          // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+          message: '<div class="loading">Loading&#8230;</div>'
+        });
+      },
+      success: function (responseText, statusText, xhr, $form) {
+        //addincindent/de4cea81986375ba48d5acebd53248b0
+        //location.href = "addincindent/" + responseText.data._id
+        $.unblockUI();
+        showInvalidDetailsSuc(responseText.response_string)
+        // setTimeout(function () {
+        //   //location.href = baseUrl + "dashboard";
+        // }, 1000)
+      },
+      error: function (responseText, statusText, xhr, $form) {
+        let error_string = responseText.responseJSON.error_string
+        showInvalidDetailsError(error_string)
+        $.unblockUI()
+      }
+    };
+    $("#editperpetrator").ajaxForm(formOptions);
+
+    function loadProfile() {
+      $.blockUI({
+        // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+        message: '<div class="loading">Loading&#8230;</div>'
+      });
+        $.ajax({
+          crossOrigin: true,
+          crossDomain: true,
+          method: "POST",
+          url: ApiBaseUrl + "load_profile",
+          data: {
+            userId: getCookie("userId"),
+            accessToken: getCookie("accessToken"),
+          },
+          beforeSend: function (xhr) {}
+        }).done(function (responseText) {
+         
+          var profile = responseText.data;
+          //let arrGeneralTextInput = ["fname", "lname"] // "narration", fname
+          var names = profile.fullName.split(" ")
+          $("#user_fullname").html(profile.fullName)
+          $("#fname").val(names[0])
+          $("#lname").val(names[1])
+          $("#email").val(profile.email)
+          $("#address").val(profile.address)
+          $(".wrapper").show()
+          $.unblockUI();
+        }).fail(function (jqXHR, exception) {
+          let error_string = jqXHR.responseJSON.error_string
+         
+          showInvalidDetailsError(error_string)
+        });
+    //  }
+    }
+
+    $(document).ready(function () {
+      loadProfile()
+    
+    });
+  </script>
 </body>
 </html>

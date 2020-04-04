@@ -67,7 +67,7 @@
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
             style="display:none;visibility:hidden"></iframe>
     </noscript>
-    <div class="wrapper ">
+    <div class="wrapper" style="display:none;">
         <% include ../partials/sidebar.ejs %>
         <div class="main-panel">
             <% include ../partials/nav.ejs %>
@@ -75,14 +75,14 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <a href="perpetrator/acdfgstferetebennennen">
+                            <a href="" id="perpetrator_link">
                                 <div class="card card-stats">
                                     <div class="card-header card-header-rose card-header-icon">
                                         <div class="card-icon">
                                             <i class="material-icons">assignment_ind</i>
                                         </div>
                                         <p class="card-category">Perpetrator</p>
-                                        <h3 class="card-title" id="perpetrator_initials">Not Set</h3>
+                                        <h3 class="card-title" id="perpetrator_initials">- - -</h3>
                                     </div>
                                     <div class="card-footer">
                                     </div>
@@ -91,14 +91,14 @@
 
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <a href="company/acdfgstferetebennennen">
+                            <a href="" id="company_link">
                                 <div class="card card-stats">
                                     <div class="card-header card-header-success card-header-icon">
                                         <div class="card-icon">
                                             <i class="material-icons">location_city</i>
                                         </div>
                                         <p class="card-category">Company</p>
-                                        <h3 class="card-title" id="company_name">Not Set</h3>
+                                        <h3 class="card-title" id="company_name">- - - </h3>
                                     </div>
                                     <div class="card-footer">
                                     </div>
@@ -124,21 +124,22 @@
                                         <div class="col-md-6">
                                             <div class="form-group bmd-form-group">
                                                 <label class="bmd-label-floating">Incident Title</label>
-                                                <input type="text" class="form-control" value="&nbsp;" id="incident_title" disabled>
+                                                <input type="text" class="form-control" value="&nbsp;"
+                                                    id="incident_title" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group bmd-form-group">
                                                 <label class="bmd-label-floating">Date and Time of the incident</label>
-                                                <input type="text" class="form-control"  value="&nbsp;" id="incident_date_time"
-                                                    disabled>
+                                                <input type="text" class="form-control" value="&nbsp;"
+                                                    id="incident_date_time" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group bmd-form-group">
                                                 <label class="bmd-label-floating">Incident Location</label>
-                                                <input type="email" class="form-control"
-                                                value="&nbsp;" id="incident_location" disabled>
+                                                <input type="email" class="form-control" value="&nbsp;"
+                                                    id="incident_location" disabled>
                                             </div>
                                         </div>
 
@@ -149,7 +150,8 @@
                                                     <label class="bmd-label-floating">How the incident happened, what
                                                         transpired and possible
                                                         people as witnesses</label>
-                                                    <textarea class="form-control" disabled rows="10" id="incident_narration">
+                                                    <textarea class="form-control" disabled rows="10"
+                                                        id="incident_narration">
                                                     </textarea>
                                                 </div>
                                             </div>
@@ -171,8 +173,8 @@
                                                                 <div class="form-check bmd-form-group">
                                                                     <label class="form-check-label">
                                                                         <input class="form-check-input" type="radio"
-                                                                            name="abusetype" value="good"
-                                                                            checked="" disabled id="incident_howfeel_good">
+                                                                            name="abusetype" value="good" checked=""
+                                                                            disabled id="incident_howfeel_good">
                                                                         <p>
                                                                             Good <spa>(lorem ipsum is a placehold)</spa>
                                                                         </p>
@@ -186,8 +188,8 @@
                                                                 <div class="form-check bmd-form-group">
                                                                     <label class="form-check-label">
                                                                         <input class="form-check-input" type="radio"
-                                                                            name="abusetype"
-                                                                            value="bad" disabled id="incident_howfeel_bad">
+                                                                            name="abusetype" value="bad" disabled
+                                                                            id="incident_howfeel_bad">
                                                                         <p>Bad <spa>(lorem ipsum is a placehold)
                                                                             </spa>
                                                                         </p>
@@ -201,8 +203,8 @@
                                                                 <div class="form-check bmd-form-group">
                                                                     <label class="form-check-label">
                                                                         <input class="form-check-input" type="radio"
-                                                                            name="abusetype" value="terrible"
-                                                                            disabled id="incident_howfeel_terrible"> 
+                                                                            name="abusetype" value="terrible" disabled
+                                                                            id="incident_howfeel_terrible">
                                                                         <p>Terrible <spa>(lorem ipsum is a
                                                                                 placehold)</spa>
                                                                         </p>
@@ -213,11 +215,14 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-12" id="view_edit_btns" style="display: none;">
-                                                            <a href="#" onclick="{showPending(); return false;}" class="btn btn-rose"
+                                                        <div class="col-md-12" id="view_edit_btns"
+                                                            style="display: none;">
+                                                            <a href="#" onclick="{showPending(); return false;}"
+                                                                class="btn btn-rose"
                                                                 style="float:right;margin-right: 10px;margin-left: 10px;">Edit
                                                                 Incident</a>
-                                                            <a href="#" onclick="{showPending(); return false;}" class="btn btn-behance" style="float:right;">View
+                                                            <a href="#" onclick="{showPending(); return false;}"
+                                                                class="btn btn-behance" style="float:right;">View
                                                                 Readable</a>
                                                         </div>
                                                     </div>
@@ -249,15 +254,16 @@
 
 
             function loadIncidentsContent() {
+                $.blockUI({
+                    // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+                    message: '<div class="loading">Loading&#8230;</div>'
+                });
                 let initial_url = location.href;
                 let url = initial_url.split('/');
-                let caseId  = url[4]
-                let incidentId  = url[5]
+                let caseId = url[4]
+                let incidentId = url[5]
                 //console.log(caseId)
-                if (typeof incidentId  !== "undefined" && incidentId .length > 0) {
-                    $.blockUI({
-                        message: '<div class="lds-hourglass"></div><br>Processing...'
-                    });
+                if (typeof incidentId !== "undefined" && incidentId.length > 0) {
                     //return;
                     $.ajax({
                         crossOrigin: true,
@@ -268,29 +274,37 @@
                             userId: getCookie("userId"),
                             accessToken: getCookie("accessToken"),
                             incidentId: incidentId,
-                            caseId:caseId
+                            caseId: caseId
                         },
                         beforeSend: function (xhr) {}
                     }).done(function (responseText) {
                         if (responseText.incidents.length > 0) {
                             let perpetratorShortName = responseText.case_details.fname.slice(0, 1) + ". " +
-                            responseText.case_details.lname.slice(0, 1);
-                        let companyName = responseText.case_details.companyName.trim() == "" ? "Not Set" :
-                            responseText.case_details.companyName;
+                                responseText.case_details.lname.slice(0, 1);
+                            let companyName = responseText.case_details.companyName.trim() == "" ? "- - -" :
+                                responseText.case_details.companyName;
                             let incident = responseText.incidents[0]
-                        $("#perpetrator_initials").html(perpetratorShortName) //
-                        $("#company_name").html(companyName)
-                        $("#incident_title").val(incident.title)
-                        $("#incident_date_time").val(formatdate_(incident.date) + ((typeof incident.time !== "undefined") ?  " | "+incident.time : ""))
-                        $("#incident_location").val(incident.location)
-                        $("#incident_narration").html(incident.narration)
-                        $("input[name=abusetype][value=" + incident.howyoufeel + "]").prop('checked', true);
-                        $("#view_edit_btns").show()
+                            $("#perpetrator_initials").html(perpetratorShortName) //
+                            $("#company_name").html(companyName)
+                            $("#incident_title").val(incident.title)
+                            $("#incident_date_time").val(formatdate_(incident.date) + ((typeof incident.time !==
+                                "undefined") ? " | " + incident.time : ""))
+                            $("#incident_location").val(incident.location)
+                            $("#incident_narration").html(incident.narration)
+                            $("input[name=abusetype][value=" + incident.howyoufeel + "]").prop('checked', true);
+                            $("#view_edit_btns").show()
+                            $("#perpetrator_link").attr("href", "perpetrator/"+responseText.case_details._id).show();//
+                            if (responseText.case_details.caseType === "profesional_abuse") {
+                                $("#company_link").attr("href", "company/" + responseText.case_details._id)
+                            } else {
+                                $("#company_link").removeAttr("href")
+                            }
 
-                            showInvalidDetailsSuc(responseText.response_string)
+                            // showInvalidDetailsSuc(responseText.response_string)
                         } else {
                             $('#incidents_cont').html("Hush...you do not have any incident under this case")
                         }
+                        $(".wrapper").show()
                         $.unblockUI();
                     }).fail(function (jqXHR, exception) {
                         let error_string = jqXHR.responseJSON.error_string
@@ -298,6 +312,7 @@
                         $.unblockUI();
                         showInvalidDetailsError(error_string)
                     });
+
                 }
             }
 

@@ -48,8 +48,8 @@ module.exports.create_case = function (req, res) {//add_incident
             .then(user => {
                 if (user.length > 0) {
                     let case_ = new Case()
-                  //  userId, caseType, fname, lname, age, gender, phone, email, identityNumber, facebook, linkedin,
-                   // companyName, companySize, companyAddress, companyWebpage, companyFacebook, companyLinkedIn
+                    //  userId, caseType, fname, lname, age, gender, phone, email, identityNumber, facebook, linkedin,
+                    // companyName, companySize, companyAddress, companyWebpage, companyFacebook, companyLinkedIn
                     //companyName, companySize, companyAddress, companyWebpage, companyFacebook, companyLinkedIn
                     case_.createCase(
                         req.body.userId,
@@ -259,7 +259,7 @@ module.exports.load_incident_content = function (req, res) { //
                 if (user.length > 0) {
                     Case.find({ _id: req.body.caseId }) //{accessToken: req.body.accessToken}, {_id: req.body.playerId},
                         .then(cases => {
-                            Incident.find({ _id: req.body.incidentId}) //{accessToken: req.body.accessToken}, {_id: req.body.playerId},
+                            Incident.find({ _id: req.body.incidentId }) //{accessToken: req.body.accessToken}, {_id: req.body.playerId},
                                 .then(incid => {
                                     let SuccessResponse = {}
                                     // SuccessResponse.case_details = cases
@@ -280,6 +280,176 @@ module.exports.load_incident_content = function (req, res) { //
                 }
             }).catch(function (err) {
                 handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
+            });
+    }
+}
+
+module.exports.edit_perpetrator = function (req, res) { //edit_company
+    let missingRequestFlag = false
+    let userTypes = [req.body.userId, req.body.accessToken, req.body.caseId, req.body.fname, req.body.lname, req.body.age, req.body.gender]
+    let userTypes_ = [req.body.phone, req.body.perpEmail, req.body.ssn, req.body.fb, req.body.linkedin]
+    let issueField = ""
+    for (let i = 0; i < userTypes.length; i++) {
+        if (!isSet(userTypes[i]) || userTypes[i].trim() == "") {
+            missingRequestFlag = true
+            break
+        }
+    }
+    for (let i = 0; i < userTypes_.length; i++) {
+        if (!isSet(userTypes_[i])) {
+            missingRequestFlag = true
+            break
+        }
+    }
+    if (missingRequestFlag) {//one mandatory fields ommited
+        handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
+    } else {
+        User.find({
+            $and: [{
+                accessToken: req.body.accessToken,
+                _id: req.body.userId
+            }]
+        })
+            .then(user => {
+                if (user.length > 0) {
+                    //console.log(req.body); return;
+                    let query = Case.findOneAndUpdate({
+                        _id: req.body.caseId
+                    }, {
+                        $set: {
+                            fname: req.body.fname,
+                            lname: req.body.lname,
+                            age: req.body.age,
+                            gender: req.body.gender,
+                            phone: req.body.phone,
+                            email: req.body.perpEmail,
+                            identityNumber: req.body.ssn,
+                            facebook: req.body.fb,
+                            linkedin: req.body.linkedin,
+                        }
+                    }, {
+                        new: true
+                    })
+                    query.exec().then(function (doc) { // <- this is the Promise interface.
+                        if (doc != null) {
+                            //doc.password = null
+                            SuccessResponse.data = doc
+                            SuccessResponse.response_string = "Success! Perpetrator updated successfully."
+                            res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
+                        } else {
+                            handleErrorServer(null, res, "Error! perpetrator could not be updated at the moment. Please retry")
+                        }
+                    }, function (err) {
+                        //console.log(err)
+                        handleErrorServer(null, res, "Error! Details could not be updated at the moment. Please retry")
+                    })
+                } else {
+                    handleErrorServer(null, res, "Error! Invalid login credentials. Please retry")
+                }
+            })
+            .catch(function (err) {
+                handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
+            });
+    }
+}
+
+module.exports.edit_company = function (req, res) { //edit_company
+    let missingRequestFlag = false
+    let userTypes = [req.body.userId, req.body.accessToken, req.body.caseId, req.body.companyName, req.body.companySize, req.body.companyAddress]
+    let userTypes_ = [req.body.companyWebpage, req.body.companyFacebook, req.body.companyLinkedIn]
+    for (let i = 0; i < userTypes.length; i++) {
+        if (!isSet(userTypes[i]) || userTypes[i].trim() == "") {
+            missingRequestFlag = true
+            break
+        }
+    }
+    for (let i = 0; i < userTypes_.length; i++) {
+        if (!isSet(userTypes_[i])) {
+            missingRequestFlag = true
+            break
+        }
+    }
+    if (missingRequestFlag) {//one mandatory fields ommited
+        console.log(req.body); return;
+        handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
+    } else {
+        User.find({
+            $and: [{
+                accessToken: req.body.accessToken,
+                _id: req.body.userId
+            }]
+        })
+            .then(user => {
+                if (user.length > 0) {
+                    //console.log(req.body); return;
+                    let query = Case.findOneAndUpdate({
+                        _id: req.body.caseId
+                    }, {
+                        $set: {
+                            companyName: req.body.companyName,
+                            companySize: req.body.companySize,
+                            companyAddress: req.body.companyAddress,
+                            companyWebpage: req.body.companyWebpage,
+                            companyFacebook: req.body.companyFacebook,
+                            companyLinkedIn: req.body.companyLinkedIn
+                        }
+                    }, {
+                        new: true
+                    })
+                    query.exec().then(function (doc) { // <- this is the Promise interface.
+                        if (doc != null) {
+                            //doc.password = null
+                            SuccessResponse.data = doc
+                            SuccessResponse.response_string = "Success! Company updated successfully."
+                            res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
+                        } else {
+                            handleErrorServer(null, res, "Error! Company could not be updated at the moment. Please retry")
+                        }
+                    }, function (err) {
+                        //console.log(err)
+                        handleErrorServer(null, res, "Error! Details could not be updated at the moment. Please retry")
+                    })
+                } else {
+                    handleErrorServer(null, res, "Error! Invalid login credentials. Please retry")
+                }
+            })
+            .catch(function (err) {
+                handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
+            });
+    }
+}
+
+module.exports.load_profile = function (req, res) { //load_incident_content
+    let missingRequestFlag = false
+    let userTypes = [req.body.userId, req.body.accessToken]
+    for (let i = 0; i < userTypes.length; i++) {
+        if (!isSet(userTypes[i]) || userTypes[i].trim() == "") {
+            missingRequestFlag = true
+            break
+        }
+    }
+    if (missingRequestFlag) {//one mandatory fields ommited
+        handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
+    } else {
+        User.find({
+            $and: [{
+                accessToken: req.body.accessToken,
+                _id: req.body.userId
+            }]
+        })
+            .then(user => {
+                if (user.length > 0) {
+                    SuccessResponse.status = true
+                    SuccessResponse.response_string = "Success! Profile loaded successfully"
+                    user[0].password = null
+                    SuccessResponse.data = user[0]
+                    // handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
+                    res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)//SUCCESS_RESPONSE_CODE
+                } else {
+                    handleErrorServer(null, res, "Error! Invalid credentials. Please retry your action")
+                }
+            }).catch(function (err) {
+                handleErrorServer(null, res, err.message)
             });
     }
 }

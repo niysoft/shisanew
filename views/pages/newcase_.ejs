@@ -4,6 +4,9 @@
 
 <head>
   <% include ../partials/header_.ejs %>
+  <style>
+
+  </style>
 </head>
 
 <body class="">
@@ -11,8 +14,7 @@
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
       style="display:none;visibility:hidden"></iframe>
   </noscript>
-  <div class="loading" id="firstloader">Loading&#8230;</div>
-  <div class="wrapper" style="display:none;">
+  <div class="wrapper" style="height:auto">
     <% include ../partials/sidebar.ejs %>
     <div class="main-panel">
       <% include ../partials/nav.ejs %>
@@ -158,7 +160,7 @@
                             </div>
                             <div class="col-md-6">
                               <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Identity Number (SSN or others)</label>
+                                <label class="bmd-label-floating">Identity Number (SSN or others)*</label>
                                 <input type="text" name="ssn" id="ssn" class="form-control">
                                 <div class="error-message">Invalid Identity Number</div>
                               </div>
@@ -251,8 +253,12 @@
           </div>
         </div>
       </div>
-      <% include ../partials/footer.ejs %>
     </div>
+
+  </div>
+  </div>
+  <% include ../partials/footer.ejs %>
+  </div>
   </div>
   <% <!--include ../partials/theme_bar.ejs--> %>
   <% include ../partials/footer_script.ejs %>
@@ -292,7 +298,7 @@
         let abuseType = $('input:radio[name=caseType]').filter(":checked").val()
         if (abuseType === "profesional_abuse") {
           let isAccurate_ = validateCompanyForm();
-         // console.log(isAccurate_)
+          console.log(isAccurate_)
           if (isAccurate_) {
             $.blockUI({
               message: '<div class="lds-hourglass"></div><br>Processing...'
@@ -317,9 +323,8 @@
       // data:$('.generalUpload').serialize(),
       beforeSubmit: function () {
         $.blockUI({
-               // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
-                 message: '<div class="loading">Loading&#8230;</div>' 
-            });
+          message: '<div class="lds-hourglass"></div>'
+        });
       },
       success: function (responseText, statusText, xhr, $form) {
         //addincindent/de4cea81986375ba48d5acebd53248b0
@@ -339,8 +344,6 @@
     $("#creat-case-form").ajaxForm(formOptions);
 
     $(document).ready(function () {
-      $("#firstloader").hide()
-      $('.wrapper').show()
       $('input:radio[name=caseType]').change(function () { //$('input:radio[name=theme]')
         let selectType = $(this).val()
         if (selectType == "profesional_abuse") {
@@ -348,6 +351,8 @@
         } else {
           $("#company_cont").slideUp(100)
         }
+        //company_cont
+        //console.log($(this).val())
       });
 
       $('.dropify').dropify();
@@ -360,7 +365,7 @@
       drEvent.on('dropify.afterClear', function (event, element) {
         alert('File deleted');
       });
-     });
+    });
   </script>
 </body>
 

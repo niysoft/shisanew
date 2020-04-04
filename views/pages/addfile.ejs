@@ -56,7 +56,7 @@
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
       style="display:none;visibility:hidden"></iframe>
   </noscript>
-  <div class="wrapper ">
+  <div class="wrapper" style="display:none;">
     <% include ../partials/sidebar.ejs %>
     <div class="main-panel">
       <% include ../partials/nav.ejs %>
@@ -184,8 +184,8 @@
         console.log(caseId)
         if (typeof caseId !== "undefined" && caseId.length > 0) {
           $.blockUI({
-            message: '<div class="lds-hourglass"></div><br>Processing...'
-          });
+                 message: '<div class="loading">Loading&#8230;</div>' 
+            });
           //return;
           $.ajax({
             crossOrigin: true,
@@ -207,6 +207,7 @@
             $("#company_name").html(companyName) //perpetrator_initials 5e7615e9d30cbe41588b1bdf
             $("#upload_later_link").attr("href", "case/"+responseText.case_details._id).show();
             $.unblockUI();
+            $('.wrapper').show()
           }).fail(function (jqXHR, exception) {
             let error_string = jqXHR.responseJSON.error_string
             $('#perpetrator_list').html(error_string)

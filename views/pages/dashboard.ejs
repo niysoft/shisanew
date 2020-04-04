@@ -16,13 +16,14 @@
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
             style="display:none;visibility:hidden"></iframe>
     </noscript>
-    <div class="wrapper ">
+    <div class="loading" id="firstloader" style="display: none;">Loading&#8230;</div>
+    <div class="wrapper" style="display:none;">
         <% include ../partials/sidebar.ejs %>
         <div class="main-panel">
             <% include ../partials/nav.ejs %>
             <div class="content">
                 <div class="container-fluid">
-                    <% include ../partials/stats.ejs %>
+                   
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card ">
@@ -86,12 +87,14 @@
     <% include ../partials/footer_script.ejs %>
     <script>
         $(document).ready(function () {
-            loadCases();
+           loadCases();
         })
 
         function loadCases() {
+            //$("#firstloader").hide();
             $.blockUI({
-                message: '<div class="lds-hourglass"></div><br>Processing...'
+               // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+                 message: '<div class="loading">Loading&#8230;</div>' 
             });
             $.ajax({
                 crossOrigin: true,
@@ -109,7 +112,7 @@
                 var theTemplate = Handlebars.compile(theTemplateScript);
                 var theCompiledHtml = "";
                 if(responseText.data.length > 0){
-                    showInvalidDetailsSuc(responseText.response_string)
+                    //showInvalidDetailsSuc(responseText.response_string)
                     $.each(responseText.data, function (i, item) {
                     theCompiledHtml = theTemplate(item);
                     $('#perpetrator_list').prepend(theCompiledHtml);
@@ -118,12 +121,12 @@
                     $('#perpetrator_list').html("Hush...you do have any case yet")
                     $.unblockUI();
                 }
-               
+               $(".wrapper").show()
                $.unblockUI();
             }).fail(function (jqXHR, exception) {
                 let error_string = jqXHR.responseJSON.error_string
                 $('#perpetrator_list').html(error_string)
-                $.unblockUI();
+               // $.unblockUI();
                 showInvalidDetailsError(error_string)
             });
         }
