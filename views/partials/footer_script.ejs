@@ -147,7 +147,7 @@
                                     break;
 
                                 case "phone":
-                                if (text.trim() == "") pattern = true;
+                                    if (text.trim() == "") pattern = true;
                                     else {
                                         pattern = /^\+?(0|[1-9]\d*)$/.test(text);
                                     }
@@ -156,12 +156,12 @@
                                     else input.siblings(".error-message").hide(200);
                                     break;
 
-                                case "perpEmail":
-                                if (text.trim() == "") pattern = true;
+                                case "perpEmail": //useremail
+                                    if (text.trim() == "") pattern = true;
                                     else {
                                         pattern =
-                                        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                                        .test(text);
+                                            /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                                            .test(text);
                                     }
                                     isAccurate = isAccurate && pattern;
                                     if (!pattern) input.siblings(".error-message").show(300);
@@ -178,13 +178,22 @@
                                     else input.siblings(".error-message").hide(200);
                                     break;
 
-                                case "fb": 
-                                if (text.trim() == "") pattern = true;
+                                case "fb":
+                                    if (text.trim() == "") pattern = true;
                                     else {
                                         if (!text.toLowerCase().includes(
-                                            "www.facebook.com")) //&& !text.toLowerCase().includes("fb.com"))
-                                        pattern = false;
+                                                "www.facebook.com")) //&& !text.toLowerCase().includes("fb.com"))
+                                            pattern = false;
                                     }
+                                    isAccurate = isAccurate && pattern;
+                                    if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
+                                    break;
+
+                                case "useremail": //useremail
+                                    pattern =
+                                        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                                        .test(text);
                                     isAccurate = isAccurate && pattern;
                                     if (!pattern) input.siblings(".error-message").show(300);
                                     else input.siblings(".error-message").hide(200);

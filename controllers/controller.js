@@ -445,6 +445,71 @@ module.exports.load_profile = function (req, res) { //load_incident_content
     }
 }
 
+module.exports.update_profile = function (req, res) { //update_profile
+    //console.log(req.body)
+    //return
+    let missingRequestFlag = false
+    let userTypes = [req.body.userId, req.body.accessToken, req.body.fname, req.body.lname, req.body.useremail]
+    let userTypes_ = [req.body.address]
+    console.log(req.body)
+    for (let i = 0; i < userTypes.length; i++) {
+        if (!isSet(userTypes[i]) || userTypes[i].trim() == "") {
+            missingRequestFlag = true
+            break
+        }
+    }
+    for (let i = 0; i < userTypes_.length; i++) {
+        if (!isSet(userTypes_[i])) {
+            missingRequestFlag = true
+            break
+        }
+    }
+    if (missingRequestFlag) {
+        handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
+    } else {
+        User.find({
+            $and: [{
+                accessToken: req.body.accessToken,
+                _id: req.body.userId
+            }]
+        })
+            .then(user => {
+                if (user.length > 0) {
+                    let query = User.findOneAndUpdate({
+                        accessToken: req.body.accessToken,
+                    }, {
+                        $set: {
+                            fullName:  req.body.fname + " " + req.body.lname,
+                            email: req.body.useremail,
+                            address: req.body.address,
+                        }
+                    }, {
+                        new: true
+                    })
+                    query.exec().then(function (doc) { // <- this is the Promise interface.
+                        console.log(doc)
+                        if (doc != null) {
+                            //doc.password = null
+                            SuccessResponse.data = doc
+                            SuccessResponse.response_string = "Success! Profile updated successfully."
+                            res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
+                        } else {
+                            handleErrorServer(null, res, "Error! Profile could not be updated at the moment. Please retry")
+                        }
+                    }, function (err) {
+                        //console.log(err)
+                        handleErrorServer(null, res, "Error! Profile could not be updated at the moment. Please retry")
+                    })
+                } else {
+                    handleErrorServer(null, res, "Error! Invalid login credentials. Please retry")
+                }
+            })
+            .catch(function (err) {
+                handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
+            });
+    }
+}
+
 module.exports.simple_signup_self = function (req, res) {
     if (isSet(req.body.fullName) && isSet(req.body.phone) && isSet(req.body.email)) {
         let userTypes = ["direct", "notdirect", "superagent"]
@@ -944,42 +1009,42 @@ module.exports.complete_update_phone = function (req, res) {
         handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
     }
 } //complete_update_phone
-module.exports.update_profile = function (req, res) {
-    if (isSet(req.body.accessToken) && isSet(req.body.fullName) && isSet(req.body.email) &&
-        isSet(req.body.bankName) && isSet(req.body.bankAccountNum)) {
-        let accessToken = req.body.accessToken.trim()
-        let fullName = req.body.fullName
-        let email = req.body.email
-        let bankName = req.body.bankName
-        let bankAccountNum = req.body.bankAccountNum
-        let query = User.findOneAndUpdate({
-            accessToken: accessToken
-        }, {
-            $set: {
-                fullName: fullName,
-                email: email,
-                bankName: bankName,
-                bankAccountNum: bankAccountNum
-            }
-        }, {
-            new: true
-        })
-        query.exec().then(function (doc) { // <- this is the Promise interface.
-            if (doc != null) {
-                doc.password = null
-                SuccessResponse.data = doc
-                SuccessResponse.response_string = "Success! Details update successfully."
-                res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
-            } else {
-                handleErrorServer(null, res, "Error! Details could not be updated at the moment. Please retry")
-            }
-        }, function (err) {
-            handleErrorServer(err, res, "Error! Details could not be updated at the moment. Please retry")
-        })
-    } else {
-        handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
-    }
-}
+// module.exports.update_profile = function (req, res) {
+//     if (isSet(req.body.accessToken) && isSet(req.body.fullName) && isSet(req.body.email) &&
+//         isSet(req.body.bankName) && isSet(req.body.bankAccountNum)) {
+//         let accessToken = req.body.accessToken.trim()
+//         let fullName = req.body.fullName
+//         let email = req.body.email
+//         let bankName = req.body.bankName
+//         let bankAccountNum = req.body.bankAccountNum
+//         let query = User.findOneAndUpdate({
+//             accessToken: accessToken
+//         }, {
+//             $set: {
+//                 fullName: fullName,
+//                 email: email,
+//                 bankName: bankName,
+//                 bankAccountNum: bankAccountNum
+//             }
+//         }, {
+//             new: true
+//         })
+//         query.exec().then(function (doc) { // <- this is the Promise interface.
+//             if (doc != null) {
+//                 doc.password = null
+//                 SuccessResponse.data = doc
+//                 SuccessResponse.response_string = "Success! Details update successfully."
+//                 res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
+//             } else {
+//                 handleErrorServer(null, res, "Error! Details could not be updated at the moment. Please retry")
+//             }
+//         }, function (err) {
+//             handleErrorServer(err, res, "Error! Details could not be updated at the moment. Please retry")
+//         })
+//     } else {
+//         handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
+//     }
+// }
 module.exports.update_password = function (req, res) {
     if (isSet(req.body.accessToken) && isSet(req.body.currentPassword) && isSet(req.body.newPassword)) {
         let accessToken = req.body.accessToken.trim()

@@ -71,6 +71,7 @@ UserSchema.methods.createUser = function (fullName, userId, phone, email, passwo
     this.userId = userId
     this.phone = phone
     this.email = email
+    this.address = address
     this.password = password
     this.singleFlag = singleFlag
     this.superAgent = superAgent

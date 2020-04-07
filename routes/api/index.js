@@ -44,7 +44,8 @@ routes.post('/load_incidents', userController.load_incidents);//load_incident_co
 routes.post('/load_incident_content', userController.load_incident_content);//
 routes.post('/edit_perpetrator', userController.edit_perpetrator);//edit_company
 routes.post('/edit_company', userController.edit_company);//load_profile
-routes.post('/load_profile', userController.load_profile);//load_profile
+routes.post('/load_profile', userController.load_profile);//update_profile
+routes.post('/update_profile', userController.update_profile);//update_profile
 
 
 routes.post('/simple_signup', userController.simple_signup);
@@ -56,7 +57,7 @@ routes.post('/load_details', userController.load_details); //
 routes.post('/logout', userController.logout);
 routes.post('/start_update_phone', userController.start_update_phone);
 routes.post('/complete_update_phone', userController.complete_update_phone);
-routes.post('/update_profile', userController.update_profile);
+//routes.post('/update_profile', userController.update_profile);
 routes.post('/update_password', userController.update_password);
 routes.post('/reset_password', userController.reset_password);
 

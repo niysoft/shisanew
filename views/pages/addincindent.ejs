@@ -18,7 +18,7 @@
       style="display:none;visibility:hidden"></iframe>
   </noscript>
   <div class="loading" id="firstloader"">Loading&#8230;</div>
-  <div class="wrapper" style="display:none;">
+  <div class=" wrapper" style="display:none;">
     <% include ../partials/sidebar.ejs %>
     <div class="main-panel">
       <% include ../partials/nav.ejs %>
@@ -81,7 +81,7 @@
                     <div class="col-md-4">
                       <div class="form-group bmd-form-group">
                         <label class="bmd-label-floating">Date of incident</label>
-                        <input type="text" name="date" class="form-control datepicker" value="10/06/2018">
+                        <input type="text" id="currentdate" name="date" class="form-control datepicker" value="01/04/2020">
                         <div class="error-message">Invalid date</div>
                       </div>
                     </div>
@@ -208,17 +208,25 @@
           },
           beforeSend: function (xhr) {}
         }).done(function (responseText) {
-          let perpetratorShortName = responseText.case_details.fname.slice(0, 1) + ". "+responseText.case_details.lname.slice(0, 1);
-          let companyName = responseText.case_details.companyName.trim() == "" ? "Not Set" : responseText.case_details.companyName;
-          $("#perpetrator_initials").html(perpetratorShortName)//
-          $("#company_name").html(companyName)//perpetrator_initials 5e7615e9d30cbe41588b1bdf
-          $("#new_incident_link").attr("href", "addincindent/"+responseText.case_details._id).show();
-          $("#firstloader").hide();//$.unblockUI();
+          let perpetratorShortName = responseText.case_details.fname.slice(0, 1) + ". " + responseText.case_details
+            .lname.slice(0, 1);
+          let companyName = responseText.case_details.companyName.trim() == "" ? "Not Set" : responseText
+            .case_details.companyName;
+          $("#perpetrator_initials").html(perpetratorShortName) //
+          $("#company_name").html(companyName) //perpetrator_initials 5e7615e9d30cbe41588b1bdf
+          $("#new_incident_link").attr("href", "addincindent/" + responseText.case_details._id).show();
+          $("#firstloader").hide(); //$.unblockUI();
+
+          var now = new Date();
+          var today =  (now.getMonth() + 1) + '/' +now.getDate() + '/' + now.getFullYear();
+         // alert(today);
+          $('#currentdate').val(today);
+
           $('.wrapper').show()
         }).fail(function (jqXHR, exception) {
           let error_string = jqXHR.responseJSON.error_string
           $('#perpetrator_list').html(error_string)
-          $("#firstloader").hide()//$.unblockUI();
+          $("#firstloader").hide() //$.unblockUI();
           showInvalidDetailsError(error_string)
         });
       }
@@ -254,15 +262,16 @@
       // data:$('.generalUpload').serialize(),
       beforeSubmit: function () {
         $.blockUI({
-          message: '<div class="lds-hourglass"></div>'
+          // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+          message: '<div class="loading">Loading&#8230;</div>'
         });
       },
       success: function (responseText, statusText, xhr, $form) {
         $.unblockUI();
         showInvalidDetailsSuc(responseText.response_string)
         setTimeout(function () { //ase/5e7615e9d30cbe41588b1bdf
-         // location.href = baseUrl + "case/"+caseId;
-          location.href = baseUrl + "addfile/"+caseId+"/"+responseText.data._id;
+          // location.href = baseUrl + "case/"+caseId;
+          location.href = baseUrl + "addfile/" + caseId + "/" + responseText.data._id;
         }, 1000)
       },
       error: function (responseText, statusText, xhr, $form) {

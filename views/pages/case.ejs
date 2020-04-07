@@ -12,7 +12,7 @@
       style="display:none;visibility:hidden"></iframe>
   </noscript>
   <div class="loading" id="firstloader"">Loading&#8230;</div>
-  <div class="wrapper"  style="display:none;">
+  <div class=" wrapper" style="display:none;">
     <% include ../partials/sidebar.ejs %>
     <div class="main-panel">
       <% include ../partials/nav.ejs %>
@@ -106,8 +106,8 @@
                       </div>
                       <div class="col-md-12">
                         <input class="submit" value="Validate &amp; Send the form!" style="display: none;">
-                        <a id="new_incident_link" href="addincindent/5e7615e9d30cbe41588b1bdf" class="btn btn-rose" 
-                        style="float:right;color:white;display: none;">New Incident
+                        <a id="new_incident_link" href="addincindent/5e7615e9d30cbe41588b1bdf" class="btn btn-rose"
+                          style="float:right;color:white;display: none;">New Incident
                         </a>
                       </div>
                     </div>
@@ -150,14 +150,17 @@
       let timeComponent = date.utc().format('HH:mm:ss');
       //console.log(dateComponent);
       //console.log(timeComponent);
-      return humanizeDate(dateComponent) + " | " + timeComponent;
+      var out = (new Date(str)).toString().split(" ") //return
+      console.log(out)
+      return out[0] + "-" + out[2] + ", " + out[1] + " | " + out[3];
+        // return humanizeDate(dateComponent) + " | " + timeComponent;
     });
 
-    function initializeCaseDetails(){
+    function initializeCaseDetails() {
 
     }
 
-   
+
 
 
     function loadIncidents() {
@@ -181,26 +184,29 @@
           },
           beforeSend: function (xhr) {}
         }).done(function (responseText) {
-          let perpetratorShortName = responseText.case_details.fname.slice(0, 1) + ". "+responseText.case_details.lname.slice(0, 1);
-          let companyName = responseText.case_details.companyName.trim() == "" ? " - - - " : responseText.case_details.companyName;
-          $("#perpetrator_initials").html(perpetratorShortName)//
-          $("#company_name").html(companyName)//perpetrator_initials 5e7615e9d30cbe41588b1bdf
-          $("#new_incident_link").attr("href", "addincindent/"+responseText.case_details._id).show();//perpetrator_link
-          $("#perpetrator_link").attr("href", "perpetrator/"+responseText.case_details._id).show();//
-          if(responseText.case_details.caseType === "profesional_abuse"){
-            $("#company_link").attr("href", "company/"+responseText.case_details._id)
-          } else{
+          let perpetratorShortName = responseText.case_details.fname.slice(0, 1) + ". " + responseText.case_details
+            .lname.slice(0, 1);
+          let companyName = responseText.case_details.companyName.trim() == "" ? " - - - " : responseText
+            .case_details.companyName;
+          $("#perpetrator_initials").html(perpetratorShortName) //
+          $("#company_name").html(companyName) //perpetrator_initials 5e7615e9d30cbe41588b1bdf
+          $("#new_incident_link").attr("href", "addincindent/" + responseText.case_details._id)
+        .show(); //perpetrator_link
+          $("#perpetrator_link").attr("href", "perpetrator/" + responseText.case_details._id).show(); //
+          if (responseText.case_details.caseType === "profesional_abuse") {
+            $("#company_link").attr("href", "company/" + responseText.case_details._id)
+          } else {
             $("#company_link").removeAttr("href")
           }
-         
-          if(responseText.case_details.caseType !== "sexual_violence"){
+
+          if (responseText.case_details.caseType !== "sexual_violence") {
 
           }
           let theTemplateScript = $("#incident-template").html();
           let theTemplate = Handlebars.compile(theTemplateScript);
           let theCompiledHtml = "";
           if (responseText.incidents.length > 0) {
-          //  showInvalidDetailsSuc(responseText.response_string)
+            //  showInvalidDetailsSuc(responseText.response_string)
             $.each(responseText.incidents, function (i, item) {
               theCompiledHtml = theTemplate(item);
               $('#incidents_cont').prepend(theCompiledHtml);
@@ -211,12 +217,12 @@
           }
           $("#firstloader").hide()
           $(".wrapper").show()
-         // $.unblockUI();
+          // $.unblockUI();
         }).fail(function (jqXHR, exception) {
           let error_string = jqXHR.responseJSON.error_string
           $('#perpetrator_list').html(error_string)
           $("#firstloader").hide()
-         // $.unblockUI();
+          // $.unblockUI();
           showInvalidDetailsError(error_string)
         });
       }
