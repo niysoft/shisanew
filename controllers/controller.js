@@ -155,7 +155,13 @@ module.exports.load_incidents = function (req, res) { //load_incident_content
                 Case.find({ _id: req.body.caseId }) //{accessToken: req.body.accessToken}, {_id: req.body.playerId},
                     .then(cases => {
 
-                        Incident.find({ caseId: req.body.caseId }) //{accessToken: req.body.accessToken}, {_id: req.body.playerId},
+                        Incident.find(
+                            {
+                                $and: [{
+                                    caseId: req.body.caseId,
+                                    deleted:{'$ne':true}//deleted: true
+                                }]
+                            }) //{accessToken: req.body.accessToken}, {_id: req.body.playerId},
                             .then(incid => {
                                 let SuccessResponse = {}
                                 // SuccessResponse.case_details = cases
@@ -608,11 +614,11 @@ module.exports.delete_incident = function (req, res) { //delete_incident
                             SuccessResponse.response_string = "Success! Incident deleted successfully."
                             res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
                         } else {
-                            handleErrorServer(null, res, "Error! Incident could not be deleted at the moment. Please retry")
+                            handleErrorServer(null, res, "Error! Case could not be deleted at the moment. Please retry")
                         }
                     }, function (err) {
                         //console.log(err)
-                        handleErrorServer(null, res, "Error! Incident could not be deleted at the moment. Please retry")
+                        handleErrorServer(null, res, "Error! Case could not be deleted at the moment. Please retry")
                     })
                 } else {
                     handleErrorServer(null, res, "Error! Invalid login credentials. Please retry")
