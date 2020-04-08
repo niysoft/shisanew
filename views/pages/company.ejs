@@ -96,8 +96,18 @@
   <% <!--include ../partials/theme_bar.ejs--> %>
   <% include ../partials/footer_script.ejs %>
   <script>
+      //  let isAccurate_ = validateCompanyForm();
+      //    // console.log(isAccurate_)
+      //     if (isAccurate_) {
+      //       $.blockUI({
+      //         message: '<div class="lds-hourglass"></div><br>Processing...'
+      //       });
+      //       $("#creat-case-form").submit();
+      //     } 
+
     function submitForm() { //  let abuseType = $('input:radio[name=caseType]').filter(":checked").val()
-      let isAccurate = valideForm("#editperpetrator");
+      //let isAccurate = valideForm("#editperpetrator");
+       let isAccurate = validateCompanyForm();
       if (!isAccurate) {
         showInvalidDetailsError("Error! Invalid data detected. Please retry action")
         return false;

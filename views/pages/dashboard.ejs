@@ -23,7 +23,7 @@
             <% include ../partials/nav.ejs %>
             <div class="content">
                 <div class="container-fluid">
-                   
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card ">
@@ -35,15 +35,16 @@
 
                                 <div class="card-body" style="margin-top: -30px;">
                                     <div style="margin-bottom: 10px;">
-                                        <div class=" float-right"
+                                        <!-- <div class=" float-right"
                                           style="height: 40px;width: 40px;background: #ccc;border-radius: 20px;cursor: pointer;">
                                           <i class="material-icons delete-mails" style="padding:9px;" onclick="{showPending();}">delete</i>
-                                        </div>
-                                        <!-- <div class=" float-right"
-                                          style="height: 40px;width: 40px;background: #ccc;border-radius: 20px;cursor: pointer;margin-right: 20px;">
-                                          <i class="material-icons delete-mails" style="padding:9px;" onclick="{showPending();}">share</i>
                                         </div> -->
-                                      </div>
+                                        <div class=" float-right"
+                                            style="height: 40px;width: 40px;background: #ccc;border-radius: 20px;cursor: pointer;">
+                                            <i class="material-icons delete-mails" style="padding:9px;"
+                                                onclick="{showPending();}">share</i>
+                                        </div>
+                                    </div>
                                     <!-- <div>
                                         <i class="material-icons delete-mails float-right">share</i>
                                        <i class="material-icons delete-mails float-right"
@@ -56,7 +57,7 @@
                                         <hr>
                                         <div class="col-sm-12" id="perpetrator_list">
                                             <script id="address-template" type="text/x-handlebars-template">
-                                                <div>
+                                                <div class="case_{{_id}}">
                                                     <div class="form-check">
                                                         <label class="form-check-label form-check-label_">
                                                             <input class="form-check-input" type="checkbox" value="">
@@ -73,12 +74,11 @@
     
                                                         </a>
                                                         <div style="cursor: pointer;float:right;margin-top: -5px;">
-                                                            <i class="material-icons delete-mails" onclick="{showPending();}">delete</i>
+                                                            <i class="material-icons delete-mails" fullname="{{fname }} {{lname}}" id="{{_id}}" onclick="{ConfirmCaseDelete(this);}">delete</i>
                                                           </div>
                                                     </div>
-                                                   
                                                 </div>
-                                                <hr>
+                                                <hr class="case_{{_id}}">
                                                 <!-- <p>You can find me in {{city}}. My address is {{number}} {{street}}.</p> -->
                                       </script>
                                         </div>
@@ -96,10 +96,6 @@
     <% <!--include ../partials/theme_bar.ejs--> %>
     <% include ../partials/footer_script.ejs %>
     <script>
-        $(document).ready(function () {
-           loadCases();
-        })
-
         function loadCases() {
             //$("#firstloader").hide();
             // $.blockUI({
@@ -115,32 +111,87 @@
                     userId: getCookie("userId"),
                     accessToken: getCookie("accessToken"),
                 },
-                beforeSend: function (xhr) {
-                }
+                beforeSend: function (xhr) {}
             }).done(function (responseText) {
                 var theTemplateScript = $("#address-template").html();
                 var theTemplate = Handlebars.compile(theTemplateScript);
                 var theCompiledHtml = "";
-                if(responseText.data.length > 0){
-                    //showInvalidDetailsSuc(responseText.response_string)
+                if (responseText.data.length > 0) {
                     $.each(responseText.data, function (i, item) {
-                    theCompiledHtml = theTemplate(item);
-                    $('#perpetrator_list').prepend(theCompiledHtml);
-                });
+                        theCompiledHtml = theTemplate(item);
+                        $('#perpetrator_list').prepend(theCompiledHtml);
+                    });
                 } else {
                     $('#perpetrator_list').html("Hush...you do have any case yet")
                     $.unblockUI();
                 }
                 $("#firstloader").hide();
-               $(".wrapper").show()
-              // $.unblockUI();
+                $(".wrapper").show()
+                // $.unblockUI();
             }).fail(function (jqXHR, exception) {
                 let error_string = jqXHR.responseJSON.error_string
                 $('#perpetrator_list').html(error_string)
-               // $.unblockUI();
+                // $.unblockUI();
                 showInvalidDetailsError(error_string)
             });
         }
+
+        function ConfirmCaseDelete(e) {
+            // console.log($(e).attr("id"))
+            let fullname = $(e).attr("fullname")
+            let id = $(e).attr("id")
+            Swal.fire({
+                title: 'Are you sure?',
+                html: "You are delete a case with <b style='color:red'>" + fullname +
+                    "</b> as perpetrator. This action is not reversible.!",
+                icon: 'warning',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    deleteCase(id);
+                    // Swal.fire(
+                    //     'Deleted!',
+                    //     'Your file has been deleted.',
+                    //     'success'
+                    // )
+                }
+            })
+        }
+
+        function deleteCase(id) {
+            $.blockUI({
+                message: '<div class="loading">Loading&#8230;</div>'
+            });
+            $.ajax({
+                crossOrigin: true,
+                crossDomain: true,
+                method: "POST",
+                url: ApiBaseUrl + "delete_case",
+                data: {
+                    caseId: id,
+                    userId: getCookie("userId"),
+                    accessToken: getCookie("accessToken"),
+                },
+                beforeSend: function (xhr) {}
+            }).done(function (responseText) {
+                $.unblockUI();
+                $(".case_"+id).slideUp(300)//.remove();//$("."+id).slideUp(300)
+                showInvalidDetailsSuc(responseText.response_string)
+            }).fail(function (jqXHR, exception) {
+                let error_string = jqXHR.responseJSON.error_string
+               // $('#perpetrator_list').html(error_string)
+                $.unblockUI();
+                showInvalidDetailsError(error_string)
+            });
+        }
+
+        $(document).ready(function () {
+            loadCases();
+        })
     </script>
 </body>
 

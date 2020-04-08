@@ -78,6 +78,8 @@
         return humanizeDate(dateComponent);
     }
 
+  
+
     function showPending() {
         Swal.fire({
             title: 'Feature Pending',
@@ -101,6 +103,26 @@
         })
     }
 
+
+    function validateCompanyForm() {
+        let pattern = true;
+        let isAccurate = true;
+        let arrGeneralTextInput = ["companyName", "companySize"] //
+        for (let x = 0; x < arrGeneralTextInput.length; x++) {
+            let vals = $('#' + arrGeneralTextInput[x]).val();
+            if (vals.trim().length === 0) {
+                $('#' + arrGeneralTextInput[x]).siblings(".error-message").show()
+                pattern = false
+            }
+            isAccurate = isAccurate && pattern
+        }
+        if (!(/^\+?(0|[1-9]\d*)$/.test($('#companySize').val()))) {
+            $('#companySize').siblings(".error-message").show()
+            isAccurate = false;
+        }
+        // console.log(pattern)
+        return isAccurate
+    }
 
     function valideForm(formId) {
         let pattern = false;
@@ -139,7 +161,7 @@
                                     else input.siblings(".error-message").hide(200);
                                     break;
 
-                                case "age": //ssm
+                                case "age": //ssm 
                                     pattern = /^\+?(0|[1-9]\d*)$/.test(text);
                                     isAccurate = isAccurate && pattern;
                                     if (!pattern) input.siblings(".error-message").show(300);

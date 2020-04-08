@@ -165,7 +165,7 @@
                             </div>
                             <div class="col-md-6">
                               <div class="form-group bmd-form-group">
-                                <label class="bmd-label-floating">Facebook Profile*</label>
+                                <label class="bmd-label-floating">Facebook Profile</label>
                                 <input type="text" name="fb" id="fb" class="form-control">
                                 <div class="error-message">Invalid Facebook url</div>
                               </div>
@@ -263,25 +263,6 @@
     let formId = "#creat-case-form";
 
 
-    function validateCompanyForm() {
-      let pattern = true;
-      let isAccurate = true;
-      let arrGeneralTextInput = ["companyName", "companySize"]//
-      for (let x = 0; x < arrGeneralTextInput.length; x++) {
-        let vals = $('#' + arrGeneralTextInput[x]).val();
-        if (vals.trim().length === 0) {
-          $('#' + arrGeneralTextInput[x]).siblings(".error-message").show()
-          pattern = false
-        }
-        isAccurate = isAccurate && pattern
-      }
-      if (!(/^\+?(0|[1-9]\d*)$/.test($('#companySize').val()))) {
-        $('#companySize').siblings(".error-message").show()
-        isAccurate = false;
-      }
-      // console.log(pattern)
-      return isAccurate
-    }
 
     function submitForm() { //  let abuseType = $('input:radio[name=caseType]').filter(":checked").val()
       let isAccurate = valideForm(formId);

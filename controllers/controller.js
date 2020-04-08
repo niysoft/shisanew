@@ -106,11 +106,17 @@ module.exports.load_cases = function (req, res) { //load_incidents
     } else {
         User.find({
             $and: [{
-                accessToken: req.body.accessToken
+                accessToken: req.body.accessToken,
+                _id: req.body.userId
             }]
-        })
+        })//{'session.channel':{'$ne':k+''}}
             .then(user => {
-                Case.find({ userId: req.body.userId }) //{accessToken: req.body.accessToken}, {_id: req.body.playerId},
+                Case.find({
+                    $and: [{
+                        userId: req.body.userId,
+                        deleted:{'$ne':true}//deleted: true
+                    }]
+                }) //{accessToken: req.body.accessToken}, {_id: req.body.playerId},
                     .then(perpetrator => {
                         let SuccessResponse = {}
                         SuccessResponse.status = true
@@ -361,7 +367,7 @@ module.exports.edit_company = function (req, res) { //edit_company
         }
     }
     if (missingRequestFlag) {//one mandatory fields ommited
-       // console.log(req.body); return;
+        // console.log(req.body); return;
         handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
     } else {
         User.find({
@@ -479,7 +485,7 @@ module.exports.update_profile = function (req, res) { //update_profile
                         accessToken: req.body.accessToken,
                     }, {
                         $set: {
-                            fullName:  req.body.fname + " " + req.body.lname,
+                            fullName: req.body.fname + " " + req.body.lname,
                             email: req.body.useremail,
                             address: req.body.address,
                         }
@@ -499,6 +505,114 @@ module.exports.update_profile = function (req, res) { //update_profile
                     }, function (err) {
                         //console.log(err)
                         handleErrorServer(null, res, "Error! Profile could not be updated at the moment. Please retry")
+                    })
+                } else {
+                    handleErrorServer(null, res, "Error! Invalid login credentials. Please retry")
+                }
+            })
+            .catch(function (err) {
+                handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
+            });
+    }
+}
+
+module.exports.delete_case = function (req, res) { //delete_incident
+    let missingRequestFlag = false
+    let userTypes = [req.body.userId, req.body.accessToken, req.body.caseId]
+    for (let i = 0; i < userTypes.length; i++) {
+        if (!isSet(userTypes[i]) || userTypes[i].trim() == "") {
+            missingRequestFlag = true
+            break
+        }
+    }
+    if (missingRequestFlag) {
+        handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
+    } else {
+        User.find({
+            $and: [{
+                accessToken: req.body.accessToken,
+                _id: req.body.userId
+            }]
+        })
+            .then(user => {
+                if (user.length > 0) {
+                    let query = Case.findOneAndUpdate({
+                        _id: req.body.caseId,
+                    }, {
+                        $set: {
+                            deleted: true,
+                            deleteDate: new Date()
+                        }
+                    }, {
+                        new: true
+                    })
+                    query.exec().then(function (doc) { // <- this is the Promise interface.
+                        // console.log(doc)
+                        if (doc != null) {
+                            //doc.password = null
+                            SuccessResponse.data = doc
+                            SuccessResponse.response_string = "Success! Case deleted successfully."
+                            res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
+                        } else {
+                            handleErrorServer(null, res, "Error! Case could not be deleted at the moment. Please retry")
+                        }
+                    }, function (err) {
+                        //console.log(err)
+                        handleErrorServer(null, res, "Error! Case could not be deleted at the moment. Please retry")
+                    })
+                } else {
+                    handleErrorServer(null, res, "Error! Invalid login credentials. Please retry")
+                }
+            })
+            .catch(function (err) {
+                handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
+            });
+    }
+}
+
+module.exports.delete_incident = function (req, res) { //delete_incident
+    let missingRequestFlag = false
+    let userTypes = [req.body.userId, req.body.accessToken, req.body.incidentId]
+    for (let i = 0; i < userTypes.length; i++) {
+        if (!isSet(userTypes[i]) || userTypes[i].trim() == "") {
+            missingRequestFlag = true
+            break
+        }
+    }
+    if (missingRequestFlag) {
+        handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
+    } else {
+        User.find({
+            $and: [{
+                accessToken: req.body.accessToken,
+                _id: req.body.userId
+            }]
+        })
+            .then(user => {
+                if (user.length > 0) {
+                    let query = Incident.findOneAndUpdate({
+                        _id: req.body.incidentId,
+                    }, {
+                        $set: {
+                            deleted: true,
+                            deleteDate: new Date()
+                        }
+                    }, {
+                        new: true
+                    })
+                    query.exec().then(function (doc) { // <- this is the Promise interface.
+                        // console.log(doc)
+                        if (doc != null) {
+                            //doc.password = null
+                            SuccessResponse.data = doc
+                            SuccessResponse.response_string = "Success! Incident deleted successfully."
+                            res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
+                        } else {
+                            handleErrorServer(null, res, "Error! Incident could not be deleted at the moment. Please retry")
+                        }
+                    }, function (err) {
+                        //console.log(err)
+                        handleErrorServer(null, res, "Error! Incident could not be deleted at the moment. Please retry")
                     })
                 } else {
                     handleErrorServer(null, res, "Error! Invalid login credentials. Please retry")
@@ -1389,7 +1503,8 @@ module.exports.edit_game = function (req, res) {
         handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
     }
 }
-module.exports.delete_game = function (req, res) { //
+
+module.exports.delete_game = function (req, res) { //delete_incident
     if (isSet(req.body._id)) {
         let _id = req.body._id
         let schema = Joi.object().keys({
@@ -1416,6 +1531,7 @@ module.exports.delete_game = function (req, res) { //
         handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
     }
 }
+
 module.exports.load_games = function (req, res) {
     if (isSet(req.body.date) && isSet(req.body.playerId) && isSet(req.body.gameType)) {
         let date = req.body.date.split("-")

@@ -45,7 +45,9 @@ routes.post('/load_incident_content', userController.load_incident_content);//
 routes.post('/edit_perpetrator', userController.edit_perpetrator);//edit_company
 routes.post('/edit_company', userController.edit_company);//load_profile
 routes.post('/load_profile', userController.load_profile);//update_profile
-routes.post('/update_profile', userController.update_profile);//update_profile
+routes.post('/update_profile', userController.update_profile);//delete_case
+routes.delete('/delete_case', userController.delete_case);//
+routes.delete('/delete_incident', userController.delete_incident);//delete_incident
 
 
 routes.post('/simple_signup', userController.simple_signup);

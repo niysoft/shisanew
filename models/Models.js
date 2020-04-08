@@ -169,6 +169,8 @@ const CaseSchema = new Schema({
     companyWebpage: { type: String, default: "" },
     companyFacebook: { type: String, default: "" },
     companyLinkedIn: { type: String, default: "" },
+    deleted:{type:Boolean, default: false},
+    deleteDate: {type: String, default: "" }
 }, { timestamps: true });
 
 CaseSchema.methods.createCase = function (
@@ -191,6 +193,7 @@ CaseSchema.methods.createCase = function (
     this.companyWebpage = companyWebpage
     this.companyFacebook = companyFacebook
     this.companyLinkedIn = companyLinkedIn
+    this.deleted = false
 
 }
 
@@ -208,6 +211,8 @@ const IncidentSchema = new Schema({
     videos: { type: Array, "default": [] },
     audio: { type: Array, "default": [] },
     howyoufeel: { type: String, default: "" },
+    deleted:{type:Boolean, default: false},
+    deleteDate: {type: String, default: "" }
 }, { timestamps: true });
 
 IncidentSchema.methods.createIncident = function (
@@ -223,6 +228,7 @@ IncidentSchema.methods.createIncident = function (
     // this.videos = videos
     // this.audio = audio
     this.howyoufeel = howyoufeel
+    this.deleted = false
 }
 
 const TransactionSchema = new Schema({
