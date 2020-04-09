@@ -97,10 +97,10 @@
                             </label>
                           </a>
                         </div>
-                        <a  class="{{_id}}" title="{{title}}" id="{{_id}}" onclick="{ConfirmIncidentDelete(this);}">
+                        <a  class="{{_id}}">
                           <p class="black_text no_margin_bottom incident_list_text">
                             <!-- <i class="material-icons float-right">image</i> -->
-                            <i class="material-icons float-right delete_icons">delete</i>
+                            <i class="material-icons float-right delete_icons"  title="{{title}}"  id="{{_id}}" onclick="{ConfirmIncidentDelete(this);}">delete</i>
                            {{capitalize narration}}
                             <div style="float:right;">
                               {{formatdate date}}
@@ -113,10 +113,10 @@
                       <div class="col-sm-12" id="incidents_cont">
                       </div>
                       <div class="col-md-12">
-                        <input class="submit" value="Validate &amp; Send the form!" style="display: none;">
-                        <a id="new_incident_link" href="" class="btn btn-rose"
-                          style="float:right;color:white;display: none;">New Incident
+                        <a href="#"  onclick="{history.back();return false;}"  class="btn btn-default" style="float:left;color:white;"> 
+                          < &nbsp;&nbsp;&nbsp;Back
                         </a>
+                        <a id="new_incident_link" href="" class="btn btn-rose" style="float:right;color:white;;">New Incident</a>
                       </div>
                     </div>
                   <!-- </form> -->

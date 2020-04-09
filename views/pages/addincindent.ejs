@@ -26,6 +26,7 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-6">
+              <a href="" id="perpetrator_link">
               <div class="card card-stats">
                 <div class="card-header card-header-rose card-header-icon">
                   <div class="card-icon">
@@ -37,8 +38,10 @@
                 <div class="card-footer">
                 </div>
               </div>
+              </a>
             </div>
             <div class="col-md-6">
+              <a href="" id="company_link">
               <div class="card card-stats">
                 <div class="card-header card-header-success card-header-icon">
                   <div class="card-icon">
@@ -50,6 +53,7 @@
                 <div class="card-footer">
                 </div>
               </div>
+              </a>
             </div>
           </div>
         </div>
@@ -163,6 +167,9 @@
                         </div>
                       </div>
                       <div class="col-md-12">
+                        <a href="#"  onclick="{history.back();return false;}"  class="btn btn-default" style="float:left;color:white;"> 
+                          < &nbsp;&nbsp;&nbsp;Back
+                        </a>
                         <input class="submit" value="Validate &amp; Send the form!" style="display: none;">
                         <a class="btn btn-rose" style="float:right;color:white" onclick="{ submitForm()}">Add Incident &
                           Continue
@@ -217,10 +224,18 @@
           $("#new_incident_link").attr("href", "addincindent/" + responseText.case_details._id).show();
           $("#firstloader").hide(); //$.unblockUI();
 
+          $("#perpetrator_link").attr("href", "perpetrator/" + responseText.case_details._id).show(); //
+          if (responseText.case_details.caseType === "profesional_abuse") {
+            $("#company_link").attr("href", "company/" + responseText.case_details._id)
+          } else {
+            $("#company_link").removeAttr("href")
+          }
+          
           var now = new Date();
           var today =  (now.getMonth() + 1) + '/' +now.getDate() + '/' + now.getFullYear();
          // alert(today);
           $('#currentdate').val(today);
+
 
           $('.wrapper').show()
         }).fail(function (jqXHR, exception) {

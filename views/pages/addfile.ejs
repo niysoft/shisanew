@@ -112,49 +112,18 @@
                         <input type="hidden" name="caseId" value="<%= userData.data.caseId %>" />
                         <input type="hidden" name="incidentId" value="<%= userData.data.incidentId %>" />
                         <form>
-                          <!--<div id="menu-outer">
-                            <div class="table">
-                              <ul id="horizontal-list">
-                                <li>
-                                  <div class="delete_image_btn_cont">
-                                    <i class="material-icons delete_image_btn">clear</i>
-                                  </div>
-                                  <img src="regdter35343_hdtdgsbsvfer_1582018600943.jpg" alt="list item 1" class="existing_image_each"/>
-                                </li>
-                                <li><img src="regdter35343_hdtdgsbsvfer_1582018600943.jpg" alt="list item 1" class="existing_image_each"/></li>
-                                <li><a href="#"><img src="regdter35343_hdtdgsbsvfer_1582018600943.jpg" alt="list item 1" class="existing_image_each"/></a></li>
-                                <li><a href="#"><img src="regdter35343_hdtdgsbsvfer_1582018600943.jpg" alt="list item 1" class="existing_image_each"/></a></li>
-                                <li><a href="#"><img src="regdter35343_hdtdgsbsvfer_1582018600943.jpg" alt="list item 1" class="existing_image_each"/></a></li>
-                                <li><a href="#"><img src="regdter35343_hdtdgsbsvfer_1582018600943.jpg" alt="list item 1" class="existing_image_each"/></a></li>
-                              </ul>
-                            </div>
-                          </div>-->
                           <hr>
-                          <!--<div class="col-md-12">
-                            <h6 class="footer-title">Images</h6>
-                            <label for="input-file-now">
-                              Click to upload images</label>
-                            <input type="file" multiple id="" class="dropify" data-default-file="" />
-                            <hr>
-                            <hr>
-                          </div>
-                          <div class="col-md-12">
-
-                            <h6 class="footer-title">Videos</h6>
-                            <label for="input-file-now"> Click to upload vedios</label>
-                            <input type="file" multiple id="input-file-now" class="dropify" data-default-file="" />
-                          </div>-->
-
                     </div>
                     <hr>
-                    <!-- <div class="col-md-12"><br>
-                      <a href="addincindent/de4cea81986375ba48d5acebd53248b0" class="btn btn-rose"
-                        style="float:right;">Upload Evidences ></a>
-                    </div> -->
                     <div class="col-md-12">
-                    <a href="" class="btn btn-rose" style="float:right;margin-right: 10px;margin-left: 10px;" onclick="{return false;}">Upload Evidences</a> 
-                      <a href="" id="upload_later_link" class="btn btn-behance" style="float:right;">Upload File later<div class="ripple-container"></div></a>
-                  </div>
+                      <a href="#"  onclick="{history.back();return false;}"  class="btn btn-default" style="float:left;color:white;"> 
+                        < &nbsp;&nbsp;&nbsp;Back
+                      </a>
+                      <a href="" class="btn btn-rose" style="float:right;margin-right: 10px;margin-left: 10px;"
+                        onclick="{return false;}">Upload Evidences</a>
+                      <a href="" id="upload_later_link" class="btn btn-behance" style="float:right;">Upload File later
+                        <div class="ripple-container"></div></a>
+                    </div>
                     <hr>
                     <div class="clearfix"></div>
                   </div>
@@ -184,8 +153,8 @@
         console.log(caseId)
         if (typeof caseId !== "undefined" && caseId.length > 0) {
           $.blockUI({
-                 message: '<div class="loading">Loading&#8230;</div>' 
-            });
+            message: '<div class="loading">Loading&#8230;</div>'
+          });
           //return;
           $.ajax({
             crossOrigin: true,
@@ -205,7 +174,7 @@
               .case_details.companyName;
             $("#perpetrator_initials").html(perpetratorShortName) //
             $("#company_name").html(companyName) //perpetrator_initials 5e7615e9d30cbe41588b1bdf
-            $("#upload_later_link").attr("href", "case/"+responseText.case_details._id).show();
+            $("#upload_later_link").attr("href", "case/" + responseText.case_details._id).show();
             $.unblockUI();
             $('.wrapper').show()
           }).fail(function (jqXHR, exception) {
