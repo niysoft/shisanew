@@ -17,7 +17,7 @@
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-4">
+            <!-- <div class="col-md-4" style="visibility: gone;">
               <div class="card card-profile">
                 <div class="card-avatar">
                   <a>
@@ -25,12 +25,12 @@
                   </a>
                 </div>
                 <div class="card-body">
-                  <!-- <h4 class="card-title" id="user_fullname"> - - - </h4> -->
+                   <h4 class="card-title" id="user_fullname"> - - - </h4> --
                   <a href="" class="btn btn-rose btn-round">Update Image</a>
                 </div>
               </div>
-            </div>
-            <div class="col-md-8">
+            </div> -->
+            <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-icon card-header-rose">
                   <div class="card-icon">
@@ -79,7 +79,7 @@
                       </div>
                     </div>
                    <a class="btn btn-rose" onclick="{submitForm(); return false}"
-                          style="float:right;color:white">Update Company<div class="ripple-container"></div></a>
+                          style="float:right;color:white">Update Profile<div class="ripple-container"></div></a>
                     <div class="clearfix"></div>
                   </form>
                 </div>
@@ -126,6 +126,8 @@
       success: function (responseText, statusText, xhr, $form) {
         //addincindent/de4cea81986375ba48d5acebd53248b0
         //location.href = "addincindent/" + responseText.data._id
+        $("#fullname_area").text(responseText.data.fullName)
+        setCookie("userData", JSON.stringify(responseText));
         $.unblockUI();
         showInvalidDetailsSuc(responseText.response_string)
         // setTimeout(function () {

@@ -501,7 +501,7 @@ module.exports.update_profile = function (req, res) { //update_profile
                     query.exec().then(function (doc) { // <- this is the Promise interface.
                         console.log(doc)
                         if (doc != null) {
-                            //doc.password = null
+                            doc.password = null
                             SuccessResponse.data = doc
                             SuccessResponse.response_string = "Success! Profile updated successfully."
                             res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)

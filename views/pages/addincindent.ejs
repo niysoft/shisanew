@@ -215,8 +215,7 @@
           },
           beforeSend: function (xhr) {}
         }).done(function (responseText) {
-          let perpetratorShortName = responseText.case_details.fname.slice(0, 1) + ". " + responseText.case_details
-            .lname.slice(0, 1);
+          let perpetratorShortName = responseText.case_details.fname.slice(0, 1) + ". " + responseText.case_details.lname.slice(0, 1);
           let companyName = responseText.case_details.companyName.trim() == "" ? "Not Set" : responseText
             .case_details.companyName;
           $("#perpetrator_initials").html(perpetratorShortName) //
@@ -230,13 +229,11 @@
           } else {
             $("#company_link").removeAttr("href")
           }
-          
+
           var now = new Date();
           var today =  (now.getMonth() + 1) + '/' +now.getDate() + '/' + now.getFullYear();
          // alert(today);
           $('#currentdate').val(today);
-
-
           $('.wrapper').show()
         }).fail(function (jqXHR, exception) {
           let error_string = jqXHR.responseJSON.error_string
