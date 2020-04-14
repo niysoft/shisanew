@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
+<head>
+  <% include ../partials/header_.ejs %>
+  <style>
+    #menu-outer {
+
+      background: url(images/bar-bg.jpg) repeat-x;
+    }
+
+    .table {
+      display: table;
+      /* Allow the centering to work */
+      margin: 0 auto;
+    }
+
+    ul#horizontal-list {
+      height: auto;
+      min-width: 696px;
+      list-style: none;
+      padding-top: 20px;
+      padding-left: 0;
+    }
+
+    ul#horizontal-list li {
+      display: inline;
+    }
+
+    .existing_image_each {
+      max-height: 100px;
+      margin-right: 10px;
+    }
+
+    .delete_image_btn {
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .delete_image_btn_cont {
+      position: absolute;
+      left: 82px;
+      margin-top: 3px;
+      background-color: rgba(0, 0, 0, .5);
+      height: 30px;
+      width: 30px;
+      border-radius: 15px
+    }
+  </style>
+</head>
+
+<body class="">
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <div class="wrapper" style="display:none;">
+    <% include ../partials/sidebar.ejs %>
+    <div class="main-panel">
+      <% include ../partials/nav.ejs %>
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-rose card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">assignment_ind</i>
+                  </div>
+                  <p class="card-category">Perpetrator</p>
+                  <h3 class="card-title" id="perpetrator_initials">Not Set</h3>
+                </div>
+                <div class="card-footer">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-success card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">location_city</i>
+                  </div>
+                  <p class="card-category">Company</p>
+                  <h3 class="card-title" id="company_name">Not Set</h3>
+                </div>
+                <div class="card-footer">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-info card-header-text">
+                  <div class="card-text">
+                    <h4 class="card-title">Add Evidences</h4>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h6 class="footer-title">Evidences</h6>
+                      <form method="post" enctype="multipart/form-data" action="api/upload_files" id="add_image_form">
+                        <div class="input-field">
+                          <!-- <input type="file" name="images" multiple/> -->
+                          <div class="input-images-1" style="padding-top: .5rem;"></div>
+                        </div>
+                        <input type="hidden" name="caseId" value="<%= userData.data.caseId %>" />
+                        <input type="hidden" name="incidentId" value="<%= userData.data.incidentId %>" />
+                        <input type="hidden" name="userId" id="userId" value="" />
+                        <input type="hidden" name="accessToken" id="accessToken" value="" />
+                        <form>
+                          <hr>
+                    </div>
+                    <hr>
+                    <div class="col-md-12">
+                      <a href="#" onclick="{history.back();return false;}" class="btn btn-default"
+                        style="float:left;color:white;">
+                        < &nbsp;&nbsp;&nbsp;Back </a> <a href="" class="btn btn-rose"
+                          style="float:right;margin-right: 10px;margin-left: 10px;"
+                          onclick="{submitImage(); return false;}">Upload
+                          Evidences
+                      </a>
+                      <a href="" id="upload_later_link" class="btn btn-behance" style="float:right;">Upload File later
+                        <div class="ripple-container"></div></a>
+                    </div>
+                    <hr>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <% include ../partials/footer.ejs %>
+      </div>
+    </div>
+    <% <!--include ../partials/theme_bar.ejs--> %>
+    <% include ../partials/footer_script.ejs %>
+    <script>
+      String.prototype.trimRight = function (charlist) {
+        if (charlist === undefined)
+          charlist = "\/";
+
+        return this.replace(new RegExp("[" + charlist + "]+$"), "");
+      };
+
+      function showRequest(formData, jqForm, options) {
+        $.blockUI({
+          message: '<div class="loading">Loading&#8230;</div>'
+        });
+        // formData is an array; here we use $.param to convert it to a string to display it 
+        // but the form plugin does this for you automatically when it submits the data 
+        var queryString = $.param(formData);
+        console.log(queryString)
+
+        // jqForm is a jQuery object encapsulating the form element.  To access the 
+        // DOM element for the form do this: 
+        // var formElement = jqForm[0]; 
+
+        //alert('About to submit: \n\n' + queryString);
+
+        // here we could return false to prevent the form from being submitted; 
+        // returning anything other than false will allow the form submit to continue 
+        return true;
+      }
+
+      // post-submit callback 
+      function showResponse(responseText, statusText, xhr, $form) {
+        cognsole.lo(123456789)
+        // for normal html responses, the first argument to the success callback 
+        // is the XMLHttpRequest object's responseText property 
+
+        // if the ajaxSubmit method was passed an Options Object with the dataType 
+        // property set to 'xml' then the first argument to the success callback 
+        // is the XMLHttpRequest object's responseXML property 
+
+        // if the ajaxSubmit method was passed an Options Object with the dataType 
+        // property set to 'json' then the first argument to the success callback 
+        // is the json data object returned by the server 
+        $.unblockUI()
+        // alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
+        //   '\n\nThe output div should have already been updated with the responseText.');
+      }
+
+      function showError() {
+        alert(0)
+      }
+
+      function submitImage() {
+        $('#add_image_form').submit();
+      }
+
+      function loadIncidents() {
+        let initial_url = location.href;
+        let url = initial_url.split('/');
+        let caseId = url[4]
+        console.log(caseId)
+        if (typeof caseId !== "undefined" && caseId.length > 0) {
+          $.blockUI({
+            message: '<div class="loading">Loading&#8230;</div>'
+          });
+          //return;
+          $.ajax({
+            crossOrigin: true,
+            crossDomain: true,
+            method: "POST",
+            url: ApiBaseUrl + "load_incidents",
+            data: {
+              userId: getCookie("userId"),
+              accessToken: getCookie("accessToken"),
+              caseId: caseId
+            },
+            beforeSend: function (xhr) {}
+          }).done(function (responseText) {
+            let perpetratorShortName = responseText.case_details.fname.slice(0, 1) + ". " + responseText
+              .case_details.lname.slice(0, 1);
+            let companyName = responseText.case_details.companyName.trim() == "" ? "Not Set" : responseText
+              .case_details.companyName;
+            $("#perpetrator_initials").html(perpetratorShortName) //
+            $("#company_name").html(companyName) //perpetrator_initials 5e7615e9d30cbe41588b1bdf
+            $("#upload_later_link").attr("href", "case/" + responseText.case_details._id).show();
+
+            $("#userId").val(getCookie("userId")),
+              $("#accessToken").val(getCookie("accessToken")),
+              $.unblockUI();
+            $('.wrapper').show()
+          }).fail(function (jqXHR, exception) {
+            let error_string = jqXHR.responseJSON.error_string
+            $('#perpetrator_list').html(error_string)
+            $.unblockUI();
+            showInvalidDetailsError(error_string)
+          });
+        }
+      }
+
+      //$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+      $(document).ready(function () {
+        loadIncidents()
+        let url = location.href.toLowerCase().trimRight().split("/")
+        let caseId = url[4]
+        let incidentId = url[5]
+        //console.log(url)
+        var options = {
+          headers: {
+            "caseid": caseId,
+            "incidentid": incidentId,
+            "email": "badmus200@gmail.com"
+          },
+          data: {
+            "accessToken": getCookie("accessToken"),
+            "userId": getCookie("userId"),
+          },
+          target: '#output2', // target element(s) to be updated with server response 
+          beforeSubmit: showRequest, // pre-submit callback 
+          cache: false,
+          success: showResponse, // post-submit callback 
+          error: showError,
+          // crossOrigin: true,
+          // crossDomain:true
+          // resetForm: true
+
+          // other available options: 
+          //url:       url         // override for form's 'action' attribute 
+          //type:      type        // 'get' or 'post', override for form's 'method' attribute 
+          //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
+          //clearForm: true        // clear all form fields after successful submit 
+          //resetForm: true        // reset the form after successful submit 
+
+          // $.ajax options can be used here too, for example: 
+          //timeout:   3000 
+        };
+
+        // bind to the form's submit event 
+        $("#add_image_form").on('submit', (function (e) {
+          e.preventDefault();
+          $.blockUI({
+            message: '<div class="loading">Loading&#8230;</div>'
+          });
+          $.ajax({
+            url: "api/upload_files",
+            type: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+              $.unblockUI();
+            },
+            error: function (data) {
+              $.unblockUI();
+              console.log(data)
+            }
+          });
+        }));
+
+        // $('#add_image_form').submit(function () {
+        //   $(this).ajaxSubmit(options);
+        //   return false;
+        // });
+
+        $('.input-images-1').imageUploader({
+          id: "add_incident_image"
+        });
+
+        // $("#add_incident_image").on("change", function () {
+        //   $('#add_image_form').submit();
+        //   //alert($(this).files.length);
+        // })
+        //$('.dropify').dropify();
+        // Used events
+        // var drEvent = $('.dropify-event').dropify();
+        // drEvent.on('dropify.beforeClear', function (event, element) {
+        //   return confirm("Do you really want to delete \"" + element.filename + "\" ?");
+        // });
+
+        // drEvent.on('dropify.afterClear', function (event, element) {
+        //   alert('File deleted');
+        // });
+      });
+    </script>
+</body>
+
+</html>

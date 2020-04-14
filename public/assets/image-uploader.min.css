@@ -52,8 +52,8 @@
 
 .image-uploader .uploaded .uploaded-image {
     display: inline-block;
-    width: calc(16.6666667% - 1rem);
-    padding-bottom: calc(16.6666667% - 1rem);
+    width: calc(10% - 1rem);/* calc(16.6666667% - 1rem);*/
+    padding-bottom: calc(10% - 1rem);
     height: 0;
     position: relative;
     margin: .5rem;
