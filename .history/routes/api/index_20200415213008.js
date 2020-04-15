@@ -6,9 +6,9 @@ const storage = multer.diskStorage({
         // if (!fs.existsSync(dir)) {
         //     fs.mkdirSync(dir);
         //   }
-        cb(null, 'uploads')
-       /// path.resolve(__dirname, 'build')
-       // cb(null, path.resolve(__dirname, 'uploads'))
+        cb(null, 'uploads/')
+       / path.resolve(__dirname, 'build')
+        scb(null, path.resolve(__dirname, 'uploads'))
     },
     // fileFilter: function (req, file, callback) {
     //     var ext = path.extname(file.originalname);

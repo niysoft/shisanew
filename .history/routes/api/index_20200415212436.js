@@ -3,12 +3,12 @@ const userController = require('../../controllers/controller.js')
 const multer = require('multer')
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        // if (!fs.existsSync(dir)) {
-        //     fs.mkdirSync(dir);
-        //   }
-        cb(null, 'uploads')
-       /// path.resolve(__dirname, 'build')
-       // cb(null, path.resolve(__dirname, 'uploads'))
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir);
+          }
+       // cb(null, 'uploads/')
+        path.resolve(__dirname, 'build')
+        cb(null, path.resolve(__dirname, 'uploads'))
     },
     // fileFilter: function (req, file, callback) {
     //     var ext = path.extname(file.originalname);

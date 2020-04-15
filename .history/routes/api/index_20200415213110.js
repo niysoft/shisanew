@@ -6,7 +6,7 @@ const storage = multer.diskStorage({
         // if (!fs.existsSync(dir)) {
         //     fs.mkdirSync(dir);
         //   }
-        cb(null, 'uploads')
+        cb(null, 'uploads/')
        /// path.resolve(__dirname, 'build')
        // cb(null, path.resolve(__dirname, 'uploads'))
     },
