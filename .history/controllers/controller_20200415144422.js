@@ -45,7 +45,6 @@ module.exports.upload_files = function (req, res, next) {
 
             });
         });
-        console.log(queryArray)
         Upload.insertMany(queryArray, function (error, upload) {
             if (!error) {
                 SuccessResponse.response_string = "Success! Images added successfully"

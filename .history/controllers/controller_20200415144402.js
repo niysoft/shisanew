@@ -45,14 +45,13 @@ module.exports.upload_files = function (req, res, next) {
 
             });
         });
-        console.log(queryArray)
         Upload.insertMany(queryArray, function (error, upload) {
             if (!error) {
                 SuccessResponse.response_string = "Success! Images added successfully"
                 SuccessResponse.data = upload
                 res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
             } else {
-                handleErrorServer(null, res, error.toString()+"-----Error! Something went wrong. Please retry action")
+                handleErrorServer(null, res, error.toString+"-----Error! Something went wrong. Please retry action")
             }
         });
     }

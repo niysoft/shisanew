@@ -1,0 +1,411 @@
+<meta charset="utf-8" />
+<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>Shisa - Report Sexual Abuse - Help stop the Menace</title>
+<script>
+    //let cookieExpiryHours = 1
+    let baseUrl = "",
+        ApiBaseUrl = ""
+    if (location.href.includes("localhost")) {
+        baseUrl = "http://localhost:3002/"
+        ApiBaseUrl = "http://localhost:3002/api/"
+    } else {
+        baseUrl = "https://shisanew.herokuapp.com/"
+        ApiBaseUrl = "https://shisanew.herokuapp.com/api/"
+    }
+    document.write('<base href="' + baseUrl + '">');
+</script>
+<!-- <base href="https://shisaapp.herokuapp.com"> -->
+<!--<base href="http://localhost:3002/" https://bingo9ja.herokuapp.com/>-->
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+    name='viewport' />
+<link rel="canonical" href="https://www.creative-tim.com/product/material-dashboard-pro" />
+<meta name="keywords" content="Shisa - Report Sexual Abuse - Help stop the Menace">
+<meta name="description" content="Shisa - Report Sexual Abuse - Help stop the Menace.">
+<!-- Schema.org markup for Google+ -->
+<meta itemprop="name" content="Shisa - Report Sexual Abuse - Help stop the Menace">
+<meta itemprop="description" content="Shisa - Report Sexual Abuse - Help stop the Menace">
+<!-- <meta itemprop="image"
+    content="../../../../s3.amazonaws.com/creativetim_bucket/products/51/original/opt_mdp_thumbnail.jpg"> -->
+<!-- Twitter Card data -->
+<meta name="twitter:card" content="product">
+<meta name="twitter:site" content="@creativetim">
+<meta name="twitter:title" content="Shisa - Report Sexual Abuse - Help stop the Menace">
+<meta name="twitter:description" content="Shisa - Report Sexual Abuse - Help stop the Menace">
+<meta name="twitter:creator" content="@creativetim">
+<!-- <meta name="twitter:image"
+    content="../../../../s3.amazonaws.com/creativetim_bucket/products/51/original/opt_mdp_thumbnail.jpg"> -->
+<!-- Open Graph data -->
+<meta property="fb:app_id" content="655968634437471">
+<meta property="og:title" content="Shisa - Report Sexual Abuse - Help stop the Menace" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="../dashboard.html" />
+<!-- <meta property="og:image"
+    content="../../../../s3.amazonaws.com/creativetim_bucket/products/51/original/opt_mdp_thumbnail.jpg" /> -->
+<meta property="og:description" content="Shisa - Report Sexual Abuse - Help stop the Menace" />
+<meta property="og:site_name" content="Creative Tim" />
+<link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+<!-- <link rel="stylesheet" href="../../../../maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"> -->
+<link href="assets/css/material-dashboard.minf066.css?v=2.1.0" rel="stylesheet" />
+<link href="assets/demo/demo.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="assets/css/notie.css">
+<link rel="stylesheet" type="text/css" href="assets/css/dropify.min.css">
+<link rel="stylesheet" href="assets/image-uploader.min.css">
+<link href="assets/font/font-fileuploader.css" media="all" rel="stylesheet">
+<link href="assets/jquery.fileuploader.min.css" media="all" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/validationEngine.jquery.css" type="text/css" />
+<script src="assets/js/core/jquery.min.js"></script>
+<script src="assets/js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
+<script src="assets/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+<style>
+    .col-md-4 {
+        min-width: 400px;
+    }
+
+    .pick-numbers,
+    .pick_numbers_ {
+        float: left;
+        margin-right: 6px;
+        margin-left: 6px;
+        text-align: center;
+        height: 40px;
+        width: 40px;
+        border: 1px #cccccc solid;
+        border-radius: 20px;
+        font-size: 20px;
+        line-height: 40px;
+        margin-bottom: 16px;
+        cursor: pointer;
+    }
+
+    .pick-numbers-color {
+        margin-right: 6px;
+        margin-left: 6px;
+        text-align: center;
+        height: 40px;
+        width: 40px;
+        border: 1px #8e24aa solid;
+        color: #FFFFFF;
+        border-radius: 20px;
+        font-size: 20px;
+        line-height: 40px;
+        margin-bottom: 16px;
+        cursor: pointer;
+        background-color: #8e24aa !important;
+    }
+
+    .lds-hourglass {
+        display: inline-block;
+        position: relative;
+        width: 64px;
+        height: 64px;
+    }
+
+    .lds-hourglass:after {
+        content: " ";
+        display: block;
+        border-radius: 50%;
+        width: 0;
+        height: 0;
+        margin: 6px;
+        box-sizing: border-box;
+        border: 26px solid #cef;
+        border-color: #cef transparent #cef transparent;
+        animation: lds-hourglass 1.2s infinite;
+    }
+
+    @keyframes lds-hourglass {
+        0% {
+            transform: rotate(0);
+            animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+        }
+
+        50% {
+            transform: rotate(900deg);
+            animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        100% {
+            transform: rotate(1800deg);
+        }
+    }
+
+    .notie-alert,
+    .notie-container {
+        z-index: 10000000;
+    }
+
+    hr {
+        margin-top: 0rem;
+        margin-bottom: 1.5rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, .1);
+    }
+
+    .incident-file-attach {
+        margin-right: 100px;
+        ;
+    }
+
+    .material-icons {
+        font-size: 22px;
+        ;
+    }
+
+    .form-check,
+    label {
+        font-size: 14px;
+        line-height: 1.42857;
+        color: #6b6f82;
+        font-weight: bolder;
+        ;
+    }
+
+    .new_incident_link {
+        background-color: #353741;
+        border-radius: 30px !important;
+    }
+
+    #pick_numbers_0,
+    #pick_numbers_1,
+    #pick_numbers_2 {
+        text-align: center !important;
+    }
+
+    .timecount {
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .show_ {
+        height: 70px;
+        width: 70px;
+        border-radius: 50px;
+        line-height: 70px;
+        font-size: 50px;
+    }
+
+    .show_:first-child {
+        margin-left: 120px;
+    }
+
+    .incident_title {
+        margin-top: -5px;
+        margin-bottom: 5px;
+        ;
+    }
+
+    .form-check-input {
+        margin-right: 10px;
+        ;
+    }
+
+    .black_text {
+        color: #424242 !important;
+    }
+
+    .no_margin_bottom {
+        margin-bottom: 0;
+    }
+
+    .incident_list_text {
+        padding-left: 24px;
+    }
+
+    .image-uploader {
+        cursor: pointer;
+    }
+
+    .image-uploader:hover {
+        background: #eee;
+    }
+
+
+    @keyframes ldio-8y6w2zd7ymo {
+        0% {
+            top: 99.35999999999999px;
+            left: 99.35999999999999px;
+            width: 0;
+            height: 0;
+            opacity: 1;
+        }
+
+        100% {
+            top: 78.66px;
+            left: 78.66px;
+            width: 41.4px;
+            height: 41.4px;
+            opacity: 0;
+        }
+    }
+
+    .ldio-8y6w2zd7ymo div {
+        position: absolute;
+        border-width: 4.14px;
+        border-style: solid;
+        opacity: 1;
+        border-radius: 50%;
+        animation: ldio-8y6w2zd7ymo 1.923076923076923s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+
+    .ldio-8y6w2zd7ymo div:nth-child(1) {
+        border-color: #e90c59
+    }
+
+    .ldio-8y6w2zd7ymo div:nth-child(2) {
+        border-color: #46dff0;
+        animation-delay: -0.9615384615384615s;
+    }
+
+    .loadingio-spinner-ripple-pr947ewirm {
+        width: 207px;
+        height: 207px;
+        display: inline-block;
+        overflow: hidden;
+        background: none;
+    }
+
+    .ldio-8y6w2zd7ymo {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform: translateZ(0) scale(1);
+        backface-visibility: hidden;
+        transform-origin: 0 0;
+        /* see note above */
+    }
+
+    .error-message {
+        font-size: 11px;
+        color: red;
+        font-style: italic;
+        margin-top: -50px;
+        float: right;
+    }
+
+    .error-message {
+        display: none;
+    }
+    
+
+    .loading {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: visible;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+
+/* :not(:required) hides these rules from IE9 and below */
+.loading:not(:required) {
+  /* hide "loading..." text */
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+.loading:not(:required):after {
+  content: '';
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  -webkit-animation: spinner 1500ms infinite linear;
+  -moz-animation: spinner 1500ms infinite linear;
+  -ms-animation: spinner 1500ms infinite linear;
+  -o-animation: spinner 1500ms infinite linear;
+  animation: spinner 1500ms infinite linear;
+  border-radius: 0.5em;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+  box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+}
+
+/* Animation */
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+</style>

@@ -45,14 +45,13 @@ module.exports.upload_files = function (req, res, next) {
 
             });
         });
-        console.log(queryArray)
         Upload.insertMany(queryArray, function (error, upload) {
             if (!error) {
                 SuccessResponse.response_string = "Success! Images added successfully"
                 SuccessResponse.data = upload
                 res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
             } else {
-                handleErrorServer(null, res, error.toString()+"-----Error! Something went wrong. Please retry action")
+                handleErrorServer(null, res, "Error! Something went wrong. Please retry action")
             }
         });
     }
@@ -310,15 +309,17 @@ module.exports.load_incident_content = function (req, res) { //
                                         Upload.find({ incidentId: req.body.incidentId }) //{accessToken: req.body.accessToken}, {_id: req.body.playerId},
                                             .then(uploads => {
                                                 SuccessResponse.uploads = uploads
-                                                //console.log(SuccessResponse)
-                                                res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
+                                                console.log(SuccessResponse)
+                                                //res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
                                             }).catch(function (err) {
                                                 handleErrorServer(null, res, err.message + "Error! Action could be completed at the moment. Please retry")
                                             });
                                     } else {
                                         res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
                                     }
-                                   // res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)//SUCCESS_RESPONSE_CODE
+
+                                    // handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
+                                    res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)//SUCCESS_RESPONSE_CODE
                                 }).catch(function (err) {
                                     handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
                                 });

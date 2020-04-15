@@ -48,64 +48,6 @@
       width: 30px;
       border-radius: 15px
     }
-
-    .snippet-result-code {
-      height: 500px
-    }
-
-    #photos {
-      /* Prevent vertical gaps */
-      line-height: 0;
-      -webkit-column-count: 5;
-      -webkit-column-gap: 0px;
-      -moz-column-count: 5;
-      -moz-column-gap: 0px;
-      column-count: 5;
-      column-gap: 0px;
-    }
-
-    #photos img {
-      /* Just in case there are inline attributes */
-      width: 100% !important;
-      height: auto !important;
-    }
-
-    @media (max-width: 1200px) {
-      #photos {
-        -moz-column-count: 4;
-        -webkit-column-count: 4;
-        column-count: 4;
-      }
-    }
-
-    @media (max-width: 1000px) {
-      #photos {
-        -moz-column-count: 3;
-        -webkit-column-count: 3;
-        column-count: 3;
-      }
-    }
-
-    @media (max-width: 800px) {
-      #photos {
-        -moz-column-count: 2;
-        -webkit-column-count: 2;
-        column-count: 2;
-      }
-    }
-
-    @media (max-width: 400px) {
-      #photos {
-        -moz-column-count: 1;
-        -webkit-column-count: 1;
-        column-count: 1;
-      }
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-    }
   </style>
 </head>
 
@@ -160,65 +102,81 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-12">
-                      <div class="card-header" style="display: none;">
-                        <h4 class="card-title">Navigation Pills -
-                          <small class="description">Horizontal Tabs</small>
-                        </h4>
-                      </div>
-
-                      <ul class="nav nav-pills nav-pills-warning" role="tablist">
-                        <li class="nav-item">
-                          <a class="nav-link active show" data-toggle="tab" href="#link1" role="tablist">
-                            Image
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" data-toggle="tab" href="#link2" role="tablist">
-                            Videos
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" data-toggle="tab" href="#link3" role="tablist">
-                            Others
-                          </a>
-                        </li>
-                      </ul>
-                      <div class="tab-content tab-space">
-                        <div class="tab-pane active show" id="link1">
-                          <div class="col-md-12">
-                            <h6 class="footer-title" style="text-transform: none;">Already Uploaded: <span
-                                id="uploaded_image_count">0</span> images</h6>
+                      <h6 class="footer-title">Evidences</h6>
+                      <div class="card ">
+                        <div class="card-header ">
+                          <h4 class="card-title">Navigation Pills -
+                            <small class="description">Horizontal Tabs</small>
+                          </h4>
+                        </div>
+                        <div class="card-body ">
+                          <ul class="nav nav-pills nav-pills-warning" role="tablist">
+                            <li class="nav-item">
+                              <a class="nav-link active show" data-toggle="tab" href="#link1" role="tablist">
+                                Profile
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" data-toggle="tab" href="#link2" role="tablist">
+                                Settings
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" data-toggle="tab" href="#link3" role="tablist">
+                                Options
+                              </a>
+                            </li>
+                          </ul>
+                          <div class="tab-content tab-space">
+                            <div class="tab-pane active show" id="link1">
+                              <div class="col-md-12">
+                                <h6 class="footer-title">Evidences</h6>
+                                <form method="post" enctype="multipart/form-data" action="api/upload_files" id="add_image_form">
+                                  <div class="input-field">
+                                    <!-- <input type="file" name="images" multiple/> -->
+                                    <div class="input-images-1" style="padding-top: .5rem;"></div>
+                                  </div>
+                                  <input type="hidden" name="caseId" value="<%= userData.data.caseId %>" />
+                                  <input type="hidden" name="incidentId" value="<%= userData.data.incidentId %>" />
+                                  <input type="hidden" name="userId" id="userId" value="" />
+                                  <input type="hidden" name="accessToken" id="accessToken" value="" />
+                                  <form>
+                                    <hr>
+                              </div>
+                            </div>
+                            <div class="tab-pane" id="link2">
+                              Efficiently unleash cross-media information without cross-media value. Quickly maximize
+                              timely deliverables for real-time schemas.
+                              <br>
+                              <br>Dramatically maintain clicks-and-mortar solutions without functional solutions.
+                            </div>
+                            <div class="tab-pane" id="link3">
+                              Completely synergize resource taxing relationships via premier niche markets.
+                              Professionally cultivate one-to-one customer service with robust ideas.
+                              <br>
+                              <br>Dynamically innovate resource-leveling customer service for state of the art customer
+                              service.
+                            </div>
                           </div>
                         </div>
-                        <div class="tab-pane" id="link2">
-                          <div class="col-md-12">
-                            <h6 class="footer-title" style="text-transform: none;">Already Uploaded: <span
-                                id="uploaded_video_count">0</span> Videos</h6>
-                          </div>
-                        </div>
-                        <div class="tab-pane" id="link3">
-                          <div class="col-md-12">
-                            <h6 class="footer-title" style="text-transform: none;">Already Uploaded: <span
-                                id="uploaded_other_count">0</span> files</h6>
-                          </div>
-                        </div>
-                        <form method="post" enctype="multipart/form-data" action="api/upload_files" id="add_image_form">
-                          <div class="input-field">
-                            <!-- <input type="file" name="images" multiple/> -->
-                            <div class="input-images-1" style="padding-top: .5rem;"></div>
-                          </div>
-                          <input type="hidden" name="caseId" value="<%= userData.data.caseId %>" />
-                          <input type="hidden" name="incidentId" value="<%= userData.data.incidentId %>" />
-                          <input type="hidden" name="userId" id="userId" value="" />
-                          <input type="hidden" name="accessToken" id="accessToken" value="" />
-                        </form>
-                        <hr>
-                        <section id="photos"></section>
                       </div>
                     </div>
                   </div>
                   <div class="row">
-
+                    <div class="col-md-12" style="display: none;">
+                      <h6 class="footer-title">Evidences</h6>
+                      <form method="post" enctype="multipart/form-data" action="api/upload_files" id="add_image_form">
+                        <div class="input-field">
+                          <!-- <input type="file" name="images" multiple/> -->
+                          <div class="input-images-1" style="padding-top: .5rem;"></div>
+                        </div>
+                        <input type="hidden" name="caseId" value="<%= userData.data.caseId %>" />
+                        <input type="hidden" name="incidentId" value="<%= userData.data.incidentId %>" />
+                        <input type="hidden" name="userId" id="userId" value="" />
+                        <input type="hidden" name="accessToken" id="accessToken" value="" />
+                        <form>
+                          <hr>
+                    </div>
                     <hr>
                     <div class="col-md-12">
                       <a href="#" onclick="{history.back();return false;}" class="btn btn-default"
@@ -263,7 +221,6 @@
         let initial_url = location.href;
         let url = initial_url.split('/');
         let caseId = url[4]
-        let incidentId = url[5]
         console.log(caseId)
         if (typeof caseId !== "undefined" && caseId.length > 0) {
           $.blockUI({
@@ -274,13 +231,11 @@
             crossOrigin: true,
             crossDomain: true,
             method: "POST",
-            url: ApiBaseUrl + "load_incident_content",
+            url: ApiBaseUrl + "load_incidents",
             data: {
               userId: getCookie("userId"),
               accessToken: getCookie("accessToken"),
-              caseId: caseId,
-              incidentId: incidentId,
-              loadfile: true
+              caseId: caseId
             },
             beforeSend: function (xhr) {}
           }).done(function (responseText) {
@@ -292,19 +247,9 @@
             $("#company_name").html(companyName) //perpetrator_initials 5e7615e9d30cbe41588b1bdf
             $("#upload_later_link").attr("href", "case/" + responseText.case_details._id).show();
 
-            $("#userId").val(getCookie("userId"));
-            $("#accessToken").val(getCookie("accessToken"));
-            var allImages = "";
-            let imageCount = responseText.uploads.length //uploads
-            $("#uploaded_image_count").html(imageCount)
-            // for (var i = 0; i < 5; i++) {
-            //   var width = 200 //getRandomSize(25, 40);
-            //   var height = 100 // getRandomSize(25, 40);
-            //   allImages += '<img src="https://placekitten.com/' + width + '/' + height + '" alt="pretty kitty">';
-            // }
-
-            photos.innerHTML = allImages
-            $.unblockUI();
+            $("#userId").val(getCookie("userId")),
+              $("#accessToken").val(getCookie("accessToken")),
+              $.unblockUI();
             $('.wrapper').show()
           }).fail(function (jqXHR, exception) {
             let error_string = jqXHR.responseJSON.error_string
@@ -313,10 +258,6 @@
             showInvalidDetailsError(error_string)
           });
         }
-      }
-
-      function getRandomSize(min, max) {
-        return Math.round(Math.random() * (max - min) + min);
       }
 
       //$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
@@ -351,7 +292,7 @@
             },
             error: function (data) {
               // console.log(data)
-              //data = $.parseJSON(data)
+              data = $.parseJSON(data)
               //console.log(data)
               //alert(data.responseJSON.error_string)
               //let error_string = data.responseJSON.error_string
@@ -363,10 +304,6 @@
         $('.input-images-1').imageUploader({
           id: "add_incident_image"
         });
-
-
-
-
       });
     </script>
 </body>

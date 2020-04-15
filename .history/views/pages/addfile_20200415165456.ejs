@@ -174,46 +174,47 @@
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" data-toggle="tab" href="#link2" role="tablist">
-                            Videos
+                            Settings
                           </a>
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" data-toggle="tab" href="#link3" role="tablist">
-                            Others
+                            Options
                           </a>
                         </li>
                       </ul>
                       <div class="tab-content tab-space">
                         <div class="tab-pane active show" id="link1">
                           <div class="col-md-12">
-                            <h6 class="footer-title" style="text-transform: none;">Already Uploaded: <span
-                                id="uploaded_image_count">0</span> images</h6>
+                            <h6 class="footer-title">Evidences</h6>
+                            <form method="post" enctype="multipart/form-data" action="api/upload_files"
+                              id="add_image_form">
+                              <div class="input-field">
+                                <!-- <input type="file" name="images" multiple/> -->
+                                <div class="input-images-1" style="padding-top: .5rem;"></div>
+                              </div>
+                              <input type="hidden" name="caseId" value="<%= userData.data.caseId %>" />
+                              <input type="hidden" name="incidentId" value="<%= userData.data.incidentId %>" />
+                              <input type="hidden" name="userId" id="userId" value="" />
+                              <input type="hidden" name="accessToken" id="accessToken" value="" />
+                              <form>
+                                <hr>
+                                <section id="photos"></section>
                           </div>
                         </div>
                         <div class="tab-pane" id="link2">
-                          <div class="col-md-12">
-                            <h6 class="footer-title" style="text-transform: none;">Already Uploaded: <span
-                                id="uploaded_video_count">0</span> Videos</h6>
-                          </div>
+                          Efficiently unleash cross-media information without cross-media value. Quickly maximize
+                          timely deliverables for real-time schemas.
+                          <br>
+                          <br>Dramatically maintain clicks-and-mortar solutions without functional solutions.
                         </div>
                         <div class="tab-pane" id="link3">
-                          <div class="col-md-12">
-                            <h6 class="footer-title" style="text-transform: none;">Already Uploaded: <span
-                                id="uploaded_other_count">0</span> files</h6>
-                          </div>
+                          Completely synergize resource taxing relationships via premier niche markets.
+                          Professionally cultivate one-to-one customer service with robust ideas.
+                          <br>
+                          <br>Dynamically innovate resource-leveling customer service for state of the art customer
+                          service.
                         </div>
-                        <form method="post" enctype="multipart/form-data" action="api/upload_files" id="add_image_form">
-                          <div class="input-field">
-                            <!-- <input type="file" name="images" multiple/> -->
-                            <div class="input-images-1" style="padding-top: .5rem;"></div>
-                          </div>
-                          <input type="hidden" name="caseId" value="<%= userData.data.caseId %>" />
-                          <input type="hidden" name="incidentId" value="<%= userData.data.incidentId %>" />
-                          <input type="hidden" name="userId" id="userId" value="" />
-                          <input type="hidden" name="accessToken" id="accessToken" value="" />
-                        </form>
-                        <hr>
-                        <section id="photos"></section>
                       </div>
                     </div>
                   </div>
@@ -295,13 +296,12 @@
             $("#userId").val(getCookie("userId"));
             $("#accessToken").val(getCookie("accessToken"));
             var allImages = "";
-            let imageCount = responseText.uploads.length //uploads
-            $("#uploaded_image_count").html(imageCount)
-            // for (var i = 0; i < 5; i++) {
-            //   var width = 200 //getRandomSize(25, 40);
-            //   var height = 100 // getRandomSize(25, 40);
-            //   allImages += '<img src="https://placekitten.com/' + width + '/' + height + '" alt="pretty kitty">';
-            // }
+            let imageCount = responseText.uploads.length//uploads
+            for (var i = 0; i < imageCount; i++) {
+              var width = 30 //getRandomSize(25, 40);
+              var height = 15 // getRandomSize(25, 40);
+              allImages += '<img src="https://placekitten.com/' + width + '/' + height + '" alt="pretty kitty">';
+            }
 
             photos.innerHTML = allImages
             $.unblockUI();
