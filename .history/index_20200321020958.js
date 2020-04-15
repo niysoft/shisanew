@@ -77,6 +77,5 @@ function initilizeScript(app) {
         //connectionString: connectionString
     };
     //console.log(connection)
-   let server = app.listen(PORT, () => console.log(`Listening on ${PORT}`))
-   server.timeout = 10*60*1000;
+    app.listen(PORT, () => console.log(`Listening on ${PORT}`))
 }
