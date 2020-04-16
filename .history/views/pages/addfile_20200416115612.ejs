@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
+<head>
+  <% include ../partials/header_.ejs %>
+  <style>
+    #menu-outer {
+
+      background: url(images/bar-bg.jpg) repeat-x;
+    }
+
+    .table {
+      display: table;
+      /* Allow the centering to work */
+      margin: 0 auto;
+    }
+
+    ul#horizontal-list {
+      height: auto;
+      min-width: 696px;
+      list-style: none;
+      padding-top: 20px;
+      padding-left: 0;
+    }
+
+    ul#horizontal-list li {
+      display: inline;
+    }
+
+    .existing_image_each {
+      max-height: 100px;
+      margin-right: 10px;
+    }
+
+    .delete_image_btn {
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .delete_image_btn_cont {
+      position: absolute;
+      left: 82px;
+      margin-top: 3px;
+      background-color: rgba(0, 0, 0, .5);
+      height: 30px;
+      width: 30px;
+      border-radius: 15px
+    }
+
+    .snippet-result-code {
+      height: 500px
+    }
+
+    #photos {
+      /* Prevent vertical gaps */
+      line-height: 0;
+      -webkit-column-count: 5;
+      -webkit-column-gap: 0px;
+      -moz-column-count: 5;
+      -moz-column-gap: 0px;
+      column-count: 5;
+      column-gap: 0px;
+    }
+
+    #photos img {
+      /* Just in case there are inline attributes */
+      width: 100% !important;
+      height: auto !important;
+    }
+
+    @media (max-width: 1200px) {
+      #photos {
+        -moz-column-count: 4;
+        -webkit-column-count: 4;
+        column-count: 4;
+      }
+    }
+
+    @media (max-width: 1000px) {
+      #photos {
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count: 3;
+      }
+    }
+
+    @media (max-width: 800px) {
+      #photos {
+        -moz-column-count: 2;
+        -webkit-column-count: 2;
+        column-count: 2;
+      }
+    }
+
+    @media (max-width: 400px) {
+      #photos {
+        -moz-column-count: 1;
+        -webkit-column-count: 1;
+        column-count: 1;
+      }
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body class="">
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <div class="wrapper" style="display:none;">
+    <% include ../partials/sidebar.ejs %>
+    <div class="main-panel">
+      <% include ../partials/nav.ejs %>
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-rose card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">assignment_ind</i>
+                  </div>
+                  <p class="card-category">Perpetrator</p>
+                  <h3 class="card-title" id="perpetrator_initials">Not Set</h3>
+                </div>
+                <div class="card-footer">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-success card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">location_city</i>
+                  </div>
+                  <p class="card-category">Company</p>
+                  <h3 class="card-title" id="company_name">Not Set</h3>
+                </div>
+                <div class="card-footer">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-info card-header-text">
+                  <div class="card-text">
+                    <h4 class="card-title">Add Evidences</h4>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="card-header" style="display: none;">
+                        <h4 class="card-title">Navigation Pills -
+                          <small class="description">Horizontal Tabs</small>
+                        </h4>
+                      </div>
+
+                      <ul class="nav nav-pills nav-pills-warning" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active show" data-toggle="tab" rel="image" href="#link1" role="tablist">
+                            Image
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#link2"  rel="video" role="tablist">
+                            Videos
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#link3" rel="others" role="tablist">
+                            Others
+                          </a>
+                        </li>
+                      </ul>
+                      <div class="tab-content tab-space">
+                        <div class="tab-pane active show" id="link1">
+                          <div class="col-md-12">
+                            <h6 class="footer-title" style="text-transform: none;">Already Uploaded: <span
+                                id="uploaded_image_count">0</span> images</h6>
+                          </div>
+                        </div>
+                        <div class="tab-pane" id="link2">
+                          <div class="col-md-12">
+                            <h6 class="footer-title" style="text-transform: none;">Already Uploaded: <span
+                                id="uploaded_video_count">0</span> Videos</h6>
+                          </div>
+                        </div>
+                        <div class="tab-pane" id="link3">
+                          <div class="col-md-12">
+                            <h6 class="footer-title" style="text-transform: none;">Already Uploaded: <span
+                                id="uploaded_other_count">0</span> files</h6>
+                          </div>
+                        </div>
+                        <form method="post" enctype="multipart/form-data" action="api/upload_files" id="add_image_form">
+                          <div class="input-field">
+                            <!-- <input type="file" name="images" multiple/> -->
+                            <div class="input-images-1" style="padding-top: .5rem;"></div>
+                          </div>
+                          <input type="hidden" name="caseId" value="<%= userData.data.caseId %>" />
+                          <input type="hidden" name="incidentId" value="<%= userData.data.incidentId %>" />
+                          <input type="hidden" name="userId" id="userId" value="" />
+                          <input type="hidden" name="accessToken" id="accessToken" value="" />
+                          <!-- <input type="hidden" name="fileType" id="fileType" value="image" /> -->
+                        </form>
+                        <hr>
+                        <section id="photos"></section>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+
+                    <hr>
+                    <div class="col-md-12">
+                      <a href="#" onclick="{history.back();return false;}" class="btn btn-default"
+                        style="float:left;color:white;">
+                        < &nbsp;&nbsp;&nbsp;Back </a> <a href="" class="btn btn-rose"
+                          style="float:right;margin-right: 10px;margin-left: 10px;"
+                          onclick="{submitImage(); return false;}">Upload
+                          Evidences
+                      </a>
+                      <a href="" id="upload_later_link" class="btn btn-behance" style="float:right;">Upload File later
+                        <div class="ripple-container"></div></a>
+                    </div>
+                    <hr>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <% include ../partials/footer.ejs %>
+      </div>
+    </div>
+    <% <!--include ../partials/theme_bar.ejs--> %>
+    <% include ../partials/footer_script.ejs %>
+    <script>
+      let filetype = "image"
+      String.prototype.trimRight = function (charlist) {
+        if (charlist === undefined)
+          charlist = "\/";
+
+        return this.replace(new RegExp("[" + charlist + "]+$"), "");
+      };
+      function submitImage() {
+        $('#add_image_form').submit();
+      }
+
+      function loadIncidents() {
+        let initial_url = location.href;
+        let url = initial_url.split('/');
+        let caseId = url[4]
+        let incidentId = url[5]
+        console.log(caseId)
+        if (typeof caseId !== "undefined" && caseId.length > 0) {
+          $.blockUI({
+            message: '<div class="loading">Loading&#8230;</div>'
+          });
+          //return;
+          $.ajax({
+            crossOrigin: true,
+            crossDomain: true,
+            method: "POST",
+            url: ApiBaseUrl + "load_incident_content",
+            data: {
+              userId: getCookie("userId"),
+              accessToken: getCookie("accessToken"),
+              caseId: caseId,
+              incidentId: incidentId,
+              loadfile: true
+            },
+            beforeSend: function (xhr) {}
+          }).done(function (responseText) {
+            let perpetratorShortName = responseText.case_details.fname.slice(0, 1) + ". " + responseText
+              .case_details.lname.slice(0, 1);
+            let companyName = responseText.case_details.companyName.trim() == "" ? "Not Set" : responseText
+              .case_details.companyName;
+            $("#perpetrator_initials").html(perpetratorShortName) //
+            $("#company_name").html(companyName) //perpetrator_initials 5e7615e9d30cbe41588b1bdf
+            $("#upload_later_link").attr("href", "case/" + responseText.case_details._id).show();
+
+            $("#userId").val(getCookie("userId"));
+            $("#accessToken").val(getCookie("accessToken"));
+            var allImages = "";
+            let imageCount = responseText.uploads.length //uploads
+            $("#uploaded_image_count").html(imageCount)
+            // for (var i = 0; i < 5; i++) {
+            //   var width = 200 //getRandomSize(25, 40);
+            //   var height = 100 // getRandomSize(25, 40);
+            //   allImages += '<img src="https://placekitten.com/' + width + '/' + height + '" alt="pretty kitty">';
+            // }
+
+            photos.innerHTML = allImages
+            $.unblockUI();
+            $('.wrapper').show()
+          }).fail(function (jqXHR, exception) {
+            let error_string = jqXHR.responseJSON.error_string
+            $('#perpetrator_list').html(error_string)
+            $.unblockUI();
+            showInvalidDetailsError(error_string)
+          });
+        }
+      }
+
+      function getRandomSize(min, max) {
+        return Math.round(Math.random() * (max - min) + min);
+      }
+
+      //$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+      $(document).ready(function () {
+        loadIncidents()
+        let url = location.href.toLowerCase().trimRight().split("/")
+        let caseId = url[4]
+        let incidentId = url[5]
+        $(".nav-item").on("click", function(){
+          filetype = $(this).attr("rel")
+        })
+        //console.log(url)
+
+        $("#add_image_form").on('submit', (function (e) {
+          e.preventDefault();
+          $.blockUI({
+            message: '<div class="loading">Loading&#8230;</div>'
+          });
+          //console.log($(".nav-link .active .show").attr("rel"))
+          $.ajax({
+            url: "api/upload_files",
+            type: "POST",
+            data: new FormData(this),
+            headers: {
+              userId: getCookie("userId"),
+              caseId: caseId,
+              incidentId: incidentId,
+              filetype: filetype,
+            },
+            contentType: false,
+            cache: false,
+            processData: false,
+            dataType: "json",
+            success: function (data) {
+              $.unblockUI();
+              showInvalidDetailsSuc("Success! Image uploaded successfully")
+            },
+            error: function (data) {
+              // console.log(data)
+              //data = $.parseJSON(data)
+              //console.log(data)
+              //alert(data.responseJSON.error_string)
+              //let error_string = data.responseJSON.error_string
+              showInvalidDetailsError("Error! Something went wrong. Please retry your action")
+              $.unblockUI();
+            }
+          });
+        }));
+        $('.input-images-1').imageUploader({
+          id: "add_incident_image"
+        });
+
+
+
+
+      });
+    </script>
+</body>
+
+</html>

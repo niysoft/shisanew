@@ -7,8 +7,8 @@ const storage = multer.diskStorage({
         //     fs.mkdirSync(dir);
         //   }
         cb(null, 'uploads')
-       /// path.resolve(__dirname, 'build')
-       // cb(null, path.resolve(__dirname, 'uploads'))
+        /// path.resolve(__dirname, 'build')
+        // cb(null, path.resolve(__dirname, 'uploads'))
     },
     // fileFilter: function (req, file, callback) {
     //     var ext = path.extname(file.originalname);
@@ -26,28 +26,65 @@ const storage = multer.diskStorage({
         cb(null, filename) //Appending extension
     },
 
-    fileFilter: function (req, file, cb) {
-        var ext = path.extname(file.originalname)
-        if (ext !== '.png' || ext !== '.jpg' || ext !== '.gif' || ext !== '.jpeg') {
-            return callback(/*res.end('Only images are allowed')*/ null, false)
-        }
-        callback(null, true)
-        // var type = file.mimetype;
-        // var typeArray = type.split("/");
-        // if (typeArray[0] == "video" || typeArray[0] == "image") {
-        //   cb(null, true);
-        // }else {
-        //   cb(null, false);
-        // }
-    }
+    // fileFilter: function (req, file, cb) {
+    //     var ext = path.extname(file.originalname)
+    //     if (ext !== '.png' || ext !== '.jpg' || ext !== '.gif' || ext !== '.jpeg') {
+    //         return callback(/*res.end('Only images are allowed')*/ null, false)
+    //     }
+    //     callback(null, true)
+    //     // var type = file.mimetype;
+    //     // var typeArray = type.split("/");
+    //     // if (typeArray[0] == "video" || typeArray[0] == "image") {
+    //     //   cb(null, true);
+    //     // }else {
+    //     //   cb(null, false);
+    //     // }
+    // }
 })
 
+function fileFilter(req, file, cb) {
+    console.log(req.body)
+    var type = file.mimetype;
+    var typeArray = type.split("/");
+    var filetyp = req.headers.filetype
+    //console.log(req.headers)
+    switch (filetyp) {
+        case "image":
+            if (typeArray[0] == "image") {//typeArray[0] == "video" ||
+                cb(null, true);
+            } else {
+                cb(null, false);
+            };
+            break;
+        case "video":
+            if (typeArray[0] == "video") {//typeArray[0] == "video" ||
+                cb(null, true);
+            } else {
+                cb(null, false);
+            };
+            break;
+        case "audio":
+            if (typeArray[0] == "audio") {//typeArray[0] == "video" ||
+                cb(null, true);
+            } else {
+                cb(null, false);
+            };
+            break;
+        default:
+            cb(null, false);
+    }
+    // if (typeArray[0] == "image") {//typeArray[0] == "video" ||
+    //     cb(null, true);
+    // } else {
+    //     cb(null, false);
+    // }
+}
 
 
-const upload = multer({ storage: storage })//upload = multer({ dest: 'uploads/' })
+const upload = multer({ storage: storage, dest: "uploads/", fileFilter: fileFilter })//upload = multer({ dest: 'uploads/' })
 const path = require('path')
 
-routes.post('/upload_files', upload.array('images', 10),  userController.upload_files)
+routes.post('/upload_files', upload.array('images', 10), userController.upload_files)
 routes.post('/start_signup', userController.start_signup);
 routes.post('/create_case', userController.create_case);//perpetrators
 routes.post('/load_cases', userController.load_cases);//perpetrators

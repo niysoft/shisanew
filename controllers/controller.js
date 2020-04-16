@@ -28,16 +28,18 @@ let
 momentTimeZone().tz("Africa/Lagos").format();
 
 module.exports.upload_files = function (req, res, next) {
-    if (!req.body && !req.files) {
-        res.json({ success: false });
+    console.log(req.files.length)
+    if (!req.body && !req.files || req.files.length === 0) {
+        handleErrorServer(null, res, "Only image files are allowed. Click other tabs for more upload file types")
     } else {
         var c;
+        console.log(req.headers.filetype)
         let originalFileName = req.files
         //console.log(originalFileName)
         let queryArray = [];
         originalFileName.forEach(element => {
             queryArray.push({
-                fileType: "image",
+                fileType: req.headers.filetype,
                 fileName: element.filename,
                 userId: req.body.userId,
                 caseId: req.body.caseId,
@@ -45,14 +47,14 @@ module.exports.upload_files = function (req, res, next) {
 
             });
         });
-        console.log(queryArray)
+        //console.log(queryArray)
         Upload.insertMany(queryArray, function (error, upload) {
             if (!error) {
                 SuccessResponse.response_string = "Success! Images added successfully"
                 SuccessResponse.data = upload
                 res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
             } else {
-                handleErrorServer(null, res, error.toString()+"-----Error! Something went wrong. Please retry action")
+                handleErrorServer(null, res, "Error! Something went wrong. Please retry action")
             }
         });
     }
@@ -307,18 +309,35 @@ module.exports.load_incident_content = function (req, res) { //
                                     SuccessResponse.case_details = cases[0]
                                     SuccessResponse.incidents = incid
                                     if (isSet(req.body.loadfile) && req.body.loadfile === "true") {
-                                        Upload.find({ incidentId: req.body.incidentId }) //{accessToken: req.body.accessToken}, {_id: req.body.playerId},
-                                            .then(uploads => {
-                                                SuccessResponse.uploads = uploads
-                                                //console.log(SuccessResponse)
-                                                res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
+                                        Upload.find(
+                                            {
+                                                $and: [{
+                                                    fileType: "image",
+                                                    incidentId: req.body.incidentId
+                                                }]
+                                            })
+                                            .then(image => {
+                                                SuccessResponse.images = image
+                                                Upload.find(
+                                                    {
+                                                        $and: [{
+                                                            fileType: "video",
+                                                            incidentId: req.body.incidentId
+                                                        }]
+                                                    })
+                                                    .then(video => {
+                                                        SuccessResponse.videos = video
+                                                        res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
+                                                    }).catch(function (err) {
+                                                        handleErrorServer(null, res, err.message + "Error! Action could be completed at the moment. Please retry")
+                                                    });
                                             }).catch(function (err) {
                                                 handleErrorServer(null, res, err.message + "Error! Action could be completed at the moment. Please retry")
                                             });
                                     } else {
                                         res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
                                     }
-                                   // res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)//SUCCESS_RESPONSE_CODE
+                                    // res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)//SUCCESS_RESPONSE_CODE
                                 }).catch(function (err) {
                                     handleErrorServer(null, res, "Error! Action could be completed at the moment. Please retry")
                                 });
@@ -2559,7 +2578,6 @@ function handleErrorServer(err, res, message) {
     if (err != null && err.code == 11000) {
         ServerErrorResponse.error_string = "Error! Duplicate key update discovered. Please retry"
     } else if (message != "") {
-        // console.log(message)
         ServerErrorResponse.error_string = message
     } else {
         ServerErrorResponse.error_string = "Error! Something went wrong. Request could not continue."

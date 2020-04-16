@@ -168,17 +168,22 @@
 
                       <ul class="nav nav-pills nav-pills-warning" role="tablist">
                         <li class="nav-item">
-                          <a class="nav-link active show" data-toggle="tab" href="#link1" role="tablist">
+                          <a class="nav-link active show" data-toggle="tab" rel="image" href="#link1" role="tablist">
                             Image
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" data-toggle="tab" href="#link2" role="tablist">
+                          <a class="nav-link" data-toggle="tab" href="#link2" rel="video" role="tablist">
                             Videos
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" data-toggle="tab" href="#link3" role="tablist">
+                          <a class="nav-link" data-toggle="tab" href="#link3" rel="audio" role="tablist">
+                            Audio
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#link4" rel="others" role="tablist">
                             Others
                           </a>
                         </li>
@@ -199,7 +204,13 @@
                         <div class="tab-pane" id="link3">
                           <div class="col-md-12">
                             <h6 class="footer-title" style="text-transform: none;">Already Uploaded: <span
-                                id="uploaded_other_count">0</span> files</h6>
+                                id="uploaded_audio_count">0</span> audio files</h6>
+                          </div>
+                        </div>
+                        <div class="tab-pane" id="link4">
+                          <div class="col-md-12">
+                            <h6 class="footer-title" style="text-transform: none;">Already Uploaded: <span
+                                id="uploaded_other_count">0</span> other files</h6>
                           </div>
                         </div>
                         <form method="post" enctype="multipart/form-data" action="api/upload_files" id="add_image_form">
@@ -211,6 +222,7 @@
                           <input type="hidden" name="incidentId" value="<%= userData.data.incidentId %>" />
                           <input type="hidden" name="userId" id="userId" value="" />
                           <input type="hidden" name="accessToken" id="accessToken" value="" />
+                          <!-- <input type="hidden" name="fileType" id="fileType" value="image" /> -->
                         </form>
                         <hr>
                         <section id="photos"></section>
@@ -246,14 +258,13 @@
     <% <!--include ../partials/theme_bar.ejs--> %>
     <% include ../partials/footer_script.ejs %>
     <script>
+      let filetype = "image"
       String.prototype.trimRight = function (charlist) {
         if (charlist === undefined)
           charlist = "\/";
 
         return this.replace(new RegExp("[" + charlist + "]+$"), "");
       };
-
-
 
       function submitImage() {
         $('#add_image_form').submit();
@@ -295,8 +306,10 @@
             $("#userId").val(getCookie("userId"));
             $("#accessToken").val(getCookie("accessToken"));
             var allImages = "";
-            let imageCount = responseText.uploads.length //uploads
+            let imageCount = responseText.images.length //uploads
+            let videoCount = responseText.videos.length
             $("#uploaded_image_count").html(imageCount)
+            $("#uploaded_video_count").html(videoCount)
             // for (var i = 0; i < 5; i++) {
             //   var width = 200 //getRandomSize(25, 40);
             //   var height = 100 // getRandomSize(25, 40);
@@ -325,6 +338,14 @@
         let url = location.href.toLowerCase().trimRight().split("/")
         let caseId = url[4]
         let incidentId = url[5]
+        $(".nav-link").on("click", function () {
+          filetype = $(this).attr("rel")
+          //$(".input-images-1").remove()
+          // $('.input-images-1').imageUploader({
+          //   id: "add_incident_image"
+          // });
+          // $("#add_image_form").trigger("reset")
+        })
         //console.log(url)
 
         $("#add_image_form").on('submit', (function (e) {
@@ -332,6 +353,7 @@
           $.blockUI({
             message: '<div class="loading">Loading&#8230;</div>'
           });
+          console.log(filetype)
           $.ajax({
             url: "api/upload_files",
             type: "POST",
@@ -340,6 +362,7 @@
               userId: getCookie("userId"),
               caseId: caseId,
               incidentId: incidentId,
+              filetype: filetype,
             },
             contentType: false,
             cache: false,
