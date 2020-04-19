@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
+<head>
+    <% include ../partials/header_.ejs %>
+    <style>
+        spa {
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        #photos {
+            /* Prevent vertical gaps */
+            line-height: 0;
+
+            -webkit-column-count: 8;
+            -webkit-column-gap: 0px;
+            -moz-column-count: 8;
+            -moz-column-gap: 0px;
+            column-count: 8;
+            column-gap: 0px;
+        }
+
+        #photos img {
+            /* Just in case there are inline attributes */
+            width: 100% !important;
+            height: auto !important;
+        }
+
+        @media (max-width: 1200px) {
+            #photos {
+                -moz-column-count: 4;
+                -webkit-column-count: 4;
+                column-count: 4;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            #photos {
+                -moz-column-count: 3;
+                -webkit-column-count: 3;
+                column-count: 3;
+            }
+        }
+
+        @media (max-width: 800px) {
+            #photos {
+                -moz-column-count: 2;
+                -webkit-column-count: 2;
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 400px) {
+            #photos {
+                -moz-column-count: 1;
+                -webkit-column-count: 1;
+                column-count: 1;
+            }
+        }
+
+        .uploaded_img {
+            margin: 10px !important;
+            overflow: hidden;
+
+        }
+    </style>
+</head>
+
+<body class="">
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <div class="loading" id="firstloader"">Loading&#8230;</div>
+    <div class=" wrapper" style="display:none;">
+        <% include ../partials/sidebar.ejs %>
+        <div class="main-panel">
+            <% include ../partials/nav.ejs %>
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <a href="" id="perpetrator_link">
+                                <div class="card card-stats">
+                                    <div class="card-header card-header-rose card-header-icon">
+                                        <div class="card-icon">
+                                            <i class="material-icons">assignment_ind</i>
+                                        </div>
+                                        <p class="card-category">Perpetrator</p>
+                                        <h3 class="card-title" id="perpetrator_initials">- - -</h3>
+                                    </div>
+                                    <div class="card-footer">
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <a href="" id="company_link">
+                                <div class="card card-stats">
+                                    <div class="card-header card-header-success card-header-icon">
+                                        <div class="card-icon">
+                                            <i class="material-icons">location_city</i>
+                                        </div>
+                                        <p class="card-category">Company</p>
+                                        <h3 class="card-title" id="company_name">- - - </h3>
+                                    </div>
+                                    <div class="card-footer">
+                                    </div>
+                                </div>
+                            </a>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-info card-header-text">
+                                <div class="card-text">
+                                    <h4 class="card-title">View Incident</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group bmd-form-group">
+                                                <label class="bmd-label-floating">Incident Title</label>
+                                                <input type="text" class="form-control" value="&nbsp;"
+                                                    id="incident_title" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group bmd-form-group">
+                                                <label class="bmd-label-floating">Date and Time of the incident</label>
+                                                <input type="text" class="form-control" value="&nbsp;"
+                                                    id="incident_date_time" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group bmd-form-group">
+                                                <label class="bmd-label-floating">Incident Location</label>
+                                                <input type="email" class="form-control" value="&nbsp;"
+                                                    id="incident_location" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Incident Narration</label>
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">How the incident happened, what
+                                                        transpired and possible
+                                                        people as witnesses</label>
+                                                    <textarea class="form-control" disabled rows="10"
+                                                        id="incident_narration">
+                                                    </textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <form method="post" enctype="multipart/form-data"
+                                                action="http://localhost:3002/api/upload_files" id="add_image_form">
+                                                <input type="hidden" name="caseId"
+                                                    value="<%= userData.data.caseId %>" />
+                                                <input type="hidden" name="incidentId"
+                                                    value="<%= userData.data.incidentId %>" />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <label>How do you feel</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-check bmd-form-group">
+                                                                    <label class="form-check-label">
+                                                                        <input class="form-check-input" type="radio"
+                                                                            name="abusetype" value="good" checked=""
+                                                                            disabled id="incident_howfeel_good">
+                                                                        <p>
+                                                                            Good <spa>(lorem ipsum is a placehold)</spa>
+                                                                        </p>
+                                                                        <span class="circle">
+                                                                            <span class="check"></span>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-check bmd-form-group">
+                                                                    <label class="form-check-label">
+                                                                        <input class="form-check-input" type="radio"
+                                                                            name="abusetype" value="bad" disabled
+                                                                            id="incident_howfeel_bad">
+                                                                        <p>Bad <spa>(lorem ipsum is a placehold)
+                                                                            </spa>
+                                                                        </p>
+                                                                        <span class="circle">
+                                                                            <span class="check"></span>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-check bmd-form-group">
+                                                                    <label class="form-check-label">
+                                                                        <input class="form-check-input" type="radio"
+                                                                            name="abusetype" value="terrible" disabled
+                                                                            id="incident_howfeel_terrible">
+                                                                        <p>Terrible <spa>(lorem ipsum is a
+                                                                                placehold)</spa>
+                                                                        </p>
+                                                                        <span class="circle">
+                                                                            <span class="check"></span>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" id="uploaded_img_cont">
+                                                            <h3>Uploaded Evidences</h3>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                                <div class="card card-stats">
+                                                                    <div
+                                                                        class="card-header card-header-warning card-header-icon">
+                                                                        <div class="card-icon">
+                                                                            <i class="material-icons">weekend</i>
+                                                                        </div>
+                                                                        <p class="card-category">Bookings</p>
+                                                                        <h3 class="card-title">184</h3>
+                                                                    </div>
+                                                                    <div class="card-footer">
+                                                                        <div class="stats">
+                                                                            <i
+                                                                                class="material-icons text-danger">warning</i>
+                                                                            <a href="#pablo">Get More Space...</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                                <div class="card card-stats">
+                                                                    <div
+                                                                        class="card-header card-header-rose card-header-icon">
+                                                                        <div class="card-icon">
+                                                                            <i class="material-icons">equalizer</i>
+                                                                        </div>
+                                                                        <p class="card-category">Website Visits</p>
+                                                                        <h3 class="card-title">75.521</h3>
+                                                                    </div>
+                                                                    <div class="card-footer">
+                                                                        <div class="stats">
+                                                                            <i class="material-icons">local_offer</i>
+                                                                            Tracked from Google Analytics
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                                <div class="card card-stats">
+                                                                    <div
+                                                                        class="card-header card-header-success card-header-icon">
+                                                                        <div class="card-icon">
+                                                                            <i class="material-icons">store</i>
+                                                                        </div>
+                                                                        <p class="card-category">Revenue</p>
+                                                                        <h3 class="card-title">$34,245</h3>
+                                                                    </div>
+                                                                    <div class="card-footer">
+                                                                        <div class="stats">
+                                                                            <i class="material-icons">date_range</i>
+                                                                            Last 24 Hours
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                                <div class="card card-stats">
+                                                                    <div
+                                                                        class="card-header card-header-info card-header-icon">
+                                                                        <div class="card-icon">
+                                                                            <i class="fa fa-twitter"></i>
+                                                                        </div>
+                                                                        <p class="card-category">Followers</p>
+                                                                        <h3 class="card-title">+245</h3>
+                                                                    </div>
+                                                                    <div class="card-footer">
+                                                                        <div class="stats">
+                                                                            <i class="material-icons">update</i> Just
+                                                                            Updated
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12" id="view_edit_btns"
+                                                            style="display: none;">
+                                                            <a href="#" onclick="{history.back();return false;}"
+                                                                class="btn btn-default" style="float:left;color:white;">
+                                                                < &nbsp;&nbsp;&nbsp;Back </a> <a href="#"
+                                                                    onclick="{showPending(); return false;}"
+                                                                    class="btn btn-rose"
+                                                                    style="float:right;margin-right: 10px;margin-left: 10px;">
+                                                                    Edit
+                                                                    Incident
+                                                            </a>
+                                                            <!-- <a href="#" onclick="{showPending(); return false;}"
+                                                                class="btn btn-behance" style="float:right;">View
+                                                                Readable</a> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <% include ../partials/footer.ejs %>
+            </div>
+        </div>
+        <% include ../partials/footer_script.ejs %>
+        <script>
+            String.prototype.trimRight = function (charlist) {
+                if (charlist === undefined)
+                    charlist = "\/";
+
+                return this.replace(new RegExp("[" + charlist + "]+$"), "");
+            };
+
+            function getRandomSize(min, max) {
+                return Math.round(Math.random() * (max - min) + min);
+            }
+
+
+            function loadIncidentsContent() {
+                // $.blockUI({
+                //     // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+                //     message: '<div class="loading">Loading&#8230;</div>'
+                // });
+                let initial_url = location.href;
+                let url = initial_url.split('/');
+                let caseId = url[4]
+                let incidentId = url[5]
+                //console.log(caseId)
+                if (typeof incidentId !== "undefined" && incidentId.length > 0) {
+                    //return;
+                    $.ajax({
+                        crossOrigin: true,
+                        crossDomain: true,
+                        method: "POST",
+                        url: ApiBaseUrl + "load_incident_content",
+                        data: {
+                            userId: getCookie("userId"),
+                            accessToken: getCookie("accessToken"),
+                            incidentId: incidentId,
+                            caseId: caseId,
+                            loadfile: true
+                        },
+                        beforeSend: function (xhr) {}
+                    }).done(function (responseText) {
+                        if (responseText.incidents.length > 0) {
+                            let perpetratorShortName = responseText.case_details.fname.slice(0, 1) + ". " +
+                                responseText.case_details.lname.slice(0, 1);
+                            let companyName = responseText.case_details.companyName.trim() == "" ? "- - -" :
+                                responseText.case_details.companyName;
+                            let incident = responseText.incidents[0]
+                            $("#perpetrator_initials").html(perpetratorShortName) //
+                            $("#company_name").html(companyName)
+                            $("#incident_title").val(incident.title)
+                            $("#incident_date_time").val(formatdate_(incident.date) + ((typeof incident.time !==
+                                "undefined") ? " | " + incident.time : ""))
+                            $("#incident_location").val(incident.location)
+                            $("#incident_narration").html(incident.narration)
+                            $("input[name=abusetype][value=" + incident.howyoufeel + "]").prop('checked', true);
+                            $("#view_edit_btns").show()
+                            $("#perpetrator_link").attr("href", "perpetrator/" + responseText.case_details._id)
+                                .show(); //
+                            if (responseText.case_details.caseType === "profesional_abuse") {
+                                $("#company_link").attr("href", "company/" + responseText.case_details._id)
+                            } else {
+                                $("#company_link").removeAttr("href")
+                            }
+
+                            // showInvalidDetailsSuc(responseText.response_string)
+                        } else {
+                            $('#incidents_cont').html("Hush...you do not have any incident under this case")
+                        }
+
+
+
+                        let images = responseText.images
+                        // $(images).each(function () {
+                        //     $("#uploaded_img_cont").append(' <div class="col-lg-2 col-md-6 col-sm-6 uploaded_img"><img class="" src="../../assets/img/videoimg.jpg"></div>')
+                        // });
+
+                        // console.log(responseText.case_details._id)
+                        $("#back_btn").attr("href", "case/" + responseText.case_details._id)
+                        $("#firstloader").hide()
+                        $(".wrapper").show()
+                        // $.unblockUI();
+                    }).fail(function (jqXHR, exception) {
+                        let error_string = jqXHR.responseJSON.error_string
+                        $('#perpetrator_list').html(error_string)
+                        $("#firstloader").hide() // $.unblockUI();
+                        showInvalidDetailsError(error_string)
+                    });
+
+                }
+            }
+
+            $(document).ready(function () {
+                loadIncidentsContent();
+            })
+            //$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+        </script>
+</body>
+
+</html>

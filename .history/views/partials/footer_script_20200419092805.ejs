@@ -1,0 +1,368 @@
+<script src="assets/js/core/jquery.min.js"></script>
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap-material-design.min.js"></script>
+<script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<!-- Plugin for the momentJs  -->
+<script src="assets/js/plugins/moment.min.js"></script>
+<!--  Plugin for Sweet Alert -->
+<script src="assets/js/plugins/sweetalert2.js"></script>
+<!-- Forms Validations Plugin -->
+<script src="assets/js/plugins/jquery.validate.min.js"></script>
+<!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+<script src="assets/js/plugins/jquery.bootstrap-wizard.js"></script>
+<!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+<script src="assets/js/plugins/bootstrap-selectpicker.js"></script>
+<!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+<script src="assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
+<!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+<script src="assets/js/plugins/jquery.dataTables.min.js"></script>
+<!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+<script src="assets/js/plugins/bootstrap-tagsinput.js"></script>
+<!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+<script src="assets/js/plugins/jasny-bootstrap.min.js"></script>
+<!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
+<script src="assets/js/plugins/fullcalendar.min.js"></script>
+<!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
+<script src="assets/js/plugins/jquery-jvectormap.js"></script>
+<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+<script src="assets/js/plugins/nouislider.min.js"></script>
+<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+<!-- <script src="cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script> -->
+<!-- Library for adding dinamically elements -->
+<script src="assets/js/plugins/arrive.min.js"></script>
+<!--  Google Maps Plugin    -->
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2Yno10-YTnLjjn_Vtk0V8cdcY5lC4plU"></script> -->
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="buttons.github.io/buttons.js"></script>
+<!-- Chartist JS -->
+<script src="assets/js/plugins/chartist.min.js"></script>
+<!--  Notifications Plugin    -->
+<script src="assets/js/plugins/bootstrap-notify.js"></script>
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="assets/js/material-dashboard.minf066.js?v=2.1.0" type="text/javascript"></script>
+<!-- Material Dashboard DEMO methods, don't include it in your project! -->
+<script src="assets/demo/demo.js"></script>
+</script>
+<!-- Sharrre libray -->
+<script src="assets/demo/jquery.sharrre.js"></script>
+<script src="assets/js/jquery.form.js"></script>
+<script src="assets/js/handlebars.js"></script>
+<script src="assets/js/moment.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script> -->
+<script type="text/javascript" src="assets/js/ajaxForm.js"></script>
+<script type="text/javascript" src="assets/js/blockUI.js"></script>
+<script src="assets/js/notie.js"></script>
+<script src="assets/js/dropify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script type="text/javascript" src="assets/image-uploader.min.js"></script>
+<!-- <script type="text/javascript" src="assets/js/jquery.blockUI.js"></script> -->
+<!-- <script src="http://malsup.github.com/jquery.form.js"></script> -->
+<!-- <script src="assets/js/handlebars.js"></script> -->
+<script>
+    function humanizeDate(date_str) {
+        month = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+            'November', 'December'
+        ];
+        date_arr = date_str.split('-');
+
+        return month[Number(date_arr[1]) - 1] + " " + Number(date_arr[2]) + ", " + date_arr[0]
+    }
+
+    formatdate_ = function (str) {
+        //let str = '2011-04-11T10:20:30Z';
+        let date = moment(str);
+        let dateComponent = date.utc().format('YYYY-MM-DD');
+        let timeComponent = date.utc().format('HH:mm:ss');
+        //console.log(dateComponent);
+        //console.log(timeComponent);
+        return humanizeDate(dateComponent);
+    }
+
+  
+
+    function showPending() {
+        Swal.fire({
+            title: 'Feature Pending',
+            type: 'info',
+            html: "This feature will be added later, Lorem Ipsum...",
+            showCloseButton: true,
+            backdrop: ` rgba(0,0,123,0.4)`,
+            cancelButtonAriaLabel: 'Thumbs down'
+        })
+        return false;
+    }
+
+    function showSuccess(html) {
+        Swal.fire({
+            title: '<strong>Your Submitted Numbers</strong>',
+            type: 'info',
+            html: html,
+            showCloseButton: true,
+            backdrop: ` rgba(0,0,123,0.4)`,
+            cancelButtonAriaLabel: 'Thumbs down'
+        })
+    }
+
+
+    function validateCompanyForm() {
+        let pattern = true;
+        let isAccurate = true;
+        let arrGeneralTextInput = ["companyName", "companySize"] //
+        for (let x = 0; x < arrGeneralTextInput.length; x++) {
+            let vals = $('#' + arrGeneralTextInput[x]).val();
+            if (vals.trim().length === 0) {
+                $('#' + arrGeneralTextInput[x]).siblings(".error-message").show()
+                pattern = false
+            }
+            isAccurate = isAccurate && pattern
+        }
+        if (!(/^\+?(0|[1-9]\d*)$/.test($('#companySize').val()))) {
+            $('#companySize').siblings(".error-message").show()
+            isAccurate = false;
+        }
+        // console.log(pattern)
+        return isAccurate
+    }
+
+    function valideForm(formId) {
+        let pattern = false;
+        let isAccurate = true;
+        let arrGeneralTextInput = ["caseId", "accessToken", "userId", "title", "date", "time", "location",
+            "howyoufeel"
+        ] // "narration",
+        //let arrGeneralTextAreat = ["howyoufeel" ]// "narration",
+        $(formId + ' input').each(
+            function (index) {
+                let input = $(this);
+                let type = input.attr('type');
+                let name = input.attr('name');
+                let text = input.val().trim();
+                let text_ = input.text().trim();
+                if (arrGeneralTextInput.includes(name)) {
+                    if (typeof text == "undefined" || text.length == 0) {
+                        input.siblings(".error-message").show(300);
+                        isAccurate = false;
+                    }
+                } else {
+                    switch (type) {
+                        case "text":
+                            switch (name) {
+                                case "fname":
+                                    pattern = /^[a-zA-Z]+$/.test(text)
+                                    isAccurate = isAccurate && pattern;
+                                    if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
+                                    break;
+
+                                case "lname":
+                                    pattern = /^[a-zA-Z]+$/.test(text)
+                                    isAccurate = isAccurate && pattern;
+                                    if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
+                                    break;
+
+                                case "age": //ssm 
+                                    pattern = /^\+?(0|[1-9]\d*)$/.test(text);
+                                    isAccurate = isAccurate && pattern;
+                                    if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
+                                    break;
+
+                                case "phone":
+                                    if (text.trim() == "") pattern = true;
+                                    else {
+                                        pattern = /^\+?(0|[1-9]\d*)$/.test(text);
+                                    }
+                                    isAccurate = isAccurate && pattern;
+                                    if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
+                                    break;
+
+                                case "perpEmail": //useremail
+                                    if (text.trim() == "") pattern = true;
+                                    else {
+                                        pattern =
+                                            /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                                            .test(text);
+                                    }
+                                    isAccurate = isAccurate && pattern;
+                                    if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
+                                    break;
+
+                                case "ssn": //ssn
+                                    if (text.trim() == "") pattern = true;
+                                    else {
+                                        pattern = /^\+?(0|[1-9]\d*)$/.test(text);
+                                    }
+                                    isAccurate = isAccurate && pattern;
+                                    if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
+                                    break;
+
+                                case "fb":
+                                    if (text.trim() == "") pattern = true;
+                                    else {
+                                        if (!text.toLowerCase().includes(
+                                                "www.facebook.com")) //&& !text.toLowerCase().includes("fb.com"))
+                                            pattern = false;
+                                    }
+                                    isAccurate = isAccurate && pattern;
+                                    if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
+                                    break;
+
+                                case "useremail": //useremail
+                                    pattern =
+                                        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                                        .test(text);
+                                    isAccurate = isAccurate && pattern;
+                                    if (!pattern) input.siblings(".error-message").show(300);
+                                    else input.siblings(".error-message").hide(200);
+                                    break;
+
+                            }
+                            break;
+
+                        case "radio":
+
+                            // switch (name) {
+                            //   case "gender_opt":
+                            //     if (typeof $('.gender_opt').val() === 'undefined') {
+                            //       alert($('.gender_opt').val());
+                            //       // radio button is checked
+                            //     }
+                            //     break
+                            // }
+                            break
+                    }
+                }
+                //let isAccurate = false;
+
+            }
+        );
+
+        return isAccurate;
+    }
+
+    function showInvalidDetailsError(message) {
+        if (message == "") {
+            message = "Error! fill in all required details and choose your numbers to play"
+        }
+        //let error_string = "Error! fill in all required details and choose your numbers to play"
+        md.showNotificationCustom('top', 'center', message)
+        $.unblockUI()
+    }
+
+    function showInvalidDetailsSuc(message) {
+        if (message == "") {
+            message = "Error! fill in all required details and choose your numbers to play"
+        }
+        //let error_string = "Error! fill in all required details and choose your numbers to play"
+        md.showNotificationSuc('top', 'center', message)
+        $.unblockUI()
+    }
+
+    function cookieExist(username) {
+        let username1 = getCookie(username);
+        return (username1 !== "");
+    }
+    //setCookie("customerNumber", response['data']['customerDetails']['msisdn'], cookieExpiryDays);
+    function setCookie(cname, cvalue, cookieExpiryHours) {
+        let d = new Date();
+        d.setTime(d.getTime() + (cookieExpiryHours * 60 * 60 * 1000));
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/; domain=aroth.no-ip.org";;
+    }
+    //setCookie("customerNumber", "Salaudeen niyi badmus", cookieExpiryHours);
+    function getCookie(cname) {
+        let name = cname + "=";
+        let ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    Number.prototype.formatMoney = function (c, d, t) {
+        var n = this,
+            c = isNaN(c = Math.abs(c)) ? 2 : c,
+            d = d == undefined ? "." : d,
+            t = t == undefined ? "," : t,
+            s = n < 0 ? "-" : "",
+            i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+            j = (j = i.length) > 3 ? j % 3 : 0;
+        return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math
+            .abs(n - i).toFixed(c).slice(2) : "");
+    };
+
+    function dateAdd(date, interval, units) {
+        if (!(date instanceof Date))
+            return undefined;
+        var ret = new Date(date); //don't change original date
+        var checkRollover = function () {
+            if (ret.getDate() != date.getDate()) ret.setDate(0);
+        };
+        switch (String(interval).toLowerCase()) {
+            case 'year':
+                ret.setFullYear(ret.getFullYear() + units);
+                checkRollover();
+                break;
+            case 'quarter':
+                ret.setMonth(ret.getMonth() + 3 * units);
+                checkRollover();
+                break;
+            case 'month':
+                ret.setMonth(ret.getMonth() + units);
+                checkRollover();
+                break;
+            case 'week':
+                ret.setDate(ret.getDate() + 7 * units);
+                break;
+            case 'day':
+                ret.setDate(ret.getDate() + units);
+                break;
+            case 'hour':
+                ret.setTime(ret.getTime() + units * 3600000);
+                break;
+            case 'minute':
+                ret.setTime(ret.getTime() + units * 60000);
+                break;
+            case 'second':
+                ret.setTime(ret.getTime() + units * 1000);
+                break;
+            default:
+                ret = undefined;
+                break;
+        }
+        return ret;
+    }
+
+    function adjustNav() {
+        if ($('.navbar-toggler-icon').is(":visible")) {
+            $("#black_bg_nav").show();
+        } else {
+            $("#black_bg_nav").hide();
+        }
+    }
+    adjustNav();
+    $(document).ready(function () {
+        window.onresize = function () {
+            adjustNav();
+        }
+
+        //$(".navbar-transparent").hide();
+        md.initFormExtendedDatetimepickers();
+        md.checkFullPageBackgroundImage();
+        setTimeout(function () {
+            // after 1000 ms we add the class animated to the login/register card
+            $('.card').removeClass('card-hidden');
+        }, 700);
+    });
+</script>
