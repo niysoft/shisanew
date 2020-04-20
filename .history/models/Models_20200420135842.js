@@ -34,6 +34,13 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
     },
+    phone: {
+        type: String,
+    },
+    tempPhone: {
+        type: String,
+        trim: true,
+    },
     phoneVerificationCode: {
         type: String,
         required: true,
