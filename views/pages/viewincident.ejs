@@ -65,6 +65,24 @@
             overflow: hidden;
 
         }
+
+        .showonmobile {
+            display: none;
+        }
+
+        .hideonmobile {
+            display: none;
+        }
+
+        @media (max-width: 700px) {
+            .hideonmobile {
+                display: none !important;
+            }
+
+            .showonmobile {
+                display: block !important;
+            }
+        }
     </style>
 </head>
 
@@ -298,7 +316,8 @@
                                                                             <i class="material-icons">attachment</i>
                                                                         </div>
                                                                         <p class="card-category">Others</p>
-                                                                        <h3 class="card-title" id="other_upload_count">0</h3>
+                                                                        <h3 class="card-title" id="other_upload_count">0
+                                                                        </h3>
                                                                     </div>
                                                                     <div class="card-footer">
                                                                         <div class="stats">
@@ -310,20 +329,38 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <!-- <div class="row">
+                                                            <div class="col-sm-4">
+                                                                <a href="#" onclick="{history.back();return false;}"
+                                                                    class="btn btn-default hideonmobile"
+                                                                    style="float:left;color:white;">
+                                                                    <&nbsp;Back </a> </div> <div class="col-sm-4">
 
-                                                        <div class="col-md-12" id="view_edit_btns"
-                                                            style="display: none;">
-                                                            <a href="#" onclick="{history.back();return false;}"
-                                                                class="btn btn-default" style="float:left;color:white;">
-                                                                < &nbsp;&nbsp;&nbsp;Back </a> <a href="#"
-                                                                    onclick="{showPending(); return false;}"
-                                                                    class="btn btn-rose"
-                                                                    style="float:right;margin-right: 10px;margin-left: 10px;">
-                                                                    Edit
-                                                                    Incident
-                                                            </a>
-                                                            <a id="add_evidence_btn" class="btn btn-behance" style="float:right;">Add Evidence
+                                                            </div>
+                                                            <div class="col-sm-4" style="text-align: right;float:right;"
+                                                                id="view_edit_btns">
+                                                                <a href="#" onclick="{history.back();return false;}"
+                                                                    class="btn btn-default"
+                                                                    style="float:left;color:white;">
+                                                                    < &nbsp;&nbsp;&nbsp;Back </a> <a href="#"
+                                                                        onclick="{showPending(); return false;}"
+                                                                        class="btn btn-rose"
+                                                                        style="float:right;margin-right: 10px;margin-left: 10px;">
+                                                                        Edit Incident
                                                                 </a>
+                                                                <a id="add_evidence_btn" class="btn btn-behance"
+                                                                    style="float:right;">Add Evidence</a>
+                                                            </div>
+                                                        </div> -->
+
+                                                        <div class="col-md-12">
+                                                            <a href="#" onclick="{history.back();return false;}"  class="btn btn-default" style="float:left;color:white;"> < &nbsp;&nbsp;&nbsp;Back </a>
+                                                                 <a href="#" onclick="{showPending(); return false;}"
+                                                                    class="btn btn-rose"
+                                                                    style="float:right;margin-left: 10px;">
+                                                                    Edit  Incident
+                                                            </a>
+                                                            <a id="add_evidence_btn" class="btn btn-behance" style="float:right;">Add Evidence</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -406,8 +443,6 @@
                             $('#incidents_cont').html("Hush...you do not have any incident under this case")
                         }
 
-
-
                         let images = responseText.images.length
                         let videos = responseText.videos.length
                         let audio = responseText.audios.length
@@ -418,17 +453,22 @@
                         $("#audio_upload_count").html(audio)
                         $("#other_upload_count").html(others)
 
-                       if (images == 0) $("#image_upload_count").parent().siblings(".card-footer").children(".stats").find("a").removeAttr("href")
-                       if (videos == 0) $("#video_upload_count").parent().siblings(".card-footer").children(".stats").find("a").removeAttr("href")
-                       if (audio == 0) $("#audio_upload_count").parent().siblings(".card-footer").children(".stats").find("a").removeAttr("href")
-                       if (others == 0) $("#other_upload_count").parent().siblings(".card-footer").children(".stats").find("a").removeAttr("href")
+                        if (images == 0) $("#image_upload_count").parent().siblings(".card-footer").children(
+                            ".stats").find("a").removeAttr("href")
+                        if (videos == 0) $("#video_upload_count").parent().siblings(".card-footer").children(
+                            ".stats").find("a").removeAttr("href")
+                        if (audio == 0) $("#audio_upload_count").parent().siblings(".card-footer").children(
+                            ".stats").find("a").removeAttr("href")
+                        if (others == 0) $("#other_upload_count").parent().siblings(".card-footer").children(
+                            ".stats").find("a").removeAttr("href")
                         // $(images).each(function () {
                         //     $("#uploaded_img_cont").append(' <div class="col-lg-2 col-md-6 col-sm-6 uploaded_img"><img class="" src="../../assets/img/videoimg.jpg"></div>')
                         // });
 
                         // console.log(responseText.case_details._id)
-                       // $("#back_btn").attr("href", "case/" + responseText.case_details._id) addfile/5e902c77b4465e000434aa7b/5e931f40971ca523fca8aa10
-                        $("#add_evidence_btn").attr("href", `addfile/${caseId}/${incidentId}`)//`Hello ${name1}`
+                        // $("#back_btn").attr("href", "case/" + responseText.case_details._id) addfile/5e902c77b4465e000434aa7b/5e931f40971ca523fca8aa10
+                        $("#add_evidence_btn").attr("href",
+                            `addfile/${caseId}/${incidentId}`) //`Hello ${name1}`
                         $("#firstloader").hide()
                         $(".wrapper").show()
                         // $.unblockUI();

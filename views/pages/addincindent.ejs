@@ -171,8 +171,7 @@
                           < &nbsp;&nbsp;&nbsp;Back
                         </a>
                         <input class="submit" value="Validate &amp; Send the form!" style="display: none;">
-                        <a class="btn btn-rose" style="float:right;color:white" onclick="{ submitForm()}">Add Incident &
-                          Continue
+                        <a class="btn btn-rose" style="float:right;color:white" onclick="{ submitForm()}">Add Incident
                         </a>
                       </div>
                     </div>
@@ -297,14 +296,10 @@
     $(document).ready(function () {
       // Used events
       $("#caseidhold").val(caseId)
-      var drEvent = $('.dropify-event').dropify();
-      drEvent.on('dropify.beforeClear', function (event, element) {
-        return confirm("Do you really want to delete \"" + element.filename + "\" ?");
-      });
-
-      drEvent.on('dropify.afterClear', function (event, element) {
-        alert('File deleted');
-      });
+      
+      // drEvent.on('dropify.afterClear', function (event, element) {
+      //   alert('File deleted');
+      // });
       loadIncidents();
     });
   </script>

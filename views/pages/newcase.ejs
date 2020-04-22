@@ -94,6 +94,38 @@
 
                         <div class="card-body">
                           <div class="row">
+                            <div class="col-md-12" style="padding-top: 5px;">
+                              <div class="row">
+                                <!-- <div class="col-md-12" style="padding-top: 5px;"> -->
+                                  <div class="col-md-6">
+                                    <label class="col-sm-2 col-form-label label-checkbox"
+                                      style=text-align:left;color:#aaa;padding-left:0;>Gender</label>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <div class="form-check bmd-form-group">
+                                      <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" class="gender" name="gender" checked
+                                          value="male"> Male
+                                        <span class="circle">
+                                          <span class="check"></span>
+                                        </span>
+                                      </label>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <div class="form-check bmd-form-group">
+                                      <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" class="gender" name="gender"
+                                          value="female"> Female
+                                        <span class="circle">
+                                          <span class="check"></span>
+                                        </span>
+                                      </label>
+                                    </div>
+                                  </div>
+                                <!-- </div> -->
+                              </div>
+                            </div>
                             <div class="col-md-6">
                               <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">First Name*</label>
@@ -115,7 +147,8 @@
                                 <div class="error-message">Invalid age provided</div>
                               </div>
                             </div>
-                            <div class="col-md-6" style="padding-top: 5px;">
+                            
+                            <!-- <div class="col-md-6" style="padding-top: 5px;">
                               <label class="col-sm-2 col-form-label label-checkbox"
                                 style=text-align:left;color:#aaa>Gender</label>
                               <div style="float: right;">
@@ -141,7 +174,7 @@
                                 </div>
                               </div>
                               <div style="width:100%;border-bottom: 1px #ccc solid;height: 5px;"></div>
-                            </div>
+                            </div> -->
                             <div class="col-md-6">
                               <div class="form-group bmd-form-group">
                                 <label class="bmd-label-floating">Phone Number</label>
@@ -237,11 +270,11 @@
                       </div>
 
                       <div class="col-md-12">
-                        <a href="#"  onclick="{history.back();return false;}"  class="btn btn-default" style="float:left;color:white;"> 
-                          < &nbsp;&nbsp;&nbsp;Back
+                        <a href="#" onclick="{history.back();return false;}" class="btn btn-default"
+                          style="float:left;color:white;">
+                          < &nbsp;Back </a> <a class="btn btn-rose" style="float:right;color:white"
+                            onclick="{submitForm(); return false}">Create Case &nbsp;>
                         </a>
-                        <a class="btn btn-rose" style="float:right;color:white"
-                          onclick="{submitForm(); return false}">Create Case & Proceed ></a>
                       </div>
 
                     </div>
@@ -275,7 +308,7 @@
         let abuseType = $('input:radio[name=caseType]').filter(":checked").val()
         if (abuseType === "profesional_abuse") {
           let isAccurate_ = validateCompanyForm();
-         // console.log(isAccurate_)
+          // console.log(isAccurate_)
           if (isAccurate_) {
             $.blockUI({
               message: '<div class="lds-hourglass"></div><br>Processing...'
@@ -300,9 +333,9 @@
       // data:$('.generalUpload').serialize(),
       beforeSubmit: function () {
         $.blockUI({
-               // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
-                 message: '<div class="loading">Loading&#8230;</div>' 
-            });
+          // message: '<div class="lds-hourglass"></div><br>Processing...' <div class="loading">Loading&#8230;</div>
+          message: '<div class="loading">Loading&#8230;</div>'
+        });
       },
       success: function (responseText, statusText, xhr, $form) {
         //addincindent/de4cea81986375ba48d5acebd53248b0
@@ -343,7 +376,7 @@
       drEvent.on('dropify.afterClear', function (event, element) {
         alert('File deleted');
       });
-     });
+    });
   </script>
 </body>
 

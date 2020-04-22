@@ -5,6 +5,10 @@
 <head>
   <% include ../partials/header_.ejs %>
   <style>
+    .showonmobile{
+      display: none;
+    }
+    
     #menu-outer {
 
       background: url(images/bar-bg.jpg) repeat-x;
@@ -93,12 +97,22 @@
         column-count: 2;
       }
     }
-
+    @media (max-width: 700px) {
+      .hideonmobile{
+        display: none !important;
+      }
+      .showonmobile{
+        display: block !important;
+      }
+    }
     @media (max-width: 400px) {
       #photos {
         -moz-column-count: 1;
         -webkit-column-count: 1;
         column-count: 1;
+      }
+      .hideonmobile{
+        display: none;
       }
     }
 
@@ -270,44 +284,40 @@
                           <input type="hidden" name="userId" id="userId" value="" />
                           <input type="hidden" name="accessToken" id="accessToken" value="" />
                           <input type="hidden" name="fileType" id="fileType" value="image" />
-                          
+
                         </form>
                       </div>
                       <hr>
-                      <a href="#" onclick="{history.back();return false;}" class="btn btn-default"
-                        style="float:left;color:white;">
-                        < &nbsp;&nbsp;&nbsp;Back </a> <a href="" class="btn btn-rose"
-                          style="float:right;margin-right: 10px;margin-left: 10px;"
-                          onclick="{submitImage(); return false;}">Upload
-                          Evidences
-                      </a>
-                      <a href="" id="upload_later_link" class="btn btn-behance" style="float:right;">Upload File later
-                        <div class="ripple-container"></div></a>
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <a href="#" onclick="{history.back();return false;}" class="btn btn-default hideonmobile" style="float:left;color:white;"> 
+                            <&nbsp;Back </a> 
+                        </div>
+                        <div class="col-sm-4">
+                          
+                        </div>
+                        <div class="col-sm-4" style="text-align: right;float:right;">
+                          <a href="#" onclick="{history.back();return false;}" class="btn btn-default showonmobile" style="float:left;color:white;"> 
+                            <&nbsp;Back </a> 
+                          <a href="" class="btn btn-rose" style="margin-left: 10px;" onclick="{submitImage(); return false;}">
+                            Upload
+                          </a>
+                          <a href="" id="upload_later_link" class="btn btn-behance">Upload later
+                            <div class="ripple-container"></div>
+                          </a>
+                        </div>
+                      </div>
+                      <!-- <a href="#" onclick="{history.back();return false;}" class="btn btn-default" style="float:left;color:white;"> 
+                      < &nbsp;&nbsp;&nbsp;Back </a> <a href="" class="btn btn-rose"
+                        style="float:right;margin-right: 10px;margin-left: 10px;"
+                        onclick="{submitImage(); return false;}">Upload
+                        Evidences
+                        </a>
+                        <a href="" id="upload_later_link" class="btn btn-behance" style="float:right;">Upload File later
+                          <div class="ripple-container"></div>
+                        </a>-->
                     </div>
                     <hr>
-                    <!-- <div class="col-md-12">
-                      <form method="post" enctype="multipart/form-data" action="api/upload_files" id="add_image_form">
-                        <div class="input-field">
-                        
-                          <div class="input-images-1" style="padding-top: .5rem;"></div>
-                        </div>
-                        <input type="hidden" name="caseId" value="<%= userData.data.caseId %>" />
-                        <input type="hidden" name="incidentId" value="<%= userData.data.incidentId %>" />
-                        <input type="hidden" name="userId" id="userId" value="" />
-                        <input type="hidden" name="accessToken" id="accessToken" value="" />
-                        <input type="hidden" name="fileType" id="fileType" value="image" />
-                      </form>
-                      <hr>
-                      <a href="#" onclick="{history.back();return false;}" class="btn btn-default"
-                        style="float:left;color:white;">
-                        < &nbsp;&nbsp;&nbsp;Back </a> <a href="" class="btn btn-rose"
-                          style="float:right;margin-right: 10px;margin-left: 10px;"
-                          onclick="{submitImage(); return false;}">Upload
-                          Evidences
-                      </a>
-                      <a href="" id="upload_later_link" class="btn btn-behance" style="float:right;">Upload File later
-                        <div class="ripple-container"></div></a>
-                    </div> -->
                     <hr>
                     <div class="clearfix"></div>
                   </div>
@@ -408,7 +418,7 @@
         let incidentId = url[5]
 
         $("#add_image_form").on('submit', (function (e) {
-         // console.log(filetype)
+          // console.log(filetype)
           //return
           e.preventDefault();
           $.blockUI({
@@ -433,7 +443,8 @@
               showInvalidDetailsSuc("Success! File uploaded successfully");
               setTimeout(function () {
                 $.unblockUI();
-                 location.href = `viewincident/${caseId}/${incidentId}` //viewincident/5e902c77b4465e000434aa7b/5e931f40971ca523fca8aa10
+                location.href =
+                  `viewincident/${caseId}/${incidentId}` //viewincident/5e902c77b4465e000434aa7b/5e931f40971ca523fca8aa10
               }, 2000);
             },
             error: function (data) {

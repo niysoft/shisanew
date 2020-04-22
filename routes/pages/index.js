@@ -25,7 +25,7 @@ let servePage = (req, res) => {
     if (param1 == "signup" || param1 == "verify" || param1 == "login" || param1 == "signupsuccess") {
         switch (param1) {
             case 'signup':
-                res.status(SUCCESS_RESPONSE_CODE).render('pages/signup', { userData: userDateals })
+                res.status(SUCCESS_RESPONSE_CODE).render('pages/signup__', { userData: userDateals })
                 break
 
             case 'login':
