@@ -23,6 +23,7 @@ const UserSchema = new Schema({
     fullName: { type: String, default: '', match: /[a-z]/ },
     email: {
         type: String,
+        unique: true,
     },
     agentType: { type: String, default: 'direct' },
     isAgent: { //isSuspended

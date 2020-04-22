@@ -830,6 +830,7 @@ module.exports.simple_signup = function (req, res) {
 }
 
 module.exports.signup = function (req, res) {
+    console.log(req)
     let missingRequestFlag = false
     let userTypes = [req.body.fullName, req.body.password, req.body.email]// req.body.phone, req.body.perpEmail, req.body.ssn, , req.body.fb
     for (let i = 0; i < userTypes.length; i++) {
@@ -839,7 +840,7 @@ module.exports.signup = function (req, res) {
         }
     }
     if (missingRequestFlag) {//one mandatory fields ommited
-        handleErrorClient(null, res, "One or more mandatory fields are missing. Please retry your action")
+        handleErrorClient(null, res, "---One or more mandatory fields are missing. Please retry your action")
     } else {
         let newUser = new User()
         newUser.createUser(req.body.fullName, 0, req.body.email, hashPass(req.body.password))//fullName, userId, email, password
@@ -850,7 +851,12 @@ module.exports.signup = function (req, res) {
             SuccessResponse.data = user
             res.status(SUCCESS_RESPONSE_CODE).json(SuccessResponse)
         }).catch(function (err) {
-            handleErrorServer(null, res, err.message)
+            //console.log(err)
+            let mess = ""
+            if (err.code == 11000) {
+                mess = "Error! Duplicate details provided. Your email might be already registered"
+            } 
+            handleErrorServer(null, res, mess)
         })
     }
 }
@@ -952,8 +958,8 @@ module.exports.login = function (req, res) {
         query.exec().then(function (doc) { // <- this is the Promise interface.
             if (doc != null) {
                 SuccessResponse.response_string = "Success! Login successful."
-               // SuccessResponse.gameCount = gameCount
-               // SuccessResponse.totalBalance = doc.accountBalance; // + doc.bonusBalance
+                // SuccessResponse.gameCount = gameCount
+                // SuccessResponse.totalBalance = doc.accountBalance; // + doc.bonusBalance
                 doc.password = null //totalBalance
                 //doc.totalBalance =  doc.password
                 SuccessResponse.data = doc

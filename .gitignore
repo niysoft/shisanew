@@ -13,6 +13,7 @@ docker-compose.yml
 /views/material-dashboard-pro/
 /data/
 data/
+.history/
 .vscode/settings.json
 .idea/workspace.xml
 controllers/addFundsFromCreditPending.js

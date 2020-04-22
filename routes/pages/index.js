@@ -22,7 +22,7 @@ let servePage = (req, res) => {
         baseUrl = "http://localhost:3002/";
     }
     let userDateals = { baseUrl: baseUrl }
-    if (param1 == "signup" || param1 == "verify" || param1 == "login") {
+    if (param1 == "signup" || param1 == "verify" || param1 == "login" || param1 == "signupsuccess") {
         switch (param1) {
             case 'signup':
                 res.status(SUCCESS_RESPONSE_CODE).render('pages/signup', { userData: userDateals })
@@ -30,12 +30,16 @@ let servePage = (req, res) => {
 
             case 'login':
                 //console.log(userDateals)
-                res.status(SUCCESS_RESPONSE_CODE).render('pages/login', { username: "Adeniyi" })
+                res.status(SUCCESS_RESPONSE_CODE).render('pages/login', { username: userDateals})
                 break
 
             case 'verify':
                 res.status(SUCCESS_RESPONSE_CODE).render('pages/verify', { userData: userDateals })
                 break
+
+            case 'signupsuccess':
+                res.status(SUCCESS_RESPONSE_CODE).render('pages/signupsuccess', { userData: userDateals })
+                break//signupsuccess
         }
     } else {
         try {
@@ -102,7 +106,9 @@ let servePage = (req, res) => {
 
                 case 'wallet':
                     res.status(SUCCESS_RESPONSE_CODE).render('pages/wallet', { userData: userDateals })
-                    break
+                    break//signupsuccess
+
+
 
                 case 'logout':
                     res.clearCookie('userData', { path: '/' })
